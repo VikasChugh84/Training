@@ -1,0 +1,245 @@
+Versioning Tool / Source Code Management System
+
+SCMS has two versions CVCS (Centralised Version Control System) & DVCS (Diversified Version Control System)
+
+----------What is GIT ?----------
+GIT is DVCS, an open source sofware tool for tracking changes in any set of files mainly used for coordinating work among programmers collaboratively developing source code during sofware development,
+
+Manufactured by Linux kernel in 2005 and now owned by Microsoft.
+
+----------What is GITHUB ?----------
+It is cloud service platform or centralised repository to store your projects.In simple terms, we can say that it is centralised storage where you can keep your data. It has no connection with GIT though the name lies in the software but its just an service.
+GIT is software and GIThub is the centralised repository.
+
+Similar to GITHub you can use GITLab, Bitbucket etc as storage Service.
+
+----------What is Repository ?----------
+Repository is place where you have all your codes/data. It is kind of folder related to work product.
+
+It can either be local or centralised.
+
+Local Repository - An working folder which are using on our local machine.
+Centralised Repository - An working folder that is stored on cloud server say GIThub, GITLab or Bitbucket etc.
+
+----------Understanding Branch Concept----------
+
+*** What is Branch ? ***
+When you initialize a git on local repository/folder, it can automatically create an default space termed as 'Master Branch'.It doesn't mean it can control all the branches.
+
+*** Default/Master Branch Workflow ***
+Let's understand it in a way Whenever we can commit code/file from staging area to local repository through git commit command, it can update under master branch. Similarly Whatever work we can do on daily basis say add/append more files and recommit it in local repository, it will be again updated in master branch with different versions or say be with different commit ID's so we can fetch the specific one at any sort of time.
+
+*** Multiple Branches Concept ***
+Say we have a running code under master branch, now we would like to ammend some changes under the code for further improvisions or new concept without interrupting the existing running code here concept of multiple branch comes in view.
+
+New branch can be cut off from the master branch or we can say that we can copy the existing code 'as it is' in the another branch for testing purpose. 
+
+Now you have ammended changes in newer branch and it doesn't seems good we can drop it, already we have our main code running under master/default branch. In case newer changes are worth it, we can merge the code to master branch.
+
+Let's understand branches concept precisely
+
+Consider we have an existing code running on centralised Repository i.e GIThub on Master branch. 
+
+Now we have specialised team in each segment say
+
+a.) One UI developer working from India.
+b.) Another UI developer working from Italy
+c.) One ROR developer from US.
+d.) One ROR developer from India.
+
+Everyone is working on same application and goal is to develop the perfect application but everyone has their different point of view while writing the code.
+
+Here Multiple Branches Concept comes in view, we can cut multiple branches from main branch and assign a dedicated branch to each developer where they can commit their work. After testing which ever is upto mark we can merge it into main branch.
+
+--------GIT Setup---------
+** Commands under it configures user information used all across local repositories
+   Install git - sudo apt install git
+   check git version - git --version
+a.) git config --global user.name "Your Name"
+    (Setup a name that is identifiable when review version history)
+b.) git config --global user.email "Your email ID"
+    (Setup an associated email address)
+c.) git config --global color.ui auto 
+    (Set automatic command line coloring for Git for easy reviewing)
+
+--------GIT Setup & INIT---------
+** Commands under it configures user information, initializing and cloning.
+a.) git init
+    (It comes in use when you create your own new repository from scratch.It turns a directory/folder into empty git repository means it can create hidden file by name .git under the folder/directory.)
+b.) git clone
+    (It retreive an entire repository from a hosted location via URL i.e github or gitlab etc.When we use git clone to clone an existing repository into new one,git init is not required as it downloaded repository is already git repository)
+
+--------GIT Stage & Snapshot---------
+** Commands under it can be used to add, reset and commit a code to local repository.
+a.) git status 
+    (It shows the modified files in working directory,staged/ready for the next commit)
+b.) git add [filename] / git add .
+    (When you create a new file, you must add it first to get in staged and then it suppose to commit) / (It can add all the create or modified files)
+c.) git reset [filename]
+    (Suppose you add the new file in staging now you think it's not require anymore, to remove it from staging use this command)
+d.) git diff 
+    (This is to find the changes you made in file under workspace but it's still not in staging)
+e.) git diff --staged
+    (It shows the modifications you made under the files that are under staging but not yet committed)
+f.) git commit -m "description message"
+    (It finally commit the files into master local repository from where you can further post it into centralised repository later.We can also refer it as a 'Snapshot')
+    (-m "description message" - It is important as we know whenever we can commit a code it can create commit ID each time we commit and these commit IDS are in alphanumeric form..To know what change we committed on specific commit ID, we can describe it under message description so we know the exact what we have done on that commit ID.)
+    ** The time we do our first or initial commit, it can automatically create default branch we called it master branch**
+
+
+--------GIT Branch & Merge---------
+** Commands under it can be used for isolating the work in branches, changing context and intergrating changes.
+a.) git branch
+    (It can shows us list of all the branches under working directory with * as active one)
+b.) git branch [branch-name]
+    (It can create the new branch under the same directory)
+c.) git branch -d [branch-name]
+    (It can delete the specific branch only if it has been pushed and merged with the remote branch)
+d.) git branch -D [branch-name]
+    (It can delete the specific branch forcefully even if it hasn't been pushed or merged yet)
+e.) git branch -m [branch-name]
+    (It can rename the active branch you are working into)
+f.) git checkout [branch-name] / [Filename]
+    (It can switch to the another branch) / (It can discard the changes in working directory)
+g.) git merge [branch]
+    (It can merge the specified branch's history into the current one)
+
+
+--------GIT Inspect & Compare---------
+** Commands under it can be used for examining logs, diffs and object information
+a.) git log
+    (It shows all the commits history for currently active branch)
+c.) git log --follow [filename]
+    (It shows the commits history of specific file i.e how many and when commits made related to that specific file)
+c.) git log branchB..BranchA and Vice Versa git log branchA..BranchB
+    (It shows the commits history on branchA that are not on branchB)/(It shows the commits history on branchB that are not on branchA)
+d.) git diff branchB..branchA or ViceVersa
+    (It shows the difference/changes what is in the branchA that is not in branchB)
+e.) git show
+    (It shows any object in GIT in human readable format)
+
+
+--------GIT Tracking Path Changes---------
+** Commands under it can be used for versioning file removes and path changes.
+a.) git rm [file]
+    (It helps us to remove the file from snapshot/saved location.)
+    Say you would like to remove the file 'SCMS' from snapshot, simply do (git rm scms) - Initially it deletes the file from current folder.On git status it reflects it under red color means still under workspace. To get it delete from snapshot we have to first send it to staging area through git rm [filename] and then commit it through (git commit -m).
+b.) git mv [oldfilename] [newfilename]
+    (It can rename the file with the newer one, one should initially add that file under staging through git add to be it under version control)
+c.) git log --stat -M
+    (It can show all the commits / version history with details about the files that has been moved either its get deleted or added newly.)
+
+
+--------GIT Rewriting History---------
+** Commands used for rewriting branches, updating commits and clearing history.
+a.) git rebase [branch]
+    It can apply any commits of current branch ahead of specified one.
+b.) git reset --hard [commit ID]
+    It clears the staging area, rewrite working tree from specified commit.
+    Take it as an example - Say we have total 8 Commits.
+    Accidently we have deleted changes in second commit and now we are working on eight commits.
+    To retrieve that changes we can rewrite the working tree from specified commit.
+    It would be like git reset --hard 'Commit ID of second commit'.
+    Now current active code has the files and changes back and we can restart work from 2 commit onwards.
+
+
+--------GIT Merge Branches---------
+a.) Consider you have Branch1 and Branch2 
+
+    Now we have to merge Branch2 code into Branch1
+
+    ** git checkout Branch1 #Shift yourself into Branch1
+
+    ** git merge Branch2
+
+    This will merge code written on Branch2 on Branch1
+
+    ** git merge --abort #To revert the changes back
+    
+
+----------Get & Configure SSH KEYS----------
+# SSH key is generated on local machine, Once done we can add it on GITHUB
+
+Why SSH key Require ?
+To connect your machine to remote server.Wthout link the ssh key you have to enter email & password into console everytime you push the commit. 
+
+a.) Initial step to check whether the key is exists or not
+    ls -l ~/.ssh/id_*.pub
+
+b.) ssh-keygen -t rsa -b 4096 -C "email address you want to use"
+    # Asks for location - By default it's fine to be
+    # Asks for Passphrase - Password for additional security, once set each time it will get prompted to use the key to login to remote location.
+
+c.) ls ~/.ssh/id_* #To verify ssh key is generated.
+
+d.) Add you key to ssh-agent (it's program that starts when you log in and stores your private keys)
+    eval "$(ssh-agent -s)"
+    ssh-add ~/.ssh/id_rsa
+
+e.) Copy Your Public SSH Key
+    cat ~/.ssh/id_rsa.pub
+
+f.) Test the authentication
+    ssh -T git@github.com
+
+
+--------GIT Push to Cloud---------
+
+a.) git init
+    # Initiate the git into working directory.
+
+b.) git add [filename] / git add .
+    (When you create a new file, you must add it first to get in staged and then it suppose to commit) / (It can add all the create or modified files) 
+
+c.) git commit -m "description message"
+    (It finally commit the files into master local repository from where you can further post it into centralised repository later.We can also refer it as a 'Snapshot')
+    (-m "description message" - It is important as we know whenever we can commit a code it can create commit ID each time we commit and these commit IDS are in alphanumeric form..To know what change we committed on specific commit ID, we can describe it under message description so we know the exact what we have done on that commit ID.)
+    ** The time we do our first or initial commit, it can automatically create default branch we called it master branch**
+
+d.) git branch -M main
+    # Next step is to rename the master branch to main as on cloud when repository is created by default it creates the branch by name 'main'
+
+e.) git remote add origin git@github.com:USERNAME/REPOSITORY.git
+    # This is to set the origin location you want to send your code. 
+
+f.) git remote -v
+    # To verify the origin repository location.
+
+g.) git push -u origin main
+    # The -u flag is used to set origin as upstream remote in your git config, push local branch with git push -u option linked local branch with remote branch automatically.
+
+h.) git remote set-url origin git@github.com:USERNAME/REPOSITORY.git
+    # In case you want to change the origin address means want to push the code to another repository, you can set its url as origin
+
+
+--------GIT Pull from Cloud---------
+a.) git pull origin
+    # It fetches the data from default branch i.e set or say main branch. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
