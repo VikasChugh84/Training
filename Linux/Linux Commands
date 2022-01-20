@@ -8,8 +8,61 @@ b.) sudo apt-get - Used to install, update, upgarde and remove any package.
 
       ** sudo apt-get update - It simply updates the database and let the system know if there are any newer packages or not.
 
+      ** sudo apt-get upgrade - After update the packages, next is to upgarde the all packages with available updates.To upgrade the specific package, we tweak the above command.
+
+      ** sudo apt-get install <packagename> - Lets say you would like to install sublimetext or google-chrome you can do it simply if you know the actual package name and we need to see either to fetch that package directly from directsource or initially we get download it first under your directory through wget command for later use.
+
+      ** sudo apt-get remove <packagename> - This can only removes software package and leave configuration or data files of the package for later use if we require the same settings.
+
+      ** sudo apt-get purge <packagename> - This can removes the software package entirely including its configuration and data files.
+
+c.) dpkg --list - It gives you details of all packages installed on your system and you can copy the <package name> you would like to remove.
+
+
+----------LOCATION AND PURPOSE RELATED COMMANDS----------
+a.) whereis - One of most important command that tells you the exact location of the specific command like where it is actually stored under system means its directory and subdirectory location.
+    ** For example - whereis zip / mv / cp / passwd and like so.
+b.) whatis - It tells us a brief description of specific built-in-linux command.
+    ** For example - whatis mv / cp / mkdir / passwd and like so.
+       Any command you heard about just search it from whatis command
+c.) man - Similar to whatis, it is also most important and useful tool to understand the command usage and their role but it describes in brief.
+   ** man -vim / -nan0 / -rm / -mkdir / -cp like so all ubuntu commands.
+
+
+----------LIST AND DIRECTORY STRUCTURE COMMANDS----------
+a.) ls - Displays the list of all directories or folder under current directory.
+    ** ls -h - Shows the hidden files and folder.
+    ** ls -ltr - Shows the name of directories, folders, files with their respective owner name, group name and rights the user have over it.
+b.) dir - Displays list of all diectories only under current directory.
+c.) pwd - Tells the path of current directory in which user is operating.
+d.) cat - It display the saved text under the specific file in original way it is written means shows each line of the file starting from the first row and finishing on it last row.
+    ** For Example - cat 'Linux commands' gives you result in the manner you can read it in organised way like notepad.
+
+
+----------FILE HANDLING COMMANDS----------
 a.) mkdir - It allows to create the directories / folder in the system.
-      ** mkdir styliz ~/destination - To copy contents/files from one folder to another folder.
+      ** mkdir stylize - creates a new directory named as stylize under current directory.
+      ** mkdir stylize creations - creates a two different directories one named as stylize and other named as creations
+          Now if you want to make a directory by single name i.e 'Stylize Creations'
+      ** mkdir 'Stylize Creations' - It considers it as single directory now.
+b.) rmdir - It allows to delete the directories / folder in the system.
+      ** rmdir stylize - deletes a empty directory.
+      ** rm -r stylize - If directory is not empty and there are multiple folders 
+      and files under it..to remove them all we use this command.
+c.) touch - It helps us to create the new file instead of directory.
+d.) rm - It used to remove files from directory individually.
+e.) mv - This command is used for two purposes 
+      i.e move the initial file/directory into another file/directory
+        ** mv filename1 filename2 - It can move filename1 under another directory 
+           filename2..now its single directory filename2 and filename1 is under it.
+      i.e rename the file/folder name
+        ** mv filename2 Vikas - It can rename filename2 by the Vikas.
+f.) cp - This command is similar function like mv but instead of replacing the   
+         file it can copy source date is also there and new one will be copied.
+        ** For example - We have all the linux commands under file name 'Linux Commands' and now we want to copy its data to another file,cp command comes in picture.
+        Lets say we created a new file touch 'Important Linux Commands'
+          ** cp 'linux commands' 'important linux commands'
+        Now all the data is copied from Linux commands to 'Important Linux Commands' and both files are available now.
 
 
 ----------SYSTEM CONTROL RELATED COMMANDS----------
@@ -60,7 +113,6 @@ a.) zip - It compress one or more than one file into single new file with .zip e
 b.) unzip - It decompress one file into multiple files within current directory
     ** For Example - unzip linuxcomamnds.zip 
        It can unzip all the three files under the directory and you can see them floating under directory instead of linuxcommands.zip 
-
 
 
 
