@@ -1,0 +1,82 @@
+Linux Commands
+
+----------ADMIN & PACKAGES CRUD COMMANDS----------
+a.) sudo - SuperUse Do - Important one allows you to run programs or any  
+    commands with administrative rights say 'Run as administrator'
+
+b.) sudo apt-get - Used to install, update, upgarde and remove any package.
+
+      ** sudo apt-get update - It simply updates the database and let the system know if there are any newer packages or not.
+
+a.) mkdir - It allows to create the directories / folder in the system.
+      ** mkdir styliz ~/destination - To copy contents/files from one folder to another folder.
+
+
+----------SYSTEM CONTROL RELATED COMMANDS----------
+a.) reboot - To restart the machine.
+b.) shutdown - To shutdown the machine.
+c.) clear - To clear the prevaling screen.
+d.) exit - To get out from the terminal.
+e.) history - Displays the list of all commands entered since user started the session.
+   ** history -c - To clear the all previous history.
+f.) help - It shows all the inbuit-in comamnds to help you understand.
+
+
+----------PASSWORD CHANGE----------
+a.) passwd - To change and update the password.
+
+
+----------ONGOING PROCESS AND USERS LOGGED IN RELATED COMMANDS----------
+a.) ps - As name indicates process status tells us about the processes running currently on the system including their PID's number.
+b.) uptime - Provides an information from how long system is continue running along with the number of users logged in with the load average on machine in last 1,5 and 15 minutes.
+c.) w - Tells us the detailed info about the users logged in currently.
+
+WRITE TEXT - PRINT - SEARCH RELATED COMMANDS
+a.) echo - Displays any expression that is passed as an argument.
+b.) head - It prints the top N rows of specified file, by default it prints first 10 lines of the specified file.
+    ** Say for print first 3 lines it should be head -3 'filename'
+c.) tail - It prints the last N rows of specified file, by default it prints last 10 lines of the specified file.
+    ** Say for print last 5 lines it should be tail -5 'filename'
+d.) grep - It is used to search for a text in specified file or folder.
+
+
+----------DATE & TIME RELATED COMMANDS----------
+a.) date - Displays the current date and time (including day, week, month, year and time zone)
+    ** TZ=GMT date - (user can define timzone through this option)
+    ** sudo date --set - user can set the current date and time manually
+    ** date -d - used with now / yesterday / tomorrow as one can wish to see.'
+
+
+----------SPACE & MEMORY RELATED COMMANDS----------
+a.) df - Shows the amount of disk space used and disk space available on file system containing each filesystem name and it's path.
+   ** df -h - Display the same result in organised manner for better understanding.
+b.) free - displays the amount of free memory and used memory in system.
+
+
+----------ZIP & UNZIP COMMANDS----------
+a.) zip - It compress one or more than one file into single new file with .zip extension.
+    ** For Example - zip linuxcomamnds.zip filescommand.txt systemcommand.text printcommand.text
+       It can move all the three files under zip extension file name 'linuxcommands'.zip
+b.) unzip - It decompress one file into multiple files within current directory
+    ** For Example - unzip linuxcomamnds.zip 
+       It can unzip all the three files under the directory and you can see them floating under directory instead of linuxcommands.zip 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
