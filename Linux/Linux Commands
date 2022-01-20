@@ -114,6 +114,64 @@ b.) unzip - It decompress one file into multiple files within current directory
     ** For Example - unzip linuxcomamnds.zip 
        It can unzip all the three files under the directory and you can see them floating under directory instead of linuxcommands.zip 
 
+---------VI Editor Commands------------
+
+* i - Goes into insert mode.
+* a - Write after cursor (goes into insert mode)
+* A - Write at the end of line (goes into insert mode)
+* x - Delete character at the cursor
+* r - Replace Character
+* R - Overwrite characters from cursor onwards
+* s - Substitute one character under cursor continue to insert
+* S - Substitute entire line and begin to insert at the beginning of the line
+* ~ - Change the case of individual character
+* cw - Change Word
+* dw - Delete Word
+* 4dw - Delete 4 Words
+* D - Delete contents of line after the cursor
+* C - Delete contents of a line after the cursor and insert new text.Press ESC key to end insertion
+* dd - Delete Line
+* 3dd - Delete 3 Lines
+* o - Open a new line (goes into insert mode)
+* u - Undo last change
+* U - Undo all changes to entire line
+* Esc - Terminate insert mode
+
+Moving into file
+* k - Move cursor up
+* j - Move cursor down
+* h - Move cursor left
+* l - Move cursor right
+
+Saving & Closing the File
+* Shift+zz - Save the file & quit
+* :w - Save the file but keep it open
+* :q - Quit without saving
+* :wq - Save the file & quit
+
+---------grep Commands------------
+
+Grep is filter that searches a file for particular pattern of characters and display all lines that contain specified pattern, pattern also known as regular expression. Grep stands for Global search for regular expression and print out.
+
+Syntax - grep [options] pattern [filename]
+
+grep options 
+* -c - This prints only a count of the line that match a pattern
+* -h - Display the matched lines, but don't display the filenames
+* -i - Ignores, case for matching
+* -l - Display the list of filenames only
+* -n - Display the matched lines and thier line numbers
+* -v - This prints all the lines that don't matches a pattern
+* -e exp - Specifies expression with this option, can use multiple times
+* -f file - Takes patterns from file, one per line
+* -E - Treats pattern as an extended regular expression
+* -w - Match exact/whole word
+* -o - Print only the matched parts of matching line, with each such part on separate output
+* -A n - Prints searched line and n lines after the result
+* -B n - Prints searched line and n lines before the result
+* -C n - Prints searched line and n lines after before the result
+
+
 
 
 
