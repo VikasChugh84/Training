@@ -208,13 +208,22 @@ f.) git remote -v
 g.) git push -u origin main
     # The -u flag is used to set origin as upstream remote in your git config, push local branch with git push -u option linked local branch with remote branch automatically.
 
-h.) git remote set-url origin git@github.com:USERNAME/REPOSITORY.git
+h.) git push -u origin [branchname]
+    # In case you create a branch under local repository and make few changes, you can snapshot the code / commit and then push to centralised repository through above command.It will automatically create branch on cloud with added data.
+
+i.) git remote set-url origin git@github.com:USERNAME/REPOSITORY.git
     # In case you want to change the origin address means want to push the code to another repository, you can set its url as origin
 
 
 --------GIT Pull from Cloud---------
 a.) git pull origin
     # It fetches the data from default branch i.e set or say main branch. 
+
+b.) git pull origin [branchname]
+    # It fetches the data from specified branch i.e merge with your existing code. 
+
+
+
 
 
 
