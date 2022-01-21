@@ -222,6 +222,16 @@ a.) git pull origin
 b.) git pull origin [branchname]
     # It fetches the data from specified branch i.e merge with your existing code. 
 
+--------GIT diff Branches---------
+a.) git diff branch1..branch2 / git diff branch1 branch2
+    # git diff with Double Dot Notation or without dot notation produces the same result
+    # Here Git compares the tips i.e latest commits on both branches
+
+b.) git diff branch1...branch2
+    # git diff with three dot notation
+    # Here Git now compares the tip of specified branch with comman ancestor commit of both branches.
+
+
 
 
 
