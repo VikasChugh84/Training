@@ -171,6 +171,51 @@ grep options
 * -B n - Prints searched line and n lines before the result
 * -C n - Prints searched line and n lines after before the result
 
+---------nano Commands------------
+
+* nano - Open blank file
+* nano [filename] - Open the existing file
+
+CTRL Key - ^ refers as CTRL Key
+
+* Ctrl+X  - Close the current file buffer / Exit from nano
+* Ctrl+O  - To save the file directly
+* Ctrl+S  - Save file without prompting
+
+* Ctrl+W  - Search forward for a string or a regular expression
+* Ctrl+\  - Replace a string or a regular expression
+* Ctrl+K  - Cut the current line and store it in the cutbuffer (Cut)
+* Ctrl+U  - Uncut from the cutbuffer into the current line (Paste)
+
+* Ctrl+G  - Display this help text
+* Ctrl+R  - Insert another file data into the current file
+* Ctrl+J  - Justify the current paragraph
+* Ctrl+T  - Invoke the spell checker, if available
+* Ctrl+C  - Display the position of the cursor
+* Ctrl+A  - Go to beginning of current line
+* Ctrl+E  - Go to end of current line
+* Ctrl+P  - Go to end of previous line
+* Ctrl+N  - Go to end of next line
+* Ctrl+D  - Delete the character under the cursor
+* Ctrl+M  - Insert a newline at the cursor position
+* Ctrl+L  - Refresh (redraw) the current screen
+* Ctrl+Z  - Suspend the editor (if suspension is enabled)
+* Ctrl+Q  - Search backward for a string or a regular expression
+
+Alt Key refers as Meta Key 
+
+* AlT+U  - Undo the last operation
+* AlT+E  - Redo the last undone operation
+* AlT+A  - Mark text starting from the cursor position
+* AlT+6  - Copy the current line and store it in the cutbuffer
+* AlT+]  - Go to the matching bracket
+* AlT+W  - Repeat the last search
+* AlT+\  - Go to the first line of the file
+* AlT+/  - Go to the last line of the file
+* AlT+J  - Justify the entire file
+* AlT+D  - Count the number of words, lines, and characters
+
+
 
 
 
