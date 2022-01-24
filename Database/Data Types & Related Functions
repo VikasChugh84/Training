@@ -1,0 +1,411 @@
+PostgreSQL Data Types & Related Functions
+
+----------------------- BOOLEAN -----------------------------
+It Supports single Boolean that can have three values:true,false and NULL. It uses one byte for storing a Boolean value in the database and quite flexible is using it.
+We can also mention the values as ‘t’ - ‘f’ , ‘true’ - ‘false’ , ‘y’ - ‘n’, ‘yes’ - ‘no’, ‘1’ - ‘0’
+
+Table Example: 
+CREATE TABLE Product 
+(product_id INT PRIMARY KEY, 
+available BOOLEAN NOT NULL);
+
+
+
+----------------------- CHAR / VARCHAR / TEXT -----------------------------
+The CHAR is fixed-length character type while the VARCHAR and TEXT are varying length character types.
+The CHAR without the length specifier (n) is the same as the CHAR (1).
+N is integer value that helps us to specify the length of string.
+Use VARCHAR (n) if you want to validate the length of the string (n) before inserting into or updating to a column.
+VARCHAR (without the length specifier) and TEXT are equivalent.
+
+Table Example: 
+CREATE TABLE Product 
+(product_id INT PRIMARY KEY, 
+product_name VARCHAR (10),
+product_details TEXT);
+
+
+
+----------------------- NUMERIC -----------------------------
+The NUMERIC type can store numbers with a lot of digits. It can be used where we require exactness such as monetary amounts or quantities.
+NUMERIC (Precision, scale) - Here, the precision is the total number of digits and the scale is the number of digits in the fraction part. For example, the number 1234.567 has the precision 7 and scale 3.
+NUMERIC (Precision) - It indicates the scale of the NUMERIC type can be zero or positive
+NUMERIC - Define only numeric can hold a value up to 131,072 digits before the decimal point 16,383 digits after the decimal point.
+The NUMERIC and DECIMAL types are equivalent and both of them are also a part of SQL standard.
+
+Table Example:
+CREATE TABLE Product
+(product_id INT PRIMARY KEY, 
+product_price NUMERIC (5, 2));
+
+
+
+
+----------------------- SMALLINT / INT / BIGINT -----------------------------
+Integer data types used to store the whole numbers
+SMALLINT - Takes 2 bytes for storage, INT - Takes 4 bytes for storage and BIGINT - Takes 8 bytes for storage.
+The INTEGER is the most common choice between integer types because it offers the best balance between storage size, range, and performance.
+Using BIGINT type is not only consuming a lot of storage but also decreasing the performance of the database, therefore, you should have a good reason to use it.
+
+Table Example:
+CREATE TABLE Product
+(product_id INT PRIMARY KEY, 
+product_count SMALLINT NOT NULL CHECK (product_count > 0),
+product_range INT NOT NULL CHECK (product_range >= 0);
+Here the product count should be positive, we added check constraint to enforce the rule and similar to product range which should not be in negative.
+
+
+
+
+----------------------- DATE & TIMESTAMP-----------------------------
+PostgreSQL uses 4 bytes to store a date value. When storing a date value, PostgreSQL uses the yyyy-mm-dd format e.g., 2000-12-31. It also uses this format for inserting data into a date column.
+timestamp: a timestamp without timezone one.
+timestamptz: timestamp with a timezone.
+The timestamp datatype allows you to store both date and time. However, it does not have any time zone data. It means that when you change the timezone of your database server, the timestamp value stored in the database will not change automatically.
+When you insert a value into a timestamptz column, PostgreSQL converts the timestamptz value into a UTC value and stores the UTC value in the table.
+Table Example:
+CREATE TABLE employees 
+(employee_id INT PRIMARY KEY, 
+employee_name VARCHAR (20),
+birth_date DATE NOT NULL,
+hire_date DATE,
+time_zone TIMESTAMPTZ
+);
+DATE functions
+    a.) Now() - To get the current date 
+            To get the date part only (without the time part), you use the double colons (::) to cast a DATETIME value to a DATE value.
+To return the current date of the database server:
+Statement - SELECT NOW ()::date;
+
+
+    b.) To_Char() - Retrieve Date Value in Specific Format 
+The first parameter is the value that you want to format, and the second one is the template that defines the output format.
+To display the current date in dd/mm/yyyy format
+Statement - SELECT TO_CHAR(Now()::Date,  ‘dd/mm/yyyy’);
+to display a date in the format like Jan 22, 2022
+Statement - SELECT TO_CHAR(Now()::Date,  ‘mm dd, yyyy’);
+
+    c.) (-) Minus function - To get the interval between two dates
+
+To retrieve the service days of employees by subtracting the values in the hire_date column from today’s date:
+Statement - SELECT employee_name, now() - hire_date as diff  FROM employees;
+
+    d.) AGE() - To retrieve the age of employees
+To calculate age at the current date in years, months, and days we can use the AGE() function
+Statement - SELECT employee_name, AGE(birth_date) FROM employees;
+
+
+    e.) EXTRACT() - To retrieve the specific day or month from date value
+To get the year, quarter, month, week, day from a date value we can use the EXTRACT () function.
+Statement - SELECT employee_name, 
+                      EXTRACT(Month from birth_date) as MONTH,
+                      EXTRACT(Year from birth_date) as YEAR FROM employees;
+
+
+
+
+----------------------- TIME -----------------------------	
+It allows you to store the time of day values. The TIME data type requires 8 bytes and its allowed range is from 00:00:00 to 24:00:00
+Common Format - HH:MI,  HH:MI:SS, HHMISS
+We often use the TIME data type for the columns that store the time of day only e.g., the time of an event or a shift
+CREATE TABLE Employees (
+employee_id  INT PRIMARY_KEY NOT NULL,
+employee_name VARCHAR(20),
+employee_shift VARCHAR (10) NOT NULL;
+start_at TIME  NOT NULL,
+end_at TIME with time Zone NOT NULL
+);
+Besides the TIME data type, PostgreSQL provides the TIME with time zone data type that allows you to store and manipulate the time of day with time zone.
+
+
+
+
+
+----------------------- UUID DATATYPE -----------------------------
+UUID stands for universal  unique identifier defined by specific standards.
+40e6215d-b5c6-4896-987c-f30f3678f608
+It’s a sequence of 32-Digit of hexadecimal digits. Because of its unique feature it guarantees a better uniqueness than serial data type. To store UUID  values , we can use UUID Data type.
+PostgreSQL allows you store and compare UUID values but it does not include functions for generating the UUID values in its core
+ It relies on the third-party modules that provide specific algorithms to generate UUIDs. For example the uuid-ossp module provides some handy functions that implement standard algorithms for generating UUIDs.
+To install the uuid-ossp – CREATE EXTENSION IF NOT EXISTS “uuid-ossp”
+The IF NOT EXISTS clause allows you to avoid re-installing the module.
+If you want to generate a UUID value solely based on random numbers, you can use the uuid_generate_v4() function
+SELECT uuid_generate_v4();
+Table Example:
+CREATE TABLE contacts(
+contact_id UUID DEFAULT uuid_generate_v4 ( ),
+contact_name VARCHAR NOT NULL,
+contact_email VARCHAR NOT NULL,
+PRIMARY_KEY (contact_id)
+);
+In this statement, the data type of the contact_id column is UUID. The contact_id column has a default values provided by the uuid_generate_v4() function, therefore, whenever you insert new row without specifying the value for the contact_id column, PostgreSQL will call the uuid_generate_v4() function to generate the value for it.
+
+
+
+
+----------------------- ARRAY DATATYPE -----------------------------
+Every data type has its own companion array type e.g., integer has an integer[] array type, character has character[] array type.
+
+PostgreSQL allows us to define a column to be an array of any valid data type including built-in type, user-defined type or enumerated type.
+
+CREATE TABLE contacts(
+contact_id serial PRIMARY KEY,
+contact_name VARCHAR(20),
+phone_numbers TEXT []
+);
+
+The phone_number column is a one-dimensional array that holds various phone numbers that a contact may have.
+
+Insert into contacts(contact_name,phone_number) VALUES ('XYZ','{"8734637463","7623757527","232767823"}');
+
+Here we used the ARRAY constructor to construct an array and insert it into the contacts table. We use curly braces, you use single quotes ' to wrap the array and double quotes " to wrap text array items.
+
+ARRAY Queries
+
+a.) By default, PostgreSQL uses one-based numbering for array elements. It means the first array element starts with number.
+
+Suppose, we want to get the contact’s name and the first phone number, we use the following query:
+
+SELECT contact_name, phone_numbers [1] FROM contacts;
+
+b.) We can use array element in the WHERE clause as the condition to filter the rows.
+
+SELECT contact_name FROM contacts where phone_numbers[2] = '7623757527'
+
+This will return specific name based out on the data match.
+
+c.) Modifying Array
+
+UPDATE contacts SET phone_number [2] = '99928746483' where contact_id = '2';
+
+d.) Search in ARRAY 
+
+SELECT contact_name, phone_numbers FROM contacts where '9992736362' = ANY (phone_numbers);
+
+e.) Expand Array - Use function unnest()
+
+SELECT contact_name, unnest(phone_numbers) FROM contacts;
+
+
+
+
+-----------------------hstore DATATYPE -----------------------------
+
+The hstore module implements the hstore data type for storing key-value pairs in a single value.
+
+We can store the attributes data which are rarely requires for example we can store mobile less used attributes like hson_number,dimensions,size,crosses etc.
+
+keys and values are just text strings only.
+
+CREATE TABLE mobiles(
+
+mobile_id INT NOT NULL PRIMARY KEY,
+model_number VARCHAR,
+price NUMERIC(6,2),
+attr hstore
+);
+
+INSERT into mobiles (model_number,price,attr) VALUES ('2S-GEF', '40500.50', '"hson_number" => "76436", "dimensions" => "343x323", "size" => "453 LT"');
+
+The data that we insert into the hstore column is a list of comma-separated key =>value pairs. Both keys and values are quoted using double quotes (“”).
+
+Hstore Queries
+
+a.) To retrieve the standard data
+
+SELECT attr from mobiles;
+
+b.) Query value for specific Key
+
+Postgresql hstore provides the -> operator to query the value of a specific key from an hstore column.
+
+SELECT -> 'hson_number' as Hson Number FROM mobiles;
+
+c.) Retreive value using where clause
+
+We can use the -> operator in the WHERE clause to filter the rows whose values of the hstore column match the input value.
+
+SELECT model_number, attr -> 'hson_number' as Hson Number FROM mobiles WHERE attr -> 'dimensions' = '434 x 343';
+
+d.) Add key-value pairs to existing rows
+
+UPDATE mobiles SET attr = attr || '"crosses" => "yes"' :: hstore;
+
+
+e.) Update existing key-value pair
+
+UPDATE mobiles SET attr = attr || '"crosses" => "no"' :: hstore;
+
+f.) Remove existing Key-value pair
+
+UPDATE mobiles SET attr = delete (attr, 'crosses');
+
+g.) Check for a specific key in hstore column
+
+SELECT model_number, attr -> 'hson_number' as Hson Number,
+attr FROM mobiles where attr ? 'hson_number';
+
+The following statement returns all rows with attr contains key hson number.
+
+h.) akeys() fucntion - Get all keys from an hstore column
+
+SELECT akeys (attr) FROM mobiles;
+
+we can use the  skey() function if you want PostgreSQL to return the result as a set.
+
+SELECT skeys (attr) FROM mobiles;
+
+i.) avals() or svals() function - Get all values from an hstore
+
+SELECT avals (attr) FROM mobiles;
+
+j.) Convert hstore data to json
+
+SELECT model_number, hstore_to_json (attr) json FROM mobiles;
+
+k.) Convert hstore data to sets
+
+SELECT model_number, (EACH(attr)).* FROM mobiles;
+
+
+
+
+-----------------------Json DATATYPE -----------------------------
+
+JSON stands for JavaScript Object Notation. JSON is an open standard format that consists of key-value pairs.
+
+It's main use is to transport the data from server to web app and Json format is human readable text.
+
+Table Example:
+
+  CREATE TABLE orders(
+
+    id serial NOT NULL PRIMARY KEY;
+    info json NOT NULL
+  );
+
+Insert JSON Data:
+
+  INSERT into orders(info) VALUES 
+  ('{"customer_name" :"abc", "items" : {"product:"pen", "qty":6}}'),
+  ('{"customer_name" :"xyz", "items" : {"product:"scale","qty":8}}');
+
+PostgreSQL provides two native operators -> and ->> to help you query JSON data.
+
+The operator -> returns JSON object field by key.
+
+  SELECT info -> 'customer' AS customer FROM orders;
+
+The operator ->> returns JSON object field by text.
+
+  SELECT info ->> 'customer' AS customer FROM orders;
+
+Use JSON operator in WHERE clause
+
+a.) Retrieve the data who bought scale
+
+SELECT info ->> 'customer_name' AS Customer FROM Orders WHERE info -> 'items' ->> 'product' = 'scale';
+
+Retrieve the data who bought 8 products at a time
+
+SELECT info ->> 'customer_name' as Customer,
+       info -> 'items' ->> 'product' AS Product 
+       FROM Orders
+WHERE CAST ( info -> 'items' ->> 'qty' AS INTEGER) = 8; 
+
+We used the type cast to convert the qty field into INTEGER type and compare it with two.
+
+Apply aggregate functions to JSON data
+
+SELECT 
+   MIN (CAST (info -> 'items' ->> 'qty' AS INTEGER)),
+   MAX (CAST (info -> 'items' ->> 'qty' AS INTEGER)),
+   SUM (CAST (info -> 'items' ->> 'qty' AS INTEGER)),
+   AVG (CAST (info -> 'items' ->> 'qty' AS INTEGER))
+FROM orders;
+
+a.) json_each / json_each_text() function
+
+The json_each() function allows us to expand the outermost JSON object into a set of key-value pairs
+
+SELECT json_each (info) FROM orders;
+
+To get a set of key-value pairs as text json_each_text()
+
+b.) json_typeof function
+
+  SELECT json_typeof (info->'items') FROM orders;
+
+The following query return the data type of the items:
+
+  SELECT json_typeof (info->'items'->'qty') FROM orders;
+
+The following query returns the data type of the qty field of the nested items JSON object.
+
+
+
+
+
+-----------------------CREATE DOMAIN DATATYPE -----------------------------
+
+PostgreSQL allows us to create user-defined data types with the constraints such as NOT NULL, CHECK etc.
+
+CREATE TABLE user (
+
+id SERIAL PRIMARY_KEY,
+first_name VARCHAR NOT NULL,
+last_name VARCHAR NOT NULL,
+email VARCHAR,
+CHECK(first_name !~ '\s' AND last_name !~ '\s') 
+);
+
+In above table, Both first_name and last_name columns do not accept null and spaces. Instead of defining the CHECK constraint, we can create a contact_name domain and reuse it in multiple columns.
+
+CREATE DOMAIN contact_name AS VARCHAR NOT NULL CHECK (value !~ '\s');
+
+CREATE TABLE mailing_list (
+    id serial PRIMARY KEY,
+    first_name contact_name,
+    last_name contact_name,
+    email VARCHAR NOT NULL
+);
+
+Similar way, we can create our on domain for specific columns.
+
+
+
+
+-----------------------CREATE TYPE FUNCTION-----------------------------
+
+The CREATE TYPE statement allows you to create a composite type, which can be used as the return type of a function.
+
+CREATE TYPE mobile_overview AS (
+
+  m_id SERIAL NOT NULL PRIMARY KEY,
+  m_brand VARCHAR,
+  m_name VARCHAR,
+  m_launching_date INT
+  );
+
+Use mobile overview datatype as return type function
+
+  CREATE function get_mobile_data(mob_id, INT) RETURNS mobile_overview AS
+
+$$ SELECT m_id, m_brand, m_name, m_launching_date FROM mobile WHERE m_id = mob_id; $$
+
+Call the Function
+
+SELECT * FROM get_mobile_data ('specify id for which you want the output')
+
+To change a user-defined type, you use the ALTER TYPE statement. To remove a user-defined type, you use the DROP TYPE statement.
+
+
+
+
+
+
+
+
+
+
+
