@@ -46,8 +46,7 @@ b.) \dt+; - To view the tables under database.
 	  primary Key (column1, column2)
     );
 
-  e.)FOREIGN KEY - A for7
-  eign key is a column or a group of columns in a table that reference the primary key of another table.
+  e.)FOREIGN KEY - A foreign key is a column or a group of columns in a table that reference the primary key of another table.
 
   The table that contains the foreign key is called the referencing table or child table. 
 
