@@ -1,0 +1,27 @@
+--------------Database Design---------------------
+
+It is an organizing of data according to database model.
+
+Database designer must determine:
+a.) What data to be stored ?
+b.) How data elememts interrelate with each other?
+
+It involves the classifying data and identifying relationship.
+
+Relationship Understanding
+a.) One-to-One
+b.) One-to-Many
+c.) Many-to-Many
+
+Practical Implementation - School database:
+
+Tables Created with Dummy Data
+
+a.) classes
+c.) sections
+d.) students
+e.) subjects
+f.) subject_teachers
+g.) teachers
+h.) department
+
