@@ -1,0 +1,58 @@
+Postgresql Installation & Practical Tweaking with Postgres Users & Database. 
+
+--sudo apt install postgresql postgresql-contrib
+
+* Access/Enter in Postgres session
+
+  sudo -u psotgres psql
+
+* \q - To exit the interactive postgres session
+
+* Create a New User / Role
+
+    # Create a user with no password 
+      create user 'user_name';
+    
+    # Create a user with a password
+      create user 'user_name' with password 'set_password';
+
+    # Create a user with a password that is valid until the end of 2022
+      create user 'user_name' with password 'set_password' valid until '2022-12-31';
+
+    # Create an account where user can create database, create role or be a superuser
+      create user 'user_name' with password 'set_password' superuser createdb createrole;
+
+* \du - To see the users/roles data.
+
+* drop user 'user_name' - To delete the role.
+
+* \l - To see the list of databases.
+
+* CRUD Database 
+
+  # create the new database
+    create database 'database_name'
+
+  # drop the database
+    drop database 'database_name'
+
+  # Use/switch to another database
+    \c 'database_name';
+
+  # Alter Database (Rename)
+    alter database 'target_database' rename to 'new_database_name'
+
+  # Alter Database (Change Database Owner)
+    alter database 'target_database' owner to 'new_owner'
+
+  # Alter Tablespace (Change Database Owner)
+    alter database 'target_database' set tablespace to 'new_tabelspace'
+
+* Tablespace Postgresql
+   A tablespace is a location on the disk where PostgreSQL stores data files containing database objects e.g., indexes, and tables.PostgreSQL comes with two default tablespaces: pg_default tablespace stores user data.
+
+
+
+    
+
+ 
