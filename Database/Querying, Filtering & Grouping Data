@@ -1,0 +1,275 @@
+Querying, Filtering & Grouping Data
+
+------------- AGGREGATE FUNCTIONS ---------------
+
+Aggregate functions perform a calculation on a set of rows and return a single row.
+
+AVG() – return the average value.
+COUNT() – return the number of values.
+MAX() – return the maximum value.
+MIN() – return the minimum value.
+SUM() – return the sum of all or distinct values.
+
+Aggregate functions are usually used with the GROUP BY clause in the SELECT statement. In these cases, the GROUP BY clause divides the result set into groups of rows and the aggregate functions perform a calculation on each group e.g., maximum, minimum, average, etc.
+
+
+-------------- SELECT -------------------
+
+While working with the database, is to query data from tables by using the SELECT statement.
+
+Select Statement Clauses:
+
+# DISTINCT - Select distinct rows using DISTINCT operator.
+
+   It is used to remove duplicate rows from a result set. The DISTINCT clause keeps one row for each group of duplicates. The DISTINCT clause can be applied to one or more columns in the select list of the SELECT statement.
+
+  Syntax:
+    select distinct col_name1, col_name2 from table_name;
+
+  PostgreSQL also provides the DISTINCT ON (expression) to keep the “first” row of each group of duplicates using the following 
+
+  syntax:
+    select distinct on (col_name1) col_name1, col_name2 from table_name order by col_name1, col_name2;
+
+# ORDER BY - To sort the rows of the result set in specified order, we use use the ORDER BY clause in the SELECT statement.
+
+  Syntax:
+    select col_name from table_name order by col_name 'asc/desc';
+
+# WHERE - To select the rows that satify the specific condition, we use use the WHERE clause in the SELECT statement.
+  
+  Syntax;
+    select col_name from table_name where condition order by sort_expression;
+
+    The condition must evaluate to true, false, or unknown. It can be a boolean expression or a combination of boolean expressions using the AND and OR operators.
+
+  Operators that can be used in where clause
+
+  * = Equal
+  * < Less Than
+  * <= Less Than or Equal
+  * > Greater Than
+  * >= Greater Than or Equal
+  * <> or != Not Equal To
+  * AND = Logical Operator
+  * OR = Logical Operator
+  * IS NULL = Return true if a value is NULL
+  * NOT = Negate the result of other operators
+  * IN = Return true if a value matches any value in a list
+  * BETWEEN = Return true if a value is between a range of values
+  * LIKE = Return true if a value matches a pattern
+ 
+    select col_nam from table where col_name IN / LIKE 'String %'
+
+    The % is called a wildcard that matches any string.
+
+# LIMIT - It constrains the number of rows returned by the query.
+
+  Syntax:
+    select col_nam from table limit row_count;
+    It can gives the exact result in rows you required.
+
+    Example:
+    select * from students limit 8;
+    It can give result upto 8 rows from id ='1' to '8';
+
+  Offset
+
+    Example: 
+    select * from students limit 8 offset 3;
+    It skips the first 3 id's and give a result upto 8 rows from id ='4' to '12';
+
+# FETCH - It can retrieve a number of rows returned by a query.
+
+  The FETCH clause is functionally equivalent to the LIMIT clause. If you plan to make your application compatible with other database systems, we should use the FETCH clause because it follows the standard SQL.
+
+  Syntax: 
+  select col_name from table fetch [first | next] row_count [ row | rows ] only;
+  * Here the first and next, row and rows are synonyms..we can use any of it.
+
+  Example:
+  select * from students order by id asc | desc fetch first 5 rows only; 
+
+  Offset
+
+  Example:
+  select * from students order by id asc offset 4 rows fetch first 5 rows only;
+
+
+# GROUP BY - It divides the rows by the values of the columns specified in the GROUP BY clause and calculates a value for each group.
+  
+  Syntax:
+  select col_name from table_name group by col_name;
+
+  In normal case, the GROUP BY works like the DISTINCT clause that removes duplicate rows from the result set.
+  
+  The GROUP BY clause is useful when it is used in conjunction with an aggregate function.
+
+  For each group, you can apply an aggregate function e.g.,  SUM() to calculate the sum of items or COUNT() to get the number of items in the groups.
+
+  Syntax: 
+  select col_name, col_name, aggregate_function(col_name) FROM table_name GROUP BY column_1, column_2;
+
+  Example: (Reference taken from table created fees under school database)
+
+  * SUM () - select name, sum (amount) from fees_test group by name order by name asc;
+    It can return names of students and total amount fees paid by them.
+
+  * COUNT() - select name, count (amount) from fees_test group by name order by name asc;
+    It can return names of students and count number how many times a particular student paid a fees.
+
+  * MIN() - select name, min (amount) from fees_test group by name order by name asc;
+    It can return names of students and minimum amount of fees paid by students in one time. 
+
+  * MAX() - select name, max (amount) from fees_test group by name order by name asc;
+    It can return names of students and maximum amount of fees paid by students in one time.
+
+  * AVG() - select name, avg (amount) from fees_test group by name order by name asc;
+    It can return names of students and average amount of fees paid by students in all time.
+
+# HAVING - It specifies a search condition for a group or an aggregate. It is often used with the GROUP BY clause to filter groups or aggregates based on a specified condition.
+
+The WHERE clause allows you to filter rows based on a specified condition. However, the HAVING clause allows you to filter groups of rows according to a specified condition.
+  
+   Syntax:
+   select col_name, col_name, aggregate_function(col_name) FROM table_name GROUP BY column_1, column_2 having condition;
+
+   Example: (Reference taken from table created fees under school database)
+
+  * SUM () - select name, sum (amount) from fees_test group by name having sum (amount) > '500';
+    It can return names of those students who paid fees more than Rs. 500.
+
+  Similarly, we can apply having clause on other aggregate functions count(), min(), max(), avg().
+
+# UNION - It combines result sets of two or more SELECT statements into a single result set.
+
+  Syntax:
+  Select col_name from table_1 UNION select col_name from table_2;
+
+  To combine the result sets of two queries using the UNION operator
+
+  a.) The number and the order of the columns in the select list of both queries must be the same.
+  b.) The data types must be compatible.
+
+  It removes all duplicate rows from the combined data set. To retain the duplicate rows, you use the the UNION ALL instead.
+
+  Example:
+  SELECT * FROM top_rated_films EXCEPT SELECT * FROM most_popular_films;
+
+  This can combinally return the data from both tables and shows result as single movie name if that movie name available in both tables.
+
+# EXCEPT - It returns distinct rows from the first (left) query that are not in the output of the second (right) query.
+
+  select col_name from table_1 EXCEPT select col_name from table_2;
+
+  a.) The number of columns and their orders must be the same in the two queries.
+  b.) The data types of the respective columns must be compatible.
+
+  Example:
+  SELECT * FROM top_rated_films EXCEPT SELECT * FROM most_popular_films;
+
+  This can return the top rated films data and leaves those which are top rated and most popular too.
+
+# INTERSECT - The INTERSECT operator returns any rows that are available in both result sets.
+  
+  Syntax:
+  Select col_name from table_1 INTERSECT select col_name from table_2;
+
+  Example:
+  SELECT * FROM top_rated_films INTERSECT SELECT * FROM most_popular_films;
+
+  This can return the film that is available in both tables.
+
+
+# JOINS
+
+  PostgreSQL join is used to combine columns from one or more tables based on the values of the common columns between related tables.
+  
+  The common columns are typically the primary key columns of the first table and foreign key columns of the second table.
+
+  Primary and Foreign Key Concept:
+
+  (tb1.id will be primary key id of table 2 that referred as foreign key in tb1 table)
+
+  Join Concept - It examines values of each row in first table and compares with value of each row in second table.
+
+
+
+
+  ------------INNER JOIN-------------
+
+  * Values Equal - The inner join creates a new row that contains columns from both tables and adds this new row the result set.
+
+  Syntax:
+    select 
+
+    select tb1.col_nam, tb1.col_nam, tb2.col_name, tb2.col_nam from table1 as tb1 inner join table2 as tb2 on tb1.id=tb2.id;
+
+    Here tb1.id is one that is referred as foreign key id on referencing table or child table and primary key on parent table.
+
+
+  -----------LEFT JOIN--------------- 
+
+  * Values Equal - The left join creates a new row that contains columns from both tables and adds this new row the result set.
+
+  * Values Not Equal - In this case, the left join also creates a new row that contains columns from both tables and adds it to the result set. However, it fills the columns of the right table with null.
+
+  Syntax:
+    select 
+
+    select tb1.col_nam, tb1.col_nam, tb2.col_name, tb2.col_nam from table1 as tb1 left join table2 as tb2 on tb1.id=tb2.id;
+
+
+
+
+  ----------RIGHT JOIN-------------- 
+
+  * Values Equal - The left join creates a new row that contains columns from both tables and adds this new row the result set.
+
+  * Values Not Equal - In this case, the right join also creates a new row that contains columns from both tables and adds it to the result set. However, it fills the columns of the left table with null.
+
+  Syntax:
+    select 
+
+    select tb1.col_nam, tb1.col_nam, tb2.col_name, tb2.col_nam from table1 as tb1 right join table2 as tb2 on tb1.id=tb2.id;
+
+
+
+
+  ----------FULL JOIN-------------- 
+
+  * It returns a result set that contains all rows from both left and right tables, with the matching rows from both sides if available. In case there is no match, the columns of the table will be filled with NULL.
+
+  Syntax:
+    select 
+
+    select tb1.col_nam, tb1.col_nam, tb2.col_name, tb2.col_nam from table1 as tb1 full join table2 as tb2 on tb1.id=tb2.id;
+
+
+
+
+  ----------SELF JOIN--------------
+
+  * A self-join is a regular join that joins a table to itself. It is used a self-join to query hierarchical data or to compare rows within the same table.
+
+  To form a self-join, we can specify the same table twice with different table aliases and provide the join predicate after the ON keyword.
+
+  Let's understand with example and Table Creation:
+
+  Create table employee (employee_id serial primary key, name varchar (30), age int, manager_id int, foreign key (manager_id) references employee (employee_id));
+
+  Insert some random values.
+
+  Query - Withdraw all the employees name who are reporting to specific manager.
+
+  Syntax:
+    select e.name, m.manager_id from employees as e inner join employees as m on e.manager_id = m.manager_id where m.manager_id='1';
+
+
+
+  
+
+
+
+
+
