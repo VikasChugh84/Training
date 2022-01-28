@@ -1,0 +1,61 @@
+a.) Query : List all the sections id and name with the students count under that section
+
+Single Join (With Group By Clause)
+
+Statement - select sections.name, count(sections.name) from students inner join sections on students.section_id = sections.id group by sections.name order by sections.name asc;
+
+
+
+b.) Query : List name of all teachers name who teach computers.
+
+Multiple Joins
+
+Statement - select name, subject_name from teachers inner join subject_teachers on subject_teachers.teacher_id = teachers.id inner join subjects on subject_teachers.subject_id = subjects.id where subject_name='Computers';
+
+
+
+c.) Query : List all the subjects name teach by Professor Jhangra.
+
+Multiple Joins
+
+Statement - select subject_name, name from subject_teachers inner join teachers on subject_teachers.teacher_id = teachers.id inner join subjects on subject_teachers.subject_id = subjects.id  where teachers.name='Jhangra';
+
+
+
+d.) Query : Subjects Count teached by professor nagpal where professor age is 39. As we have two seperate teachers by name Nagpal.
+
+Single Join (With Group By Clause)
+
+Statement - select name, count(name) from subject_teachers inner join teachers on subject_teachers.teacher_id = teachers.id where teachers.name='Nagpal' and teachers.age = 39 group by name;
+
+
+
+e.) Query : All departments name which has more than 2 teachers under it.
+
+Single Join (With Group By and HAVING Clause)
+
+Statement - select department.name from teachers inner join department on teachers.department_id = department.id group by department.name having count(department.name)>2 ;
+
+
+
+f.) Query : How many students are in Class 5th, we need a student count ?
+
+Single Join (With Group By Clause)
+
+Statement - select classes.name, count(classes.name) from students inner join classes on students.class_id = classes.id where classes.name='5th' group by classes.name;
+
+
+
+g.) Query : We need a student count that how many students paid more than or atleast Rs. 1500 Fees ?
+
+Statement - select student_id from fees where amount >= 1500;
+
+
+h.) Query : We need to fetch teacher mail id who teaches hindi and under PGT Department.
+
+Multiple Joins (With more than three joins)
+
+Statement - select department.name,teachers.email, subjects.subject_name from subject_teachers inner join subjects on subject_teachers.subject_id = subjects.id inner join teachers on subject_teachers.teacher_id=teachers.id inner join department on teachers.department_id = department.id where subjects.subject_name='Hindi'; 
+
+
+
