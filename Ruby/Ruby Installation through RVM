@@ -1,0 +1,49 @@
+-------Ruby Installation through RVM----------
+
+a.) sudo apt install gnupg
+
+b.) gpg --keyserver hkp://pool.sks-keyservers.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+
+   Error - gpg --keyserver keys.gnupg.net --recv-key 908F435E gpg: keyserver receive failed: No name
+
+   Solution - Try to import the key directly with any on below source
+     curl -sSL https://rvm.io/mpapis.asc | gpg2 --import
+     curl -sSL https://rvm.io/pkuczynski.asc | gpg2 --import
+
+c.) curl -sSL https://get.rvm.io | bash -s stable --ruby
+
+    # The command will automatically install packages required, and install the latest stable rvm version.
+
+    # By default it install latest version of ruby i.e 3.0.0 as of now.
+
+d.) rvm list known - To know the list of ruby verions available.
+
+e.) rvm install ruby-2.7.0
+    #To install specific version say 2.7.0
+    
+
+f.) rvm --default use ruby-2.7.0 or 3.0.0 
+    #To select the version you would like to use
+    
+g.) gem search '^rails$' --all
+    # It gives all the list of rails version available
+
+h.) gem install rails -v rails_version
+    # To install specific version
+
+i.) rvm gemset create gemset_name
+    # gemset - To use various rails version with each ruby and install rails within those using the normal gem commands.
+
+j.) rvm ruby_version@gemset_name  --create
+    # Specify ruby version to use while creating a gemset
+
+------To uninstall a RVM---------
+
+a.) nano ~/.bashrc - Remove the script calls with text editor
+    # export PATH="$PATH:$HOME/.rvm/bin" - Remove this line and save.
+
+b.) Remove RVM -rm -rf ~/.rvm
+
+
+
+

@@ -1,0 +1,74 @@
+---------------RUBY OOPS Concepts---------------------
+
+* Object - It is a piece of code which represents the real life entity.
+  
+  Objects has attributes and functionality.
+
+  Attributes refers as variable and data members & functionality refers as functions or methods.
+
+* Class - Class is a structure or blueprint where we can define variables and methods to be utilized by objects.
+          Basically the car is the collection of objects.
+
+Examples for understanding:
+
+  * Class Car { model number, engine number, color, tank capacity, get_speed }
+
+    a.) Several companies manufacturing a car like Maruti, Hyundai, Tata means they are objects of Class Car.
+  
+  * Class Savings Account {Bank name, Account Number, IFSC Code, Account Name}
+
+    a.) Several Persons say P1, P2, P3 has a savings account means they are objects of Class Savings Account.
+
+  Information contains under the Class Car are the specifications of the objects.
+
+---------------Features of OOPS-----------------
+
+a.) Abstraction - It hides the implementation details while just presenting the features to outside world.
+
+   Example : Lets say we have database system - How data is created, stored and maintained it hides from the users 
+             and only show them a result what they are queried or looking for.
+
+b.) Encapsulation - The Concept of encapsulation is also hides the data but for the purpose of protection.It can
+    write the data and functions into single unit.
+
+    Example : Lets say code specified under a class it's concept of encapsulation. In terms of implementation, class 
+    and encapsulation are same but class is basically a model of objects and encapsulation is all about hiding
+    data and code into single unit.
+
+c.) Inheritance - It's relationship between two or more classes where derived class inherits the properties of base class.
+
+    Base Class - Also Known as Parent Class, Super Class whose properties inherited by another class.
+
+    Derived Class - Also knows ad child class or sub-class that inherits the properties from base class.
+
+    The idea behind the inheritance is avoid data redundancy and increase usability means code that is require by all the
+    derived classes can be written in base class so derived classes can inherit that code from parent class / Base Class.
+
+d.) Polymorphism - It simply means 'Many Forms' i.e one function has specific name but their working is different depends on the  
+    situation.Lets understand in layman terms.
+
+    A person - behaves like a customer in Shop.
+               behaves like a passenger in Bus.
+               behaves like a student in School.
+               behaves like a employee in Office.
+
+    Here person is single identity or fuction whose behaviour varies in different situations called Polymorphism Concept.
+
+    Polymorphism is the ability for different types of data to respond to a common interface.
+
+    One way to apply polymorphic structure to Ruby programs is to use a Module. Modules are similar to classes in that they contain shared behavior. However, you cannot create an object with a module.
+
+    A module must be mixed in with a class using the include method invocation. This is called a mixin.After mixing in a module, the behaviors declared in that module are available to the class and its objects.
+
+
+----------------Working on Ruby Classes, Objects and Modules--------------------------------
+
+
+
+
+
+
+
+    
+
+
