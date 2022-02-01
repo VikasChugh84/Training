@@ -1,0 +1,55 @@
+Database for airlines
+
+a.) create database airlines;
+
+b.) create table role (id serial primary key, role_name varchar);
+
+    # Insert Records in role
+
+    insert into role (role_name) values (unnest (array['Pilot','Airhostess','Accounts','Chief Officer']));
+
+
+c.) create table employees (id serial primary key, emp_name varchar not null, salary int not null, role_id int, foreign key(role_id) references role (id));
+  
+    # Insert Records into employees
+
+      insert into employees (emp_name, salary, role_id) values ('Ranjit', 100000, 1);
+
+      ............................
+
+
+ d.) create table aircraft (id serial primary key, aircraft_name varchar not null, cruising_range int not null CHECK (cruising_range > 1000));
+
+    # Insert Records into aircraft
+
+      insert into aircraft (aircraft_name, cruising_range) values ('Hurricane', 3800);
+
+      .............................
+
+  e.) create table certified (emp_id int not null, aircraft_id int not null, foreign key (emp_id) references employees (id), foreign key (aircraft_id) references aircraft (id));
+
+    # Insert Records into certified
+
+      insert into certified (emp_id, aircraft_id) values (1, 1);
+
+      ..............................
+
+  
+  e.) create table flights (flight_number serial primary key, source varchar not null, destination varchar not null, distance_miles integer, departing_time timestamp, arriving_time timestamp, fare_price numeric(7,2), aircraft_id int, foreign key (aircraft_id) references aircraft (id));
+
+    # Insert Records into flights
+
+      insert into flights (source, destination, distance_miles, departing_time, arriving_time, fare_price, aircraft_id) values ('Los Angeles', 'Honolulu', 2552, '2022-01-20 14:00' , '2022-01-20 17:20', 15000, 3);
+
+      ...............................
+
+
+
+
+ 
+
+
+
+
+
+

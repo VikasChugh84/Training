@@ -1,0 +1,132 @@
+Database Assignment Queries
+
+1.) Find the names of aircraft such that all pilots certified to opera
+Statement:  te them earn more than $80,000.
+
+select aircraft.aircraft_name from certified inner join employees on certified.emp_id = employees.id inner join role on employees.role_id = role.id inner join aircraft on certified.aircraft_id=aircraft.id where employees.salary > 80000 and role.role_name = 'Pilot' group by aircraft.aircraft_name order by aircraft.aircraft_name asc;
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+2.) For each pilot who is certified for more than three aircraft, find the eid and the
+maximum cruising range of the aircraft for which she or he is certified.
+
+Statement: Minor Roadblock
+
+select certified.emp_id, aircraft.cruising_range from certified inner join employees on certified.emp_id = employees.id inner join aircraft on certified.aircraft_id = aircraft.id order by certified.emp_id asc;
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+3.) Find the names of pilots whose salary is less than the price of the cheapest
+route from Los Angeles to Honolulu.
+
+Statement:
+
+select emp_name from employees where role_id = 1 and salary < (select min(fare_price) from flights where source = 'Los Angeles' and destination = 'Honolulu');
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+4.) For all aircraft with cruisingrange over 1000 miles, find the name of the aircraft and the average salary of all pilots certified for this aircraft.
+
+(Tweak this query little bit, we defined cruising range over 3000 as we have all the aircrafts range above 1000)
+
+Statement:
+
+select aircraft.aircraft_name, avg(employees.salary) from certified inner join aircraft on certified.aircraft_id = aircraft.id inner join employees on certified.emp_id = employees.id where aircraft.cruising_range > 3000 group by aircraft.aircraft_name;
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+5.) Find the names of pilots certified for some Boeing aircraft.
+
+Statement:
+
+select employees.emp_name from certified inner join employees on certified.emp_id = employees.id inner join aircraft on certified.aircraft_id = aircraft.id where aircraft.aircraft_name = 'Boeing';
+
+------------------------------------------------------------------------------------------------------------------------
+
+6.) Find the aircraft ids of all aircraft that can be used on routes from Los Angeles to Chicago.
+
+Statement:
+
+select aircraft_id from flights where source = 'Los Angeles' and destination = 'Chicago';
+
+------------------------------------------------------------------------------------------------------------------------
+
+7.) Identify the routes that can be piloted by every pilot who makes more than $100,000.
+
+Statement:
+
+select flights.source, flights.destination, employees.emp_name, aircraft.aircraft_name, employees.salary from certified inner join aircraft on certified.aircraft_id = aircraft.id inner join employees on certified.emp_id = employees.id inner join role on employees.role_id = role.id inner join flights on flights.aircraft_id = aircraft.id where salary > 100000 and role_name = 'Pilot';
+
+-----------------------------------------------------------------------------------------------------------------------
+
+8.) Print the employee names of pilots who can operate planes with cruising range greater than 3000 miles but are not certified on any Boeing aircraft.
+
+Statement:
+
+select employees.emp_name from certified inner join employees on certified.emp_id = employees.id inner join aircraft on certified.aircraft_id = aircraft.id where aircraft.cruising_range > 3000 and aircraft_name != 'Boeing';
+
+-----------------------------------------------------------------------------------------------------------------------
+
+9.) A customer wants to travel from Madison to New York with no more than two changes of flight. List the choice of departure times from Madison if the customer wants to arrive in New York by 6 p.m.
+
+Statement:
+
+select cast(departing_time as time)from flights where source = 'Madison' or destination='Newyork' and cast(arriving_time as time) < '18:00:00'; 
+
+-----------------------------------------------------------------------------------------------------------------------
+
+10.) Compute the difference between the average salary of a pilot and the average salary of all employees (including pilots).
+
+statement: 
+
+select (select sum(salary) from employees inner join role on employees.role_id = role.id)-(select sum(salary) from employees inner join role on employees.role_id = role.id where role_name = 'Pilot') as "Difference";
+
+-----------------------------------------------------------------------------------------------------------------------
+
+11.) Print the name and salary of every nonpilot whose salary is more than the average salary for pilots.
+
+Statement:
+
+select emp_name, salary from employees inner join role on employees.role_id = role.id where role.role_name != 'Pilot' and salary > (select avg (salary) from employees inner join role on employees.role_id = role.id where role.role_name = 'Pilot');
+
+-----------------------------------------------------------------------------------------------------------------------
+
+12.) Print the names of employees who are certified only on aircrafts with cruising range longer than 1000 miles.
+
+     Tweak Query as we have all the cruising range above 1000 miles.
+
+12.NQ) Print the names of employees who are certified only on aircrafts with cruising range lesser than 3000 miles.
+
+Statement:
+
+select employees.emp_name, aircraft.cruising_range from certified inner join employees on certified.emp_id = employees.id inner join aircraft on certified.aircraft_id = aircraft.id where aircraft.cruising_range < 3000;
+
+-----------------------------------------------------------------------------------------------------------------------
+
+13.) Print the names of employees who are certified only on aircrafts with cruising range longer than 1000 miles, but on at least two such aircrafts.
+
+    Tweak Query as we have all the cruising range above 1000 miles.
+
+13.NQ) Print the names of employees who are certified only on aircrafts with cruising range greater than 3000 miles, but on at least two such aircrafts.
+
+Statement:
+
+select employees.emp_name, count(employees.emp_name) from certified inner join employees on certified.emp_id = employees.id inner join aircraft on certified.aircraft_id = aircraft.id where aircraft.cruising_range > 3000 group by employees.emp_name having count(employees.emp_name) >= 2;
+
+-----------------------------------------------------------------------------------------------------------------------
+
+14.) Print the names of employees who are certified only on aircrafts with cruising range longer than 1000 miles and who are certified on some Boeing aircraft.
+
+    Tweak Query as we have all the cruising range above 1000 miles.
+
+14.NQ) Print the names of employees who are certified only on aircrafts with cruising range longer than 3000 miles and who are certified on some Boeing aircraft.
+
+select employees.emp_name, aircraft.cruising_range, aircraft.aircraft_name from certified inner join employees on certified.emp_id = employees.id inner join aircraft on certified.aircraft_id = aircraft.id where aircraft.cruising_range > 3000 and aircraft.aircraft_name = 'Boeing';
+
+
+
