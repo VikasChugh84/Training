@@ -11,9 +11,11 @@ select aircraft.aircraft_name from certified inner join employees on certified.e
 2.) For each pilot who is certified for more than three aircraft, find the eid and the
 maximum cruising range of the aircraft for which she or he is certified.
 
-Statement: Minor Roadblock
+Statement:
 
-select certified.emp_id, aircraft.cruising_range from certified inner join employees on certified.emp_id = employees.id inner join aircraft on certified.aircraft_id = aircraft.id order by certified.emp_id asc;
+select certified.emp_id, max(aircraft.cruising_range) from certified inner join employees on certified.emp_id = employees.id inner join aircraft on certified.aircraft_id = aircraft.id group by certified.emp_id having count(certified.emp_id) > 3 order by certified.emp_id asc;
+
+Issue Resolved - Slightly confused in Query understanding - It's asking for maximum cruising range instead of all cruising range of aircrafts. 
 
 ------------------------------------------------------------------------------------------------------------------------
 
