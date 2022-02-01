@@ -1,0 +1,84 @@
+Class - Class is a structure or blueprint where we can define variables and methods to be utilized by objects.
+         
+Objects - Objects are instance of Class.
+
+--------------Initialize method / Constructor-------------
+
+Class Employee
+  def initialize
+    Puts 'New Object Created'
+  end
+end
+
+Vikram = Employee.new
+
+# Result : New Object Created
+
+Ranjit = Employee.new
+
+# Result : New Object Created
+
+Here the Vikram and Ranjit are the instance / objects of class Employee.
+
+The initialize method gets called every time you create a new object and puts a 'string' that we have declared under method.We refer to the initialize method as a constructor, because it gets triggered whenever we create a new object.
+
+
+--------------States and Behaviour---------------
+
+When defining a class, we typically focus on two things: states and behaviors.
+
+a.) States track attributes for individual objects and we used instance variables for States.
+
+b.) Behaviors are what objects are capable of doing and we used instance methods for Behaviors.
+
+
+
+-------------- Instance Variables ----------------
+
+* Instance variable has @ symbol in thier front. It exists as long as the object instance exists and it is one of the ways we tie data to objects.It does not "die" after the initialize method is run. It "lives on", to be referenced, until the object instance is destroyed.
+
+Ruby Program:
+
+Class Employee (name)
+  def initialize
+    @name = name
+  end
+end
+
+Ranjit = Employee.new ("Ranjit")
+
+# It results in assigning the string "Ranjit" to the @name instance variable for the object Ranjit.
+
+Vikram = Employee.new ("Vikram")
+
+# It results in assigning the string "Vikram" to the @name instance variable for the object Vikram.
+
+
+
+-------------- Instance Methods ----------------
+
+* Instance methods represents the behaviour of the objects.  
+  
+Ruby Program:
+
+class Employee 
+  def initialize (name,role)
+    @name = name
+    @role = role
+  end
+
+  def role
+    puts "#{@name} working here as #{@role}"
+  end
+end
+
+Ranjit = Employee.new('Ranjit','QA Engineer')
+
+# Puts Ranjit.role - Results as 'Ranjit working here as QA Engineer' 
+
+Vikram = Employee.new('Vikram','Software Developer')
+
+# Puts Vikram.role - Results as 'Vikram working here as Software Developer'
+
+Here the different objects can access the single method as stated above 'Ranjit.role' and 'Vikram.role' and their output stored in @name and @role instance variables for specific object and returns us the value.
+

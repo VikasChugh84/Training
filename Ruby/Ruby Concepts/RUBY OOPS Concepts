@@ -61,7 +61,6 @@ d.) Polymorphism - It simply means 'Many Forms' i.e one function has specific na
     A module must be mixed in with a class using the include method invocation. This is called a mixin.After mixing in a module, the behaviors declared in that module are available to the class and its objects.
 
 
-----------------Working on Ruby Classes, Objects and Modules--------------------------------
 
 
 
