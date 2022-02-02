@@ -54,11 +54,138 @@ Vikram = Employee.new ("Vikram")
 # It results in assigning the string "Vikram" to the @name instance variable for the object Vikram.
 
 
-
 -------------- Instance Methods ----------------
 
-* Instance methods represents the behaviour of the objects.  
+* Instance methods represents the behaviour of the objects. 
+
+# To understand Instance Variable and Instance Methods Basic Workflow
+
+class Employee 
+  def initialize (name,role)
+    @name = name
+    @role = role
+  end
+
+  def role
+    puts "#{@name} working here as #{@role}."
+  end
+end
+
+Ranjit = Employee.new('Ranjit','QA Engineer')
+
+# Puts Ranjit.role - Results as 'Ranjit working here as QA Engineer'
+
+Vikram = Employee.new('Vikram','Software Developer')
+
+# Puts Vikram.role - Results as 'Vikram working here as Software Developer'
+
+Ranjit.role 
+Vikram.role
+
+# Here the different objects can access the single method as stated above 'Ranjit.role' and 'Vikram.role' and their output stored in @name and @role instance variables for specific object and returns us the value. 
   
-Refer Ruby Program employee_role.rb
+
+--------------- attr_accessor method ------------------
+
+Take above Program as reference
+
+* getter method - To retreive the employee information
+
+def get_name
+  Employee name is {#@name} 
+end
+
+Ranjit.get_name
+
+* setter method - To update the employee information
+
+def set_name = (name)
+  @name = name
+end
+
+Ranjit.set_name = "Rahul"
+
+=> Ruby has a built-in way to automatically create getter and setter methods for us, using the attr_accessor method
+
+Take above Program as reference
+
+* attr_accessor :name
+
+class Employee 
+  attr_accessor :name
+
+  def initialize (name,role)
+    @name = name
+    @role = role
+  end
+
+  def role
+    puts "#{@name} working here as #{@role}."
+  end
+end
+
+# Call method name as getter method defined under attr_accessor
+puts "Employee name is #{Ranjit.name}"
+
+# Call method name as setter method as attr_accessor takes symbol as argument
+puts "Update the employee name of Ranjit to #{Ranjit.name = 'Rahul'}"
+
+
+--------------- attr_reader / writer method ------------------
+
+attr_reader : If we only want the getter method without the setter method.It works the same way but only allows us to retrieve the instance variable. 
+
+attr_writer : If we only want the setter method without getter method.It works the same way but only allows us to update the instance variable. 
+
+--------------- Calling methods with Self ------------------
+
+Take above Program as reference
+
+class Employee 
+  attr_accessor :name, :age, :mail_id, :birth_date
+
+  def initialize (name,age,mail_id,birth_date,role)
+    self.name = name
+    self.age = age
+    self.mail_id = mail_id
+    self.birth_date = birth_date
+    @role = role
+  end
+
+  def role
+    puts "#{self.name} working here as #{@role} and thier age is #{self.age} and mail id is #{self.mail_id}."
+  end
+
+  def update_emp_info (age,mail_id,birth_date)
+    self.age = age
+    self.mail_id = mail_id
+    self.birth_date = birth_date
+    puts "age,mailid and birth date for #{self.name} is updated to #{self.age},#{self.mail_id},#{self.birth_date}"
+  end
+
+end
+
+* Note - If we not defined self say age=age, mail_id=mail_id it didn't work is because Ruby thought we were initializing local variables.To disambiguate from creating a local variable, we need to use self.name = to let Ruby know that we're calling a method.
+
+# call name method as getter mentioned under attr_accessor 
+Ranjit.name 
+
+# Call name as setter method as attr_accessor takes symbol as argument
+puts "Update the employee name of Ranjit to #{Ranjit.name = 'Rahul'}."
+
+# Call method update_employee_info to update Ranjit Info
+Ranjit.update_emp_info(22,'ranjit@xyz.com',"12-12-2000")
+
+
+
+
+
+
+
+
+
+
+
+
 
 

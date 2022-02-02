@@ -1,0 +1,110 @@
+
+-------------Understanding Class Methods and Class Variables--------------------
+
+* Class methods are methods we can call directly on the class itself, without having to instantiate any objects.When defining a class method, we prepend the method name with the reserved word 'self.'
+
+* Class variables begin with @@ and must be initialized before they can be used in method definitions.It can be referred as variables for an entire class.We can access class variables from within an instance method
+
+class Employee
+  # Class variables begin with @@
+  @@number_of_employees = 1
+
+  def initialize(name)
+    @name = name
+    @@number_of_employees += 1
+    # It shows here we can access class variables within an instance method initialize
+    puts "* New employee joined the organisation"
+  end
+
+  # Defining a class method name with the reserved word 'self.
+  def self.employee_count
+    puts "* Number of employees currently working is #{@@number_of_employees}"
+  end
+end
+
+# Call the employee_count i.e class Method
+Employee.employee_count
+
+# Initialized new instance/object of class 
+Ajay = Employee.new("Ajay")
+
+
+
+-------------Understanding Constants--------------------
+
+Sometimes we want certain variable whose value we never want to change. we can do this by creating what are called constants.Technically constants just need to begin with a capital letter but better practice is entire variable uppercase.
+
+It is possible to reassign a new value to constants but Ruby will throw a warning.
+
+* For practical understanding refer program class_variables_methods_constant.rb
+
+
+
+-------------to_s method--------------------
+
+a.) The to_s instance method comes built in to every class in Ruby.
+
+b.) puts method automatically calls to_s on its argument.For example puts.object it also means puts.object.to_s
+
+c.) puts method calls to_s for any argument that is not an array, we should use string interpolation "".
+
+d.) the to_s method is called automatically on the object when we use it with puts or when used with string interpolation.
+
+
+
+-------------self method & how its working--------------------
+
+a.) Using self with instance methods (Inside a class)
+
+  class Employee 
+  attr_accessor :name, :age
+    def initialize (name,age)
+      self.name = name
+      self.age = age
+    end
+  end
+
+  Vikram = Employee.new ("Vikram", 34)
+
+* Here self.name or self.age is called the object vikram name and it's age.
+
+* Within the class, when an instance method uses self, it references the calling object.
+
+
+b.) Using self with class methods (Outside a class)
+
+  class Employee 
+  attr_accessor :name, :age
+    def initialize (name,age)
+      self.name = name
+      self.age = age
+    end
+    
+    def what_is_self
+      self
+    end
+  end
+
+  Vikram = Employee.new ("Vikram", 34)
+
+  p Vikram.what_is_self
+
+  output : #<Employee:0x000055d14eef4370 @name="Vikram", @age=28>
+  # self contains object attributes for the specific object defined under class Employee
+
+* When self is prepended/specified to a particular method, it is defining a class method.
+
+* self using outside an instance method refers to the class itself.
+
+Summary
+ 
+=> self inside of an instance method references the instance (object) that called the method - the calling object.
+
+=> self outside of an instance method references the class and can be used to define class methods.If we define a name class method, def self.name = (n) is the same as def Employee.name=(n)
+
+
+
+
+
+
+
