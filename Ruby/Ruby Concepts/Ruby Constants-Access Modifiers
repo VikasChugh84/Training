@@ -1,0 +1,27 @@
+-------------Understanding Constants--------------------
+
+Sometimes we want certain variable whose value we never want to change. we can do this by creating what are called constants.Technically constants just need to begin with a capital letter but better practice is entire variable uppercase.
+
+It is possible to reassign a new value to constants but Ruby will throw a warning.
+
+=> Refer program class_variables_methods_constant.rb
+
+
+------------------- Access Modifiers ---------------------
+
+Method Access Control - It is generally implemented through the use of access modifiers. The purpose of access modifiers is to allow or restrict access to a particular thing.
+
+Access Modifiers - Public / Private / Protected methods
+
+a.) Public methods - Open for anyone and we can call these methods outside the class.
+
+b.) Private methods - These can access from other methods only inside the class and then we can call that specific method from outside the class.
+
+c.) Protected methods - It's in between approach between public and private.
+
+    From Inside the class - protected methods are accessible just like public methods.
+
+    From Outside the class - protected methods act just like private methods.
+
+=> Refer Program access_modifiers.rb for more clearance.
+

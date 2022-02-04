@@ -1,25 +1,3 @@
----------------RUBY OOPS Concepts---------------------
-
-* Object - It is a piece of code which represents the real life entity.
-  
-  Objects has attributes and functionality.
-
-  Attributes refers as variable and data members & functionality refers as functions or methods.
-
-* Class - Class is a structure or blueprint where we can define variables and methods to be utilized by objects.
-          Basically the car is the collection of objects.
-
-Examples for understanding:
-
-  * Class Car { model number, engine number, color, tank capacity, get_speed }
-
-    a.) Several companies manufacturing a car like Maruti, Hyundai, Tata means they are objects of Class Car.
-  
-  * Class Savings Account {Bank name, Account Number, IFSC Code, Account Name}
-
-    a.) Several Persons say P1, P2, P3 has a savings account means they are objects of Class Savings Account.
-
-  Information contains under the Class Car are the specifications of the objects.
 
 ---------------Features of OOPS-----------------
 
@@ -59,6 +37,49 @@ d.) Polymorphism - It simply means 'Many Forms' i.e one function has specific na
     One way to apply polymorphic structure to Ruby programs is to use a Module. Modules are similar to classes in that they contain shared behavior. However, you cannot create an object with a module.
 
     A module must be mixed in with a class using the include method invocation. This is called a mixin.After mixing in a module, the behaviors declared in that module are available to the class and its objects.
+
+
+
+---------------RUBY Class and Objects---------------------
+
+  * Class - Class is a structure or blueprint where we can define variables and methods to be utilized by objects.
+    Basically the car is the collection of objects.
+
+
+  * Object - It is a piece of code which represents the real life entity.
+  
+    Objects has attributes and functionality.
+
+    Attributes refers as variable and data members & functionality refers as functions or methods.
+
+  
+Examples for understanding:
+
+  * Class Car { model number, engine number, color, tank capacity, get_speed }
+
+    a.) Several companies manufacturing a car like Maruti, Hyundai, Tata means they are objects of Class Car.
+  
+  * Class Savings Account {Bank name, Account Number, IFSC Code, Account Name}
+
+    a.) Several Persons say P1, P2, P3 has a savings account means they are objects of Class Savings Account.
+
+  Information contains under the Class Car are the specifications of the objects.
+
+
+--------------States and Behaviour---------------
+
+When defining a class, we typically focus on two things: states and behaviors.
+
+a.) States track attributes for individual objects and we used instance variables for States.
+
+b.) Behaviors are what objects are capable of doing and we used instance methods for Behaviors.
+
+
+
+
+
+
+
 
 
 

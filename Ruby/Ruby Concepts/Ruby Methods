@@ -1,7 +1,3 @@
-Class - Class is a structure or blueprint where we can define variables and methods to be utilized by objects.
-         
-Objects - Objects are instance of Class.
-
 --------------Initialize method / Constructor-------------
 
 Class Employee
@@ -20,38 +16,6 @@ Ranjit = Employee.new
 
 Here the Vikram and Ranjit are the instance / objects of class Employee.
 
-The initialize method gets called every time you create a new object and puts a 'string' that we have declared under method.We refer to the initialize method as a constructor, because it gets triggered whenever we create a new object.
-
-
---------------States and Behaviour---------------
-
-When defining a class, we typically focus on two things: states and behaviors.
-
-a.) States track attributes for individual objects and we used instance variables for States.
-
-b.) Behaviors are what objects are capable of doing and we used instance methods for Behaviors.
-
-
-
--------------- Instance Variables ----------------
-
-* Instance variable has @ symbol in thier front. It exists as long as the object instance exists and it is one of the ways we tie data to objects.It does not "die" after the initialize method is run. It "lives on", to be referenced, until the object instance is destroyed.
-
-Ruby Program:
-
-Class Employee (name)
-  def initialize
-    @name = name
-  end
-end
-
-Ranjit = Employee.new ("Ranjit")
-
-# It results in assigning the string "Ranjit" to the @name instance variable for the object Ranjit.
-
-Vikram = Employee.new ("Vikram")
-
-# It results in assigning the string "Vikram" to the @name instance variable for the object Vikram.
 
 
 -------------- Instance Methods ----------------
@@ -83,7 +47,37 @@ Ranjit.role
 Vikram.role
 
 # Here the different objects can access the single method as stated above 'Ranjit.role' and 'Vikram.role' and their output stored in @name and @role instance variables for specific object and returns us the value. 
-  
+
+
+
+--------------- class method ------------------
+
+* Class methods are methods we can call directly on the class itself, without having to instantiate any objects.When defining a class method, we prepend the method name with the reserved word 'self.'
+
+class Employee
+  # Class variables begin with @@
+  @@number_of_employees = 1
+
+  def initialize(name)
+    @name = name
+    @@number_of_employees += 1
+    # It shows here we can access class variables within an instance method initialize
+    puts "* New employee joined the organisation"
+  end
+
+  # Defining a class method name with the reserved word 'self.
+  def self.employee_count
+    puts "* Number of employees currently working is #{@@number_of_employees}"
+  end
+end
+
+# Call the employee_count i.e class Method
+Employee.employee_count
+
+# Initialized new instance/object of class 
+Ajay = Employee.new("Ajay")
+
+
 
 --------------- attr_accessor method ------------------
 
@@ -131,11 +125,14 @@ puts "Employee name is #{Ranjit.name}"
 puts "Update the employee name of Ranjit to #{Ranjit.name = 'Rahul'}"
 
 
+
 --------------- attr_reader / writer method ------------------
 
 attr_reader : If we only want the getter method without the setter method.It works the same way but only allows us to retrieve the instance variable. 
 
 attr_writer : If we only want the setter method without getter method.It works the same way but only allows us to update the instance variable. 
+
+
 
 --------------- Calling methods with Self ------------------
 
@@ -178,14 +175,108 @@ Ranjit.update_emp_info(22,'ranjit@xyz.com',"12-12-2000")
 
 
 
+-------------self method internal workflow--------------------
+
+a.) Using self with instance methods (Inside a class)
+
+  class Employee 
+  attr_accessor :name, :age
+    def initialize (name,age)
+      self.name = name
+      self.age = age
+    end
+  end
+
+  Vikram = Employee.new ("Vikram", 34)
+
+* Here self.name or self.age is called the object vikram name and it's age.
+
+* Within the class, when an instance method uses self, it references the calling object.
+
+
+b.) Using self with class methods (Outside a class)
+
+  class Employee 
+  attr_accessor :name, :age
+    def initialize (name,age)
+      self.name = name
+      self.age = age
+    end
+    
+    def what_is_self
+      self
+    end
+  end
+
+  Vikram = Employee.new ("Vikram", 34)
+
+  p Vikram.what_is_self
+
+  output : #<Employee:0x000055d14eef4370 @name="Vikram", @age=28>
+  # self contains object attributes for the specific object defined under class Employee
+
+* When self is prepended/specified to a particular method, it is defining a class method.
+
+* self using outside an instance method refers to the class itself.
+
+Summary
+ 
+* self inside of an instance method references the instance (object) that called the method - the calling object.
+
+* self outside of an instance method references the class and can be used to define class methods.If we define a name class method, def self.name = (n) is the same as def Employee.name=(n)
 
 
 
+-------------to_s method--------------------
+
+a.) The to_s instance method comes built in to every class in Ruby.
+
+b.) puts method automatically calls to_s on its argument.For example puts.object it also means puts.object.to_s
+
+c.) puts method calls to_s for any argument that is not an array, we should use string interpolation "".
+
+d.) the to_s method is called automatically on the object when we use it with puts or when used with string interpolation.
 
 
+------------------- Method Lookup - How it Works --------------------
 
+Lets understand with example
 
+module P_Training
+  def p_training
+  end
+end
 
+module S_Training
+  def s_training
+  end
 
+module T_Training
+  #def t_training
+  #end
+end
 
+module 
 
+class Professor 
+  include P_Training      
+  include T_Training
+  attr_accessor :name, :department
+  def initialize (name,department)
+    self.name = name
+    self.department = department
+  end
+end
+
+Ranjit.t_training - How ruby searches for t_training ?
+
+a.) Professor
+b.) P_Training
+c.) S_Training
+c.) T_Trainin - Here it finds method 
+    Lets omit the method under T_training
+d.) Object
+e.) Kernal
+f.) BasicObject
+
+Find method nowhere throw an no method error

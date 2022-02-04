@@ -1,0 +1,57 @@
+
+------------------- Inheritance vs Modules --------------------
+
+Ruby has two primary ways to implements inheritance.
+
+a.) Class Inheritance (Traditional Way)
+
+b.) Interface Inheritance (Mixin Modules comes in Picture)
+
+* Class Inheritance is when a class inherits behavior from another class. The class that is inheriting behavior is called the subclass and the class it inherits from is called the superclass.If the same function/method name defined under child class ruby checks the object's class first for the method before it looks in the superclass.
+
+=> Refer Program inheritance_super.rb for more clearance.
+
+* Interface inheritance : This is where mixin modules come into play. The class doesn't inherit from another type, but instead inherits the interface provided by the mixin module.
+
+Module comes in view to work on DRY Concept and module must be constant i.e starts with UPPERCASE.
+
+=> Refer Program modules.rb for more clearance.
+
+
+
+------------------- Where to use class inheritance and Modules ------------------
+
+a.) We can only sub class (class inheritance) from one class.On the other hand we can mix in as many modules (interface inheritance).
+
+b.) If there's an "is-a" relationship, class inheritance is usually the correct choice. If there's a "has-a" relationship, interface inheritance is generally a better choice.
+
+c.) We cannot instantiate modules (i.e., no object can be created from a module). Modules are used only for namespacing and grouping common methods together.
+
+
+
+------------------- namespacing Modules --------------------
+
+namespacing means organizing similar classes under a module. We will use modules to group related classes.
+
+Lets Understand with example
+
+module Department
+  class Subject
+    def check_subject
+      puts "Physics"
+    end
+  end
+
+  class Professor
+    def professor_name
+    end
+  end
+end
+
+Physics = Department::Subject.new
+Lapsu = Department::Professor.new
+
+
+
+
+
