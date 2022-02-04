@@ -1,9 +1,11 @@
 
--------------Understanding Class Methods and Class Variables--------------------
+-------------Understanding Class Methods, Class Variables & Global Variables--------------------
 
 * Class methods are methods we can call directly on the class itself, without having to instantiate any objects.When defining a class method, we prepend the method name with the reserved word 'self.'
 
-* Class variables begin with @@ and must be initialized before they can be used in method definitions.It can be referred as variables for an entire class.We can access class variables from within an instance method
+* Class variables begin with (@@) and must be initialized before they can be used in method definitions.It can be referred as variables for an entire class.We can access class variables across different objects.
+
+* Global variables - class variables are not available across all classes. If we need single variable that available across all classes we can define it as global variable.It is begin with ($) sign.
 
 class Employee
   # Class variables begin with @@

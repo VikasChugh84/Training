@@ -1,0 +1,36 @@
+---------------- Reserve Words ------------------
+Reserved words may not be used as variable or CONSTANT but used as method names.
+
+* BEGIN
+* END
+* begin
+* end
+* do
+* next
+* then
+* retry
+* if
+* else
+* elsif
+* return
+* and
+* or
+* in
+* not
+* nil
+* true
+* false
+* def
+* undef
+* when
+* case
+* while
+* until
+* unless
+* break
+* defined?
+* module
+* super
+* self
+* _FILE_
+* _LINE_
