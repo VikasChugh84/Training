@@ -137,23 +137,211 @@ a,b = c,a
 This inserts the value of c under a and value of a under b.
 
 
+
 ---------------- Bitwise Operators --------------------------
 
 They are working on bits and perform bits by bits operation.
 
 Prior to this we should understand how to calculate binary format for any integer.
 
-* (&) AND operator  - It copies a bit to the result if it exists in both operands.
+lets assume the number x = 25 and y = 40
 
-Lets understand with example consider a two arrays
-[1,2,4,8] & [1,2,3,6]
+=> irb : 25.to_s(2) - "11001"
 
-Output - [1,2]
+=> irb : 40.to_s(2) - "101000"
 
-* (|) OR operator - It copies a bit if it exists in either operand.
 
-* (~) Ones Complement Operator - It is unary and has the effect of 'flipping' bits.
+Binary for x is - 0001 1001
 
-* (<<) Left Shift Operator - The left operands value is moved left by the number of bits specified by the right operand.
+Binary for y is - 0010 1000
 
-* (>>) Right Shift Operator - The left operands value is moved right by the number of bits specified by the right operand.
+* (&) AND operator  - Takes two numbers as operands and does AND on every bit of two numbers. 
+  The result of AND is 1 only if both bits are 1.
+  
+  x & y - It technically multiplies the digits of both operands and result of AND is 1 only if both bits are 1.
+  
+  Output - 0000 1000 - 8
+
+* (|) OR operator - Takes two numbers as operands and does OR on every bit of two numbers. 
+  The result of OR is 1 any of the two bits is 1.
+
+  x | y - It technically add the digits of both operands and result of OR is 1 only if any of the two bits is 1.
+
+  Output - 0   0    1     1        1       0       0        1  - 57 
+                   25     24      23      22       21      20
+                   32  +  16   +   8  +   NR   +   NR   +   1
+
+
+* (^) - Takes two numbers as operands and does XOR on every bit of two numbers. 
+  The result of XOR is 1 if the two bits are different.
+
+  Output - 0011 0001 - 49
+
+* (~) Ones Complement Operator - This operator takes a single number and used to perform complement operation of 8-bit.
+
+* (<<) Left Shift Operator - The LEFT SHIFT operator << shifts each bit of a number to the left by n positions.
+
+  Example : 
+
+  a = 15 , a << 2 , 15 << 2
+
+  15.to_s(2) - Binary for 15 is -    0      0      0      0     1       1       1       1 
+
+                                     0      0      1      1     1       1       0       0  - Each bit shifts left by 2 positions
+
+  output is - 60
+
+
+* (>>) Right Shift Operator - Takes two numbers, right shifts the bits of the first operand, the second operand decides 
+  the number of places to shift.
+
+  Example : 
+
+  a = 15 , a >> 2 , 15 >> 2
+
+  15.to_s(2) - Binary for 15 is -             1       1       1       1         
+                                     
+  Each bit shifts right by 2 positions  -     0       0       1       1     
+
+
+
+---------------- Logical Operators --------------------------
+
+Lets consider x=15, y=20
+
+* (&&) - It is an alternate for (and) Operator.If both the operands are non zero, then the condition becomes true.
+   
+  Example :
+
+  if x == 15 && y == 20
+    puts result = x + y
+  else 
+    puts false
+  end
+
+  => output is 35
+
+* (||) - It is an alternate for (or) operator.If any of the two operands are non zero, then the condition becomes true.
+
+  Example :
+
+  if x == 10 || y == 20
+    puts result = x + y
+  else 
+    puts false
+  end
+
+  => output is 35
+
+* (!) - It is an alternate for (not) operator.If a condition is true, then Logical NOT operator will make false.
+
+  Example :
+
+  if x != 15 && y == 20
+    puts result = x + y
+  else 
+    puts false
+  end
+
+  => output is false
+
+---------------- Ternary Operators --------------------------
+
+  (?:) - It is a conditional operator which is a shorthand version of the if-else statement.
+
+  Syntax : 
+
+  condition ? first_expression : second_expression;
+
+  Example :
+
+  Lets say name = 'Vikram', age = 30, role = 'employee'
+
+  Assign Values to name, age, role = 'Vikram', 30, 'employee' [Creates an array of attributes values and each attribute belongs to specific class ["Vikram", 30, "employee"] ]
+
+  Ternary Operator - name == "Vikram" && age != 32 ? 'Role = Employee' : 'Role = Non-Employee'
+
+  It will be written as
+
+    if name == "Vikram" && age != 32
+      puts 'Role = Employee'
+    else
+      puts 'Role = Non-Employee'
+    end
+
+
+---------------- Range Operators --------------------------
+
+Range operators are used for creating the specified sequence range of specified elements.
+
+* Double Dot (..) operator is used to create a specified sequence range in which both the starting and ending element will be inclusive.
+
+  Example : (2..8).to_a - [2, 3, 4, 5, 6, 7, 8]
+
+* Triple Dot (...) operator is used to create a specified sequence range in which the starting element is inclusive and ending element 
+  will be exclusive.
+
+  Example : (2..8).to_a - [2, 3, 4, 5, 6, 7] - 8 is not include in sequence.
+
+
+
+---------------- defined? Operator --------------------------
+
+The defined? the operator is a special operator which is used to check whether the passed expression is defined or not. It returns nil if passed argument is not defined, otherwise, it returns a string of that argument which defines that.
+
+Syntax:
+
+defined? expression_to_be_checked 
+
+Example:
+ 
+  Lets say Abc = 40, @abc = 40, abc = 40, only 40 not assigned to anyone, only a
+
+* puts defined? Abc - Output - Constant
+
+* puts defined? @abc - Output - Instance Variable
+
+* puts defined? abc - Output - Local Variable
+
+* puts defined? 40 - Output - Expression
+
+* puts defined? a - Output - nil
+
+
+
+---------------- Dot “.” and Double Colon “::” Operators --------------------------
+
+* Dot (.) operator is used to access the methods of a class.
+
+* Double Colon (::) operator is used to access the constants, class methods, and instance methods defined within a class or module to  
+  anywhere outside the class or module
+
+
+
+---------------- Operators Precedence --------------------------
+
+
+
+Method                       Operator                      Description
+Yes                             ::                 Constant resolution operator
+Yes                          [ ] [ ]=              Element reference, element set
+Yes                             **                 Exponentiation (raise to the power)
+Yes                          ! ~ + -               Not, complement, unary plus and minus (method names for the last two are +@ and -@)
+Yes                           * / %                Multiply, divide, and modulo
+Yes                            + -                 Addition and subtraction
+Yes                           >> <<                Right and left bitwise shift
+Yes                             &                  Bitwise 'AND'
+Yes                            ^ |                 Bitwise exclusive `OR' and regular `OR'
+Yes                          <= < > >=             Comparison operators
+Yes                         <=> == === != =~ !~    Equality and pattern match operators (!= and !~ may not be defined as methods)
+                                  &&               Logical 'AND'
+                                  ||               Logical 'OR'
+                                .. ...             Range (inclusive and exclusive)
+                                 ? :               Ternary if-then-else
+                     = %= { /= -= += |= &= >>= 
+                        <<= *= &&= ||= **=         Assignment Operators
+
+
+
+
+
