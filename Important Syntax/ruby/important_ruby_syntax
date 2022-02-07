@@ -2,10 +2,12 @@ Important ruby syntax/functions
 
 * Convert integer to array?
 
-  -- Integer - x = 1234
-
-  -- To Array - x = x = x.to_s.split("")
+  x = 1234 convert to Array x = x.to_s.split("")
 
   => Output => x = ["1","2","3","4"]
+
+* Find the number of integers in array?
+
+  => ['a', 'b', 'c', 1, 2, 3].count { |e| e.is_a? Integer }
 
    
