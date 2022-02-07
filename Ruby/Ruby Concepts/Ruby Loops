@@ -1,0 +1,143 @@
+Ruby Loops
+
+* Looping clears the way for the execution of a set of instructions or functions repeatedly when some of the condition evaluates to true or false.
+
+------------------- while Loop --------------------------
+
+* It is used to iterate the program several times.If the number of iterations is not fixed for program we use while loop.
+
+* while loop executes the condition while condition is true & loop gets stopped once condition become false.
+
+Syntax:
+  
+  while conditional do
+    # code
+  end
+
+Example:
+  
+  value = 20
+
+  while value >= 2
+    value = value - 1
+    puts "value is #{value}"
+  end
+
+Output => Loop continues until condition becomes true.
+
+
+--------------------- until Loop --------------------------
+
+It executes the statements till the given condition evaluates to true.
+
+Syntax:
+  until conditional [do]
+    #code
+  end
+
+Example: 
+
+  x = 10
+
+  until x == 20 do
+    x = x + 2
+    puts "value for x is #{x}"
+  end
+
+
+------------------- for Loop --------------------------
+
+* It is preferable when number of times loop statements to be executed is known beforehand.It iterates over specific range of numbers.
+
+Syntax:
+
+  for variable_name in expression |do|
+    # code
+  end
+
+  # for : Ruby keyword which indicates the beginning of the loop.
+
+  # variable_name : It serves as the reference to the current iteration of the loop.
+
+  # in : Ruby Keyword primarly used in loop.
+
+  # expression : It executes code once for each element in expression.Here expression may be array or range variable.
+
+  # do : It indicates the beginning of the 'for loop block' of code to be repeatedly executed. (do is optional)
+
+  # end : It indicates the end of 'for loop block' started from do keyword.
+
+* Example using range as expression
+  
+   value = 100
+  
+   for a in (1..6) do
+      value = value - 1
+      puts value
+   end
+
+  Loop continues till the specified range
+
+  Output => 99 98 97 96 95 94
+
+* Example using array as expression
+  
+   value = [1,2,3,4,5,6]
+  
+   for a in value do
+      puts a
+   end
+
+  Loop continues till the specified range
+
+  Output => 99 98 97 96 95 94
+
+
+
+------------------- do while Loop --------------------------
+
+* It checks the condition after executing the statements i.e it checks the loop body one time foe sure.It tests the condition which presents at the end of the loop body.
+
+Syntax:
+  loop do
+    # code to be executed
+
+   break if Boolean_Expression
+  end
+
+Example:
+  x = 10
+  y = 0
+
+  loop do
+    y = x - 1
+    puts "y value is #{y}"
+    if y == 9
+      break
+    end
+  end
+
+  Output => y value is 9
+
+
+------------------------ break / next / redo statement -------------------------
+
+Example :
+ 
+Consider an x = 10 and y = 5
+
+
+* break statement
+
+  for i in 0..10
+    if x > y 
+      puts "No value"
+      break
+    end
+    x = x + 1
+    puts "Value of x is #{x}"
+  end
+
+
+
+

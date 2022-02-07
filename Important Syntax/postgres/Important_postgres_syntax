@@ -1,0 +1,5 @@
+Important Postgres Syntax
+
+* Insert muliple values into column?
+
+  Syntax - Insert into table_name(col_name) values (unnest(array['val1','val2'...]));

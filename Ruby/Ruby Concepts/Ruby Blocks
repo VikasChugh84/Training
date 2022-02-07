@@ -1,0 +1,62 @@
+Ruby Blocks
+
+* Blocks are just a chunk of executable code defined under the block_name {#statement}. Here we can say {#statement} is a block.
+
+
+* Blocks can be used used in two ways:
+
+Consider an array of employees name
+
+employee = ['Ranjit','Vikram','Ravi','Vishesh']
+
+
+----------Inside the do..end statement---------------
+
+  Syntax : 
+
+  block_name do 
+    #statement-1  
+    #statement-2  
+  end 
+
+  => Statement
+
+  employee.each do |employee|
+    puts employee
+  end
+
+
+-----------Inline between the curly braces {}-----------------
+
+  Syntax : block_name {#statement to be process}
+
+  => Statement
+
+  employee.each {|i| puts i} 
+
+# Both statements have a similar output 
+
+  Output - Ranjit Vikram Ravi Vishesh ['Ranjit','Vikram','Ravi','Vishesh']
+
+
+-----------do..end vs curly braces-----------------
+
+a.) {} Curly Braces - Use curly braces, if we have a single line block and it fits nicely on the same line.
+
+b.) do..end - Use it when we need to have more than one line in your block.
+
+
+-----------How block return values-----------------
+
+puts [1,2,3,4,5,6].select {|val| val.even?}
+
+There are two methods i.e. select , even? and a block.
+
+a.) First select method call the block for a each number in array, initially it will pass 1 to block and assign 1 to variable val.
+
+b.) Another method called inside the block is .even, it checks for 1.even and return false and moves to next element of array and where it finds true will print that values.
+
+
+----------- Yield Statement -----------------
+
+=> Refer understanding refer Program blocks.rb

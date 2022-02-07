@@ -1,0 +1,50 @@
+
+Ruby if-else statement is used to test the specified condition.
+
+-------------- if statement ---------------
+
+Syntax : 
+if (condition) 
+  # statements to be executed 
+end  
+
+------------ if-else statement ------------
+
+if’ statement used to execute block of code when the condition is true and ‘else’ statement is used to execute a block of code when the condition is false.
+
+Syntax:
+
+if(condition)  
+  # code if the condition is true  
+else  
+  # code if the condition is false  
+end  
+
+------------ if-elsif-else statement ------------
+
+Syntax:
+
+if(condition1)
+  # code if the condition1 is true
+elsif
+  # code if the condition2 is true
+else
+  # code if the condition3 is true
+end
+
+------------ ternary operator/statement ------------
+
+(?:) - It is a conditional operator which is a shorthand version of the if-else statement.
+
+  Syntax : 
+
+  condition ? first_expression : second_expression
+
+  Lets say name = 'Vikram', age = 30, role = 'employee'
+
+  Statement: name == "Vikram" && age != 32 ? 'Role = Employee' : 'Role = Non-Employee'
+
+=> Refer Program if_else.rb
+
+
+

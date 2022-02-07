@@ -1,0 +1,11 @@
+Important ruby syntax/functions
+
+* Convert integer to array?
+
+  -- Integer - x = 1234
+
+  -- To Array - x = x = x.to_s.split("")
+
+  => Output => x = ["1","2","3","4"]
+
+   
