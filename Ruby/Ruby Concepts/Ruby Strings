@@ -1,0 +1,230 @@
+Ruby Strings 
+
+Ruby Strings typically represents text or binary data and created using as literals
+
+* String Literals : String literals are data directly specified in a program. We use the single-quote, or double-quote character to create string literals and complex literals can begin with the percentage sign.
+
+* Heredoc Literals : If we want to write a large block of text we use here document literal. 
+
+Syntax: 
+  result = HEREDOC
+    Concept clearance on ruby strings
+
+    It lasts 18 hours to 30 hours
+  INDENTED
+
+  The heredoc starts on the line following <<HEREDOC and ends with the next line that starts with HEREDOC.
+
+  output => Concept clearance on ruby strings
+
+  The output includes the ending newline.
+
+  Here we want the complete text as result including spaces we use indented Heredoc.
+
+Syntax: 
+  result = <<-INDENTED_HEREDOC
+    Concept clearance on ruby strings
+
+    It lasts 18 hours to 30 hours
+  INDENTED_HEREDOC
+
+  A heredoc allows interpolation and escaped characters. we may disable interpolation and escaping by surrounding the opening identifier with single quotes
+
+
+
+-------------------- Single Quote vs Double Quote ------------------
+
+* Single Quote also known as hard quote - ''
+
+* Double Quote also known as soft quote - " "
+
+* Major difference : we can do "interpolation" inside the double quote(" ") means inserting the value of a variable into the middle of a string "#{..}" whereas we can't do interpolation or escape sequences in single quote (''). If we didn't need an interpolation its recommended to use single quotes '' often.
+
+
+-------------------- (" ") - (%/ /) - REGEXP (/.../) - %r{...} --------------------------
+
+("  ") - "We can create multiline string under double quotes"
+
+(%/ /) - %/ We can also create multiline string by this way / 
+
+* REGEXP holds a expression used to match a pattern against strings.This can be used in various methods of strings.
+
+=> Similarly, there are lot of expressions - For detail we can go through REGEXP ruby.
+
+
+
+-------------------- Create or Convert to string - (.new),(.to_s) ------------------
+
+* x = String.new returns "" with code ASCII-8BIT
+
+  x = String.new('vikram') returns "Vikram" with code UTF-8
+
+* x = 10 - Here x has integer class
+  
+  x.to_s = "10" # Converted into String Class
+
+
+-------------------- Quering - (.length/size), (.empty?), (.bytesize), (.count) ------------------
+
+* length/size - Returns the count of characters (not bytes).size is alias for length.
+
+* empty? - Returns true if self.length is zero; false otherwise.
+
+* bytesize - Returns the count of bytes.
+
+  x = 'Ram' x.bytesize = 3
+
+* bytes - Returns the bytes value of each character.
+  
+  x = 'Ram' x.bytes = [114, 97, 109]
+
+* count - Returns the count of substrings matching given strings.
+
+  It takes parameters as "string" as substring to match with given string.
+
+  x = "Learning and Testing Ruby" 
+  
+  Case 1 : x.count "ring" # It matches characters of substring "ring" and count how many times it is using in main string.
+           Output will be => 9
+
+  Case 2 : x.count "ing", "n" 
+           # First argument - It matches for complete substring "ing" and get the result 2
+           # Second argument - It matches for "n" in main string excluding substring "ing" and get the result 2
+           Output will be => 2 + 2 => 4
+
+  Case 3 : x.count "Learning", "^i" # It neglects the characters starts with ^.
+           
+           Output will be => 7
+
+  Case 4 : x.count "Learni\\ng".count "\\" # Counts it as one character - Output will be => 1
+           x.count "Le\\arni\\ng".count "\\n" # One character is "\\" and another is "\\n" - Output will be => 2
+
+
+-------------------- substrings - (index),(include?),(match),(match?),(match?),(start_with?),(end_with?)------------------
+
+* index - Returns the index of the first occurrence of a given substring into integer, returns nil if none found.
+  'tesla'.index(/t) => 0
+  'tesla'.index(/l) => 3
+  'tesla'.index(/r) => nil
+  rindex - Returns the index of the first occurrence of a given substring into integer, returns nil if none found.
+
+* include? - Returns true if the string contains a given substring; false otherwise.
+  'tesla'.include? ('tes') => true
+  'tesla'.include? ('sla') => true
+  'tesla'.include? ('el')  => false
+
+* match - Returns a MatchData object if the string matches a given Regexp; nil otherwise.
+  'tesla'.match('tes') => #<MatchData "tes">
+  'tesla'.match('sl') => #<MatchData "sl">
+  'tesla'.match('ea') => nil
+
+* match? - Returns true if the string matches a given Regexp; false otherwise.
+  'tesla'.match? ('tes') => true
+  'tesla'.match? ('sa') => false
+
+* start_with? - Returns true if the string begins with any of the given substrings.
+  'tesla'.start_with? ('te') => true
+  'tesla'.start_with? ('sl') => false
+
+* end_with? - Returns true if the string ends with any of the given substrings.
+  'tesla'.end_with? ('sla') => true
+  'tesla'.end_with? ('la') => true
+  'tesla'.end_with? ('el') => false
+  'tesla'.end_with? ('te') => false
+
+-------------------- (encoding),(unicode_normalized?),(valid_encoding?),(ascii_only?)------------------
+
+* encoding - Returns the Encoding object that represents the encoding of the string.
+  'tesla'.encoding => #<Encoding:UTF-8> 
+
+* unicode_normalized? - Returns true if the string is in Unicode normalized form; false otherwise.
+  'tesla'.unicode_normalized? => true
+
+* valid_encoding? - Returns true if the string contains only characters that are valid for its encoding.
+  'tesla'.valid_encoding? => true
+
+* ascii_only? - Returns true if the string has only ASCII characters; false otherwise.
+  'tesla'.ascii_only? => true
+
+-------------------- Comparing (==,===),(eql?),(#<=>),(casecmp),(casecmp?)------------------
+
+* (==,===) - Returns true if a given other string has the same content as self. 
+  'tesla' == 'tesla' => true
+  'tesla' == 'tesla' => false
+
+* eql? - Returns true if the content is the same as the given other string.
+  'tesla'.eql? ('tesla') => true
+
+* <=> - Returns -1, 0, or 1 as a given other string is smaller than, equal to, or larger than self.
+  'tesla' <=> 'tesla' # => 0
+  'tesl' <=> 'tesla' # => -1
+  'tesla' <=> "tesl" # => 1
+  'tesla' <=> "t" # => 1
+
+* casecmp - Ignoring case, returns -1, 0, or 1 as a given other string is smaller than, equal to, or larger than self.
+  #ignores the case upper or lower just comparing the values and returning it.
+  'tesla'.casecmp('Tesla') => 0
+  'tesla'.casecmp('TESl') => 1
+  'tesl'.casecmp('TESlA') => -1
+
+* casecmp? Returns true if the string is equal to a given string after Unicode case folding; false otherwise.
+  'tesla'.casecmp?('TESLA') => true
+  'tesla'.casecmp?('teSLA') => true
+  'tesla'.casecmp?('10') => false
+  'tesla'.casecmp?(10) => nil
+
+------------------ Modifying - Insertion Strings - (insert),(<<) ------------------
+
+* insert - Positive integer - Take from start
+  'tesla'.insert(0, 'c.') => 'c.tesla'
+  'tesla'.insert(2, 'c.') => 'tec.sla'
+
+* insert - Negative integer - Take from back
+  'tesla'.insert(-1, 'c.') - 'teslac.'
+  'tesla'.insert(-3, 'c.') - 'tesc.la' 
+
+* << - Concatenates object to self and returns self.
+  'tes' << 'la' => 'tesla'
+  'tes' << 29 => 'tes\u001D'
+
+
+------- Modifying - Substitution Strings - (sub),(gsub),(succ),(next),(replace),(reverse),(setbyte),(tr),(tr_s) ------------
+
+* (sub) - 'Ramsay'.sub(/[varies]/, 'u') or 'Ramsay'.sub(%r{[varies]}, 'u')
+
+  As we see two arguments passed
+
+  >> First argument is REGEXP
+  >> Second argument is block that determines the replacing string.
+
+  output => "Rumsay" (It matches the expression 'varies' alphabet one by one with string "Ramsay" and where it find match substitute it once and replace and return the new string)
+
+* (gsub) - 'Ramsay'.gsub(/[varies]/, 'u') 
+
+  output => "Rumuuy" (It matches the expression 'varies' alphabet one by one with string "Ramsay" and where it find alphabets match substitute it multiple times and replace and return the new string)
+
+* 'VIKR00'.gsub(/\d+/, 'AS')  => "VIKRAM"
+    
+  'VIKR00'.gsub('\d+', 'AS')  => "VIKR00"
+    
+   We see the pattern is string all the characters under EXP considered as normal characters instead of REGEXP 
+
+* (succ) & (next) - It adds the respective value in sequence.(next) is alias of (succ)
+  'tes10'.succ => 'tes11'
+  'tes15'.succ => 'tes16'
+  'tesa'.succ => 'tesd'
+  'tesf'.succ => 'tesg'
+
+* (replace) - Returns self with its entire content replaced by a given string.
+  'tesla'.replace('scicom') => 'scicom'
+
+* (reverse!) - Returns self with its characters in reverse order.
+  'scicom'.reverse! => 'mocics'
+
+* (setbyte) - Sets the byte at a given integer offset to a given value; returns the argument.
+  x = 'nector' 
+  x.setbyte(2, 98) => 98
+  output x => 'nebtor'
+
+* tr_s - Replaces specified characters in self with specified replacement characters, removing duplicates from the substrings that were modified.
+  'lifescience'.tr_s('e', 'i') => 'lifiscienci'
