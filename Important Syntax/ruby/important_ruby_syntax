@@ -4,10 +4,31 @@ Important ruby syntax/functions
 
   x = 1234 convert to Array x = x.to_s.split("")
 
-  => Output => x = ["1","2","3","4"]
+  => Output : x = ["1","2","3","4"]
+
+* Find the integer values from array of strings? 
+
+  x = ["1", "2", "3", "8", "h", "b", "s", "h", "w", "5", "3", "5"]
+
+  x.grep(/\d+/)
+
+  # grep method used to find like select, filter
+
+  # \d+ is the regex that matches all the integers with the string and return the integer.
+
+  => Output : ["1", "2", "3", "8", "5", "3", "5"]
+
+  x.grep(/\d+/, &:to_i)
+
+  => Output : [1,2,3,8,5,3,5]
+
 
 * Find the number of integers in array?
 
-  => ['a', 'b', 'c', 1, 2, 3].count { |e| e.is_a? Integer }
+  ['a', 'b', 'c', 1, 2, 3].count { |e| e.is_a? Integer}
+
+  => Output : [1,2,3]
+
+
 
    

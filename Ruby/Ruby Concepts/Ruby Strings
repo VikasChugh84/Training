@@ -31,6 +31,11 @@ Syntax:
   A heredoc allows interpolation and escaped characters. we may disable interpolation and escaping by surrounding the opening identifier with single quotes
 
 
+# Concatenated - To link together in series of chain.
+  
+  Example - concatenation of 1,23,4 and 56,78 is '12345678'
+
+
 
 -------------------- Single Quote vs Double Quote ------------------
 
@@ -41,15 +46,36 @@ Syntax:
 * Major difference : we can do "interpolation" inside the double quote(" ") means inserting the value of a variable into the middle of a string "#{..}" whereas we can't do interpolation or escape sequences in single quote (''). If we didn't need an interpolation its recommended to use single quotes '' often.
 
 
--------------------- (" ") - (%/ /) - REGEXP (/.../) - %r{...} --------------------------
+-------------------- (" ") - (%/ /) ---------------------------
 
-("  ") - "We can create multiline string under double quotes"
+* ("  ") - "We can create multiline string under double quotes"
 
-(%/ /) - %/ We can also create multiline string by this way / 
+* (%/ /) - %/ We can also create multiline string by this way / 
+
+
+
+------------------- REGEXP (/.../) - %r{...} --------------------------
 
 * REGEXP holds a expression used to match a pattern against strings.This can be used in various methods of strings.
 
 => Similarly, there are lot of expressions - For detail we can go through REGEXP ruby.
+
+
+
+------------------ \r, \n , \t -------------------------------
+
+* \r , \n and \t are escape sequences representing carriage return, line feed and tab.
+
+* \n becomes a newline - Escaped in single quotes.
+  puts "test the \n file" => test the
+                        file
+
+* \r returns the previous join character
+  puts "test the \r file" => "file the"
+  puts "testmap the \rfile" => "filemap the"
+
+* \t represents the tab
+  puts "test the \tfile" => "test the  file"
 
 
 
@@ -100,7 +126,7 @@ Syntax:
            x.count "Le\\arni\\ng".count "\\n" # One character is "\\" and another is "\\n" - Output will be => 2
 
 
--------------------- substrings - (index),(include?),(match),(match?),(match?),(start_with?),(end_with?)------------------
+-------------------- Matching - (index),(include?),(match),(match?),(match?),(start_with?),(end_with?)------------------
 
 * index - Returns the index of the first occurrence of a given substring into integer, returns nil if none found.
   'tesla'.index(/t) => 0
@@ -173,7 +199,7 @@ Syntax:
   'tesla'.casecmp?('10') => false
   'tesla'.casecmp?(10) => nil
 
------------------- Modifying - Insertion Strings - (insert),(<<) ------------------
+------------------ Convertion - Inserting - (insert),(<<) ------------------
 
 * insert - Positive integer - Take from start
   'tesla'.insert(0, 'c.') => 'c.tesla'
@@ -188,7 +214,7 @@ Syntax:
   'tes' << 29 => 'tes\u001D'
 
 
-------- Modifying - Substitution Strings - (sub),(gsub),(succ),(next),(replace),(reverse),(setbyte),(tr),(tr_s) ------------
+------- Replacing - Substitution Strings - (sub),(gsub),(succ),(next),(replace),(reverse),(setbyte),(tr),(tr_s) ------------
 
 * (sub) - 'Ramsay'.sub(/[varies]/, 'u') or 'Ramsay'.sub(%r{[varies]}, 'u')
 
@@ -228,3 +254,283 @@ Syntax:
 
 * tr_s - Replaces specified characters in self with specified replacement characters, removing duplicates from the substrings that were modified.
   'lifescience'.tr_s('e', 'i') => 'lifiscienci'
+
+
+
+------------------ Casing - (capitalize!),(downcase!),(upcase!),(swapcase!) ------------------
+
+* capitalize! - Capitalize the first character of string.
+  'ircon'.capitalize! = > 'Ircon'
+
+* downcase! - downcase all the alphabets in the string if not there return nil.
+  'iRCon'.downcase! => 'ircon'
+
+* upcase! - upcase all the alphabets in the string if not there return nil.
+  'Ircon'.upcase! => 'IRCON'
+
+* swapcase! - convert uppercase to lower and lower to uppercase.
+  'Ircon'.swapcase! => 'iRCON'
+
+
+
+------- Deletion - (clear),(slice!,[]=),(sqeeze!),(strip!),(chomp!),(chop!) ----------
+
+* clear - Removes all content and self become empty, returns self.
+  'Ircon'.clear => ""
+
+* (slice!, []=) - slice and return the substring value based on provided index that would be of any class. 
+  "learning and testing".slice!(2) => 'a'
+  "learning and testing".slice!(5) => 'i'
+  "learning and testing".slice!(5..10) => 'ing and te'
+  "learning and testing".slice!(/n.*e/) => 'ning and te'
+
+* squeeze! - Removes the continous duplicate characters.
+  "learnning and tessstiing".squeeze! => 'learning and testing'
+
+* delete () - delete entire characters in the string that specified in arguments, delete_prefix and suffix works in slight difrent way.
+  "learing and testing".delete!("lear") => "ing nd tsting"
+  "learing and testing".delete_prefix!("leari") => "ng and testing" 
+  "learing and testing".delete_suffix!("leari") => nil
+  "learing and testing".delete_suffix!("ting") => "learing and tes"
+
+* (strip!) - (rstrip!) - (lstrip!) - Working on whitespaces.
+
+  "  learing and testing ".strip! => "learning and testing" 
+     # Removes the whitespace from both sides. 
+
+  "learing and   testing".strip! => nil 
+     # Returns nil because there is no whitespace either side of string.
+
+  "   learing and testing ".rstrip! => "   learing and testing" 
+     # Returns with right side as rstrip and both side has whitespaces.
+
+  "   learing and testing".rstrip! => nil 
+     # Returns nil because whitespace should be there both sides of string.  
+
+  " learing and testing    ".rstrip! => "learing and testing    " 
+     # Returns with left side as rstrip and both side has whitespaces
+
+  "learing and testing    ".rstrip! => nil 
+     # Returns nil because there is no whitespace either side of string.
+
+* chomp - Removes the specified trailing record seperator.
+  puts "test the file".chomp("ile") => "test the f"
+  puts "test the \rfile".chomp("ile") => "fest the"
+
+* chop - Returns a copy of self with trailing whitespace or the last character removed.
+  puts "test the role ".chop => test the role
+
+
+
+----------Converting to New String (*),(+),(center),(concat),(prepend),(ljust),(rjust)------------
+
+* (*) - Returns the concatenation of multiple copies of self.
+  " ircon " * 0 => ""
+  " ircon " * 4 => " ircon ircon ircon ircon "
+
+* (+) - Returns the concatenation of self or other given string.
+  "ircon" + self.to_s => "irconmain"
+  "ircon" + " is a company" => "ircon is a company" 
+  "1,23" + 456.to_s => "1,23456" 
+
+* center - Provided the width to defined string and fill the whitespaces with the defined string.
+  "ircon is the company".center(24) =>  "  ircon is the company  " 
+  "ircon is the company".center(28, "Th") => "ThThircon is the companyThTh"
+
+* concat - Returns the concatenation of self with given other strings.
+  "Learning".concat('is', 'way', 'to') => "Learningiswayto"
+
+* prepend - Returns the concatenation of a given other string with self.
+  "Learning".prepend('is', 'way', 'to') => "iswaytoLearning" 
+
+* ljust - rjust - Returns a copy of self of a given length, right-padded/left-padded with a given other string.
+  "Learning".ljust(10) => "Learning  "
+  "Learning".ljust(24, 'is the way') => "Learningis the wayis the" 
+  "Learning".rjust(10) => "  Learning"
+  "Learning".rjust(26, 'is the way') => "is the wayis the wLearning"
+
+
+
+----------Converting to Array (bytes),(chars),(codepoints),(getbyte),(grapheme_clusters)------------
+
+* bytes - Return an array of bytesize - convert into array of bytes.
+  "ircon".bytes => [105, 114, 99, 111, 110]
+
+* chars - Return an array of string - Convert string into array.
+  "ircon".chars => ["i", "r", "c", "o", "n"]
+
+* codepoints - Returns an array of the integer ordinals in self.
+  "ircon".codepoints => [105, 114, 99, 111, 110]
+
+* getbyte() - Returns an integer byte as determined by a given index.
+  "ircon".getbyte(3) => 111 
+
+* graphime_clusters - Returns an array of the grapheme clusters in self - Basically convert into array.
+  "ircon".graphime_clusters => ["i", "r", "c", "o", "n"]
+
+
+
+---------- Splitting into array (lines),(partition),(rpartition),(split) ------------
+
+* lines - convert into array of the lines in self, as determined by a given record separator.
+
+  "Best approach is not give up".lines => ["Best approach is not give up"] 
+
+  "Best approach \n is not give up".lines => ["Best approach \n", " is not give up"]
+
+  "Best approach is not give up".lines (' ') => ["Best ", "approach ", "is ", "not ", "give ", "up"] 
+   # Working on exact whitespacing
+
+  "Best approach is not give up".lines ('') => ["Best approach is not give up"]
+   # Whitespacing in above string is (' ') and we defined ('') in index, not worked.
+
+* partition/rpartition - convert a 3-element array determined by the first/last substring that matches a given substring 
+
+  "Best approach is not give up".partition("b") => ["Best approach is not give up", "", ""]
+
+  "Best approach is not give up".partition("p") => ["Best a", "p", "proach is not give up"]
+
+  "Best approach is not give up".partition("g") => ["Best approach is not ", "g", "ive up"] 
+
+  "Best approach is not give up".rpartition("b") => ["", "", "Best approach is not give up"]
+
+  "Best approach is not give up".rpartition("p") => ["Best approach is not give u", "p", ""]
+
+  "Best approach is not give up".rpartition("g") => ["Best approach is not ", "g", "ive up"]
+
+* split() - Returns an array of substrings determined by a given delimiter, in case block is given invoke it with each split substring.
+
+  "Best approach is not give up".split => ["Best", "approach", "is", "not", "give", "up"]
+   
+  "Best approach is not give up".split('') => ["B", "e", "s", "t", " ", "a", "p", "p", "r", "o", "a", "c", "h", " ", "i", "s", " ", "n", "o", "t", " ", "g", "i", "v", "e", " ", "u", "p"]
+  # It splits based on whitespacing.
+
+  "Best approach is not give up".split(' ') => ["Best", "approach", "is", "not", "give", "up"]
+
+  "Best approach is not give up".split(/ /) => ["Best", "approach", "is", "not", "give", "up"]
+
+  "Best approach is not give up".split(/ /, 4) => ["Best", "approach", "is", "not give up"]
+
+  "reading writing".split("ing") => ["read", " writ"] 
+
+  # insert e into writ a = ["read", "writ"]
+    a[1].insert(5, 'e') => "write"
+    a = ["read", "write"]
+
+
+
+---------- Matching in Array (scan),(unpack),(unpack1)------------
+
+* scan () - Returns an array of substrings matching a given regexp or string, or, if a block given, passes each matching substring to the block.
+
+"Patience is key".scan(/\w+/)  => ["Patience", "is", "key"]
+
+"Patience is key".scan('') => []
+
+"Patience is key".scan(/.../) => ["Pat", "ien", "ce ", "is ", "key"] 
+
+"Patience is key".scan(/..../) => ["Pati", "ence", " is "]
+
+"Patience is key".scan(/(....)/) => [["Pati"], ["ence"], [" is "]] 
+
+"Patience is key".scan(/(..)(..)/) => [["Pa", "ti"], ["en", "ce"], [" i", "s "]]
+
+"Patience is key".scan(/\w+/) {|w| print "<<#{w}>> "} => <<Patience>> <<is>> <<key>>  => "Patience is key"
+
+* unpack - Returns an array of substrings extracted from self according to a given format.
+  "learning".unpack('A2w') => ["le", 97]
+
+* unpack1 - Returns the first substring extracted from self according to a given format.
+  "learning".unpack1('A3y') => "lea" 
+
+
+
+---------- Convert to Numerical (hex),(oct),(ord),(to_i),(to_f)------------
+
+* hex - Returns the integer value of the leading characters, interpreted as hexadecimal digits.
+
+  Hexadecimal is the name of the numbering system that is base 16, it starts with 0,1,2,3,4,5,6,7,8,9
+
+  The remaining base-16 digits are A,B,C,D,E,F i.e 10,11,12,13,14,15
+
+  "compuage".hex => 12  "fed".hex => 15  "grop".hex => 0
+
+* oct - Returns the integer value of the leading characters, interpreted as octal digits.
+  
+  Octal number system supports only digits from 0 to 7
+
+  "compuage".oct => 0  "24".oct => 25
+
+* ord - Returns the Integer ordinal of a one-character string.
+
+  "a".ord => 97, "d".ord => 100
+
+* to_i - Returns the integer value of leading characters, interpreted as an integer.
+  
+  "24".to_i = 24, "55".to_i => 55 , "abc".to_i => nil
+
+* to_f - Returns the floating-point value of leading characters, interpreted as a floating-point number.
+
+  "24".to_i = 24.0, "55".to_f => 55.0
+
+
+
+--------------------iterating - (each_byte),(each_char),(each_codepoint),(each_grapheme_cluster),(each_line), (upto)-----------------
+
+* each_byte - Calls the given block with each successive byte in self.
+  "ircon".each_byte{|n| print n, ' '} => 105 114 99 111 110 
+
+* each_char - Calls the given block with each successive character in self.
+  "ircon".each_char{|n| print n, ' '} => i r c o n   
+
+* each_codepoint - Calls the given block with each successive codepoint in self.
+  "ircon".each_codepoint{|n| print n, ' '} => 105 114 99 111 110  
+
+* each_grapheme_cluster - Calls the given block with each successive grapheme cluster in self.
+  "ircon".each_grapheme_cluster{|n| print n, ' '} => i r c o n  
+
+* each_line - Calls the given block with each successive line in self, as determined by a given record separator.
+  "ir\ncon is\n company".each_line('r'){|n| print n, ''} => ir
+                                                            con is
+                                                            company
+
+* upto()- Calls the given block with each string value returned by successive calls to succ.
+  "val1".upto('val9'){|c| print c, ' '} => val1 val2 val3 val4 val5 val6 val7 val8 val9
+  'a'.upto('s'){|c| print c, ' '} => a b c d e f g h i j k l m n o p q r s => "a"
+
+
+
+-------------------- Random - (.scrub), (dump), (undump), (%), (inspect), (to_sym and intern)---------------------------------
+
+* scrub! - If the string is invalid byte sequence then replace invalid bytes with given replacement character, else returns self.
+  "Ircon\f453\x81".scrub! ("test") => "Ircon\f453test" 
+  "Ircon\first".scrub! ("test") => "Ircon\first"
+
+* dump - Returns a printable version of self, enclosed in double-quotes, with special characters escaped, and with non-printing characters replaced by hexadecimal notation.
+  "learning".dump => "\"learning\""
+  "learning\n\\test\\45\xd..\\ ''".dump => "\"learning\\n\\\\test\\\\45\\r..\\\\ ''\""
+
+* udump - Returns an unescaped version of self.
+  a = "learning".dump
+  a.dump => "\"learning\""
+  a.undump => "learning"
+
+* (%) - Returns the result of formatting object into the format specification self
+  "%3fe" % 10 => "10.000000e"
+
+* inspect - Returns copy of self, enclosed in double-quotes, with special characters escaped.
+  "ircon".inspect => "\"ircon\""
+  "55".inspect => "\"55\""
+
+* to_sym and intern - Returns the symbol corresponding to self.
+  "ircon".to_sym => :ircon
+  "ircon".intern => :ircon
+  "55".to_sym => :"55"
+  "55".intern => :"55"
+
+
+
+
+
+
+
