@@ -2,7 +2,7 @@ Important ruby syntax/functions
 
 * Convert integer to array?
 
-  x = 1234 convert to Array x = x.to_s.split("")
+  x = 1234 convert to Array x = x.split("")
 
   => Output : x = ["1","2","3","4"]
 
@@ -27,7 +27,7 @@ Important ruby syntax/functions
 
   ['a', 'b', 'c', 1, 2, 3].count { |e| e.is_a? Integer}
 
-  => Output : [1,2,3]
+  => Output : 3
 
 
 

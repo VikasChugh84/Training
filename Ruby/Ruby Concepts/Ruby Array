@@ -1,0 +1,216 @@
+* Array - An collection of integer indexed objects called elements, series of such elements refer as 'Array'.Any object may be array element.Array Indexing in offset may be positive, negative, non-negative.
+
+x = [2, "ts", 2.0, 5..4] - Array contains an Integer, String, Float, Range etc.
+
+------------------------- Create Arrays -----------------------
+
+* Create Array of hashes.
+  
+  x = Array.new(4) {Hash.new} =>  [{}, {}, {}, {}]
+
+  push values into array of hashes
+  x.each {|a| a[:a]=1} => [{:a=>1}, {:a=>1}, {:a=>1}, {:a=>1}] 
+
+
+* Create Array of strings.
+
+  x = Array.new(4) {|i| i.to_s} = ["0", "1", "2", "3"] 
+
+
+* Create multidimensional array.
+
+  x = Array.new(1) {Array.new(1)} => [[nil], [nil]]
+
+
+* Create array using the Array() method
+
+  Array({:a => "a", :b => "b"}) => [[:a, "a"], [:b, "b"]]
+
+
+
+-------------------------- Accessing Elements (first), (last), (take), (drop) -----------------
+
+arr = [45, 22, 'st', 32, 67, 83]
+
+* arr[0] => 45
+ 
+* arr[1,2] => [22, 'st']
+ 
+* arr[-1] => 83
+ 
+* arr[-2,-1] => nil
+ 
+* arr[1..-2] => [22, "st", 32, 67]
+ 
+* first - arr.first => 45
+  # Fetch the first element of array
+
+* last - arr.last => 83
+  # Fetch the last element of array
+
+* take(n) - arr.take(3) => [45,22,'st']
+  # Take the n(defined) number of elements and return
+
+* drop(n) - arr.drop(2) => ['st',32,67,83]
+  # Drop the n(defined) number of elements and return
+
+
+-------------------------- Obtaining Info (length), (count), (empty), (include?) -----------------
+
+arr = [45, 22, 'st', 32, 67, 83, 'tl']
+
+* length - arr.length => 7
+  # count the number of elements in array
+
+* count - arr.count => 7
+  # count the number of elements in array
+  arr.count{|c| c.is_a? Integer} => 5
+
+* empty - arr.empty? => 'false'
+
+* include? - arr.include? (22) => true, arr.include? (st) => false, arr.include? ('st') => true
+
+-------------------------- Add elements (push), (<<), (unshift), (insert) -----------------
+
+arr = [45, 22, 'st', 32, 67, 83, 'tl']
+
+* push() - push the element in last position and we can push the n number of elements
+  arr.push(23) => [45, 22, 'st', 32, 67, 83, 'tl', 23]
+  arr.push(23,45,65) => [45, 22, 'st', 32, 67, 83, 'tl', 23, 45, 65]
+
+* arr << 22 => [45, 22, 'st', 32, 67, 83, 'tl', 23, 22]
+  push() - push the single element into array.
+
+* unshift() - Insert the value into beginning of array
+  arr.unshift(64) => [64, 45, 22, 'st', 32, 67, 83, 'tl']
+
+* insert() - Insert the element at any position and n number of elements
+  arr.insert(4, "td", 45) => [45, 22, 'st', 32, 'td', 45, 67, 83, 'tl']
+
+-------------------------- Remove elements (pop),(shift),(delete_at),(delete),(compact),(uniq)-----------------
+
+arr = [45, 22, 'st', 32, 67, 83, 'tl']
+
+* pop - To retrieve last element and at the same time remove it.  
+  arr.pop => 'tl'
+  arr = [45, 22, 'st', 32, 67, 83]
+
+* shift - To retrieve first element and at the same time remove it.
+  arr.pop => 45
+  arr = [22, 'st', 32, 67, 83, 'tl']
+
+* delete_at() - To retrieve and delete the element of particular index.
+  arr.delete_at(2) => 'st'
+  arr = [45, 22, 32, 67, 83, 'tl']
+
+* delete() - To retrieve and delete the any element in the array.
+  arr.delete('tl') => 'tl'
+  arr = [45, 22, 'st', 32, 67, 83]
+
+* compact - To delete the nil value in the array.
+  arr = [45, 'st, nil, 34, 7, 0, nil]
+  arr.compact => arr = [45, 'st, 34, 7, 0]
+
+* uniq / uniq! - To retrieve the elements with non-duplicacy 
+  arr = [45, 22, 'st', 32, 67, 83, 'tl', 22, 'st', 83]
+  arr.uniq => [45, 22, "st", 32, 67, 83, "tl"]
+  
+-------------------------- Iteration/finding (reverse_each),(map),(select),(reject),(drop_while),(delete_if),(keep_if)-----------------
+
+* reverse_each - To reverse the elements of array.
+
+  words = %w[one 2 three] or ["one", "2", "three"]
+  str = []
+  words.reverse_each{|c| str += "#{c}"}
+  srt = "three2one"
+
+* map - It can find the value used to create a new array based on the original array and performs the defined action.
+  
+  arr = [23,44,'st', 45]
+  arr.map{|c| c*2} => [46, 88, "stst", 90]
+  arr.map{|c| c.is_a? Integer} =>  [true, true, false, true]
+
+* select - Elements can be selected from an array according to criteria defined in a block
+
+  arr = [23,44,'st', 45]
+  arr.select{|c| c.is_a? Integer} => [23,44,45]
+
+  arr = [3,6,3]
+  arr.select {|a| a > 3} => [6] 
+
+* reject - Elements can be rejected from an array according to criteria defined in a block
+
+  arr = [34,56,'tg',54,45.5]
+  arr.reject{|c| c.is_a? Float} [34, 56, "tg", 54]
+
+* drop_while - It can drop the elements based on condition and give the desired output.
+  
+  arr = [34,56,'tg',54,45.5]
+  arr.drop_while{|c| c < 55} => [56, "tg", 54, 45.5] 
+
+* delete_if - It can delete the element based on condition
+  arr = [56,45,234,56,21]
+  arr.delete_if{|c| c <= 25} => [56, 45, 234, 56]
+
+--------------------------Quering (&),include?,empty?,all?----------------------
+
+* & - Compare the two arrays and gives the common element as result
+  [2,4,6] & [5,8,2,6] => [2,6]
+
+
+* include? - [2,5,3,6,'rt',(3..5)].include? (3..5) => true
+
+
+* empty? - [2,5,3,6,'rt',(3..5)].empty?
+
+
+* all? - [2,5,3,6].all? {|c| c.is_a? Integer} => true
+
+
+* any? - [2,5,3,6,'rt',(3..5)].any? {|c| c.is_a? Range} => true
+         [2,5,3,6,'rt',(3..5)].any? {|c| c.is_a? Hash} => false
+
+
+* none? - [2,5,3,6,'rt',(3..5)].none? {|c| c.is_a? Hash} => true
+          [2,5,3,6,'rt',(3..5)].none? {|c| c.is_a? Range} => false
+
+
+* one? - [2,5,3,6,'rt',(3..5)].one? {|c| c.is_a? String} => true
+
+
+* count - [2,5,3,6,'rt',(3..5)].count {|c| c != (3..5)} => 5
+          [2,5,3,6,'rt',(3..5)].count {|c| c.is_a? Integer} => 4
+
+* find_index - [2,5,3,6,'rt',(3..5)].find_index(6) => 3
+               [2,5,3,6,'rt',(3..5)].find_index('rt') => 4
+
+* rindex - [2,5,3,6,'rt',(3..5)].rindex('rt') => 4
+
+--------------------------Comparing (<=>),(==), eql?-----------------------
+
+* (<=>) - Returns -1, 0, or 1 as self is less than, equal to, or greater than a given object.
+         x = [2,4,6,3,2] 
+         x[0] <=> x[4] => 0
+         x[1] <=> x[4] => 1
+         x[3] <=> x[2] => -1
+
+* (==) - x[0] == x[4] => true
+         x[2] == x[4] => false
+ 
+* eql? - x[0].eql? x[4] => true
+         x[0].eql? x[2] => false
+ 
+
+
+  
+
+
+
+
+
+  
+
+  
+
+
+
