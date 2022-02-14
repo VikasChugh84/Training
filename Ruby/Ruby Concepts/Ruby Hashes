@@ -1,0 +1,334 @@
+Ruby Hashes maps the unique keys to specific value.
+
+Hash can be combination of any objects.
+
+  * Ex-1: 
+
+  x = {ab:10, cd:35}
+
+  output : x => {:ab => 10, :cd => 35}
+
+  * Ex-2:
+
+  x = {'45':10, '2..10':'abc', '[3,4]': '[2,3]', '54': '2..5', test: 45}
+
+  Output : x => {:"45" => 10, :"2..10" => "abc", :"[3,4]" => "[2,3]", :"54" => "2..5", :test => 45 }
+
+Usage of Hash
+  
+  * Ex-1: Assign values to object
+
+    x = {role: "Admin", email: "admin@xyz.com"}
+
+    x => {:role => "Admin", :email: "admin@xyz.com"}
+
+  * Ex-2: Pass hashes in method and initialize
+
+    class Emp
+      def role(user)
+        @name = user[:name]
+        @role = user[:role]
+        puts "#{@name} is #{@role}"
+      end
+   end
+ 
+   Vikram = Emp.new
+   Vikram.role ({name: 'Vikram', age: 10, role: 'employee', working_capacity: '8..12'})
+
+Create and Update the hash value
+
+  * Ex-1: Create hash
+    x = x[name: 'tester', :age => 10]
+
+    x => {:name => "tester", :age => 10}
+
+  * Ex-2: Update hash value
+
+    x => {:name => "tester", :age => 10}
+
+    x[:email] = "tester@abc.com"
+
+    output => {:name => "tester", :age => 10, :email => "tester@abc.com"}
+
+Hash Methods
+
+------------------------ Quering Hash ---------------------------------
+
+* any?() - Returns whether any element satisfies a given criterion.
+   
+  x = {'45':10, '2..10':'abc', '[3,4]': '[2,3]', '54': '2..5', test: 45}
+
+  x.any?([:'54', '2..5']) => true
+  x.any?([:'45', 20]) => false
+
+* default - Returns the default value, or the default value for a given key.
+
+  x = Hash.new {|x,key| x[key] = "Default key is 10"}
+  # Setting up a default key here
+
+  x[:age] = 10 output x => {:age => 10}
+  # Assign value to age
+  
+  x.default(:age) output will be x => {:age => "Default key is 10"}
+  # Calling default value for age
+
+* default_proc - Sets the default proc to a given proc.
+
+* empty? - Returns whether there are no entries.
+
+* eql? - Check the two hash objects and return either its equal or not.
+  x = {val: 0, cat: 1, tes: 2}
+  y = {cat: 1, tes: 2, val: 0}
+  x.eql? y => true
+
+* hash - Returns the integer hash code.
+  
+  x.hash => 2341575260822922026
+  y.hash => 2341575260822922026
+  x.hash == y.hash # => true
+
+* has_value? or value? - Returns whether a given object is a value in self.
+  
+  x = {val: 0, cat: 1, tes: 2}
+
+  x.has_value? 1 => true
+  x.has_value? 5 => false
+
+* include?, has_key?, member?, key? - Returns whether a given object is a key in self.
+  x = {val: 0, cat: 1, tes: 2}
+  
+  x.include? :val => true
+  x.member? :cat => true
+  x.key? :tesla: => false
+
+* length - Returns the count of entries.
+
+  x = {'45':10, '2..10':'abc', '[3,4]': '[2,3]', '54': '2..5', test: 45}
+
+  x.length => 5
+  x.size => 5
+
+
+
+------------------------ Comparing Hash ---------------------------------
+
+x = {name: 'vikram', age:20, email:"vikram@abc", val: 45}
+y = {name: 'vikram', age:24, email:"vikram@abc", val: 45}
+z = {name: 'Ranjit', age:40, email:"ranjit@abc.com", val:65}
+s = {name: 'vikram', age:20}
+
+* (<) - Compare the two hashes and return true if x is proper subset of y.
+
+  x < y => false 
+  x < s = > false
+  s < x => true # Here the s includes key pair values available in x so s becomes the subset of x
+
+* (<=) - Returns whether self is a subset of a given object.
+
+* (==) - Returns whether a given object is equal to self.
+
+* (>) - Returns whether self is a proper superset of a given object
+
+* (>=) - Returns whether self is a proper superset of a given object.
+
+
+
+------------------------ Fetching Hash ---------------------------------
+
+x = {'45':10, '2..10':'abc', '[3,4]': '[2,3]', '54': '2..5', test: 45}
+
+* [] - Return the value associated with given key.
+  x[:"45"] => 10  
+  x[:"[3,4]"] => ["2,3"]
+
+* assoc - Return the key and its value in 2-array element..convert into 2-array element.
+  x.assoc(:"2..10") => [:"2..10", "abc"] 
+
+* rassoc - Returns a 2-element array consisting of the key and value of the first-found entry having a given value.
+
+* dig - Returns the object in nested objects that is specified by key and identifiers. The nested objects may be instances of various classes.
+
+ In nested hashes
+ x = {'45':10, name: {first: {name: 'singh'}}}
+ x.dig(:name) => {:first=>{:name=>"singh"}}
+ x.dig(:name, :first, :name) => "singh"
+
+ In nested hashes and array
+ x = {val: {tree: [:a,:b,:c]}, name: {first: {name: 'singh'}}}
+ x.dig(:val, :tree, 2) => :c
+
+* fetch() - Returns the value for a given key.
+  x.fetch(:"54") => "2..5"
+
+* fetch_values - Returns array containing the values associated with given keys.
+  x.fetch_values(:"45", :test) => [10,45]
+
+* key - Returns the key for the first-found entry with a given value.
+  x = {'45':10, '2..10':'abc', '[3,4]': '[2,3]', '54': '2..5', test: 45}
+
+  x.key(45) => :test
+  x.key('abc') => :"2..10"
+
+* keys - Returns an array containing all keys in self.
+  x.keys => [:test, :"2..10"]
+
+* values - Returns an array containing all values in self.
+  x.values => [10, "abc", "[2,3]", "2..5", 45]
+
+* values_at - Returns an array containing values for given keys.
+  x.values_at(:"45",:test) => [10, 45]
+
+
+------------------------ Assigning ---------------------------------
+
+x = {ab:10, cd:20}
+
+* []= Assign value in given key
+  
+  x[:ef] = 30 
+
+  x => {:ab => 10, :cd => 20, :ef => 30}
+
+* store = Assign value in give key
+ 
+  x.store(:ef, 30)
+   
+  x => {:ab => 10, :cd => 20, :ef => 30}
+
+* merge - Returns the hash formed by merging each given hash into a copy of self.
+
+  x = {a:10, b:30, c:55}
+  y = {b:45, d:60, e:40, a:90}
+  z = {f:45}
+
+  z.merge(x,y) => {:f => 45, :a => 90, :b => 45, :c => 55, :d => 60, :e => 40}
+  z.merge(y,x) => {:f=>45, :b=>30, :d=>60, :e=>40, :a=>10, :c=>55}
+
+  It only shows output for update z we can use merge!, update.
+
+* merge!,update - Similar working as merge and also saves the value into hash
+
+* replace - Replaces the entire contents of self with the contents of a givan hash.
+
+  x = {a:10, b:30, c:55}
+  y = {b:45, d:60, e:40, a:90}
+
+  x.replace(y)
+
+  x => {b:45, d:60, e:40, a:90}
+
+------------------------ Deleting ---------------------------------
+
+x = {name:'vikram', age:20, val: '[2,3]', month: 'oct', test: nil}
+
+* clear - Removes all entries from self.
+  x.clear => {}
+
+* compact! - Removes all nil-valued entries from self.
+  x.compact! => {:name=>"vikram", :age=>20, :val=>"[2,3]", :month=>"oct"}
+
+* delete - Removes the entry for a given key.
+  x.delete(:val) => '[2,3]' => {:name=>"vikram", :age=>20, :month=>"oct", :test=>nil} 
+
+* delete_if - Removes entries selected by a given block.
+  x.delete_if{|i,n| n == 20}
+  x => {:name=>"vikram", :age=>20, :month=>"oct", :test=>nil}
+
+* filter!, select!
+  x.filter!{|i,n| n.is_a? Integer}
+
+  x =>  {:age=>20} 
+
+* keep_if - Keep only those entries selected by a given block.
+  x.keep_if{|i,n| i == (:month)}
+
+  x => {:month => "oct"}
+
+* reject - Removes entries selected by a given block.
+  x.reject{|c,s| s == nil}
+
+  x => {:name=>"vikram", :age=>20, :val=>"[2,3]", :month=>"oct"} 
+
+* shift - Removes and returns the first entry.
+  x.shift
+
+  x => {age:20, val: '[2,3]', month: 'oct', test: nil}
+
+* except - Returns a copy of self with entries removed for specified keys.
+  x.except(:month)
+
+  x => {:age=>20, :val=>"[2,3]", :test=>nil} 
+
+* slice - Returns a hash containing the entries for given keys.
+  
+  x.slice(:name,:age)
+
+  x => {:name=>"vikram", :age=>20} 
+
+
+------------------------ Iterating --------------------------------- 
+
+x = {:name=>"vikram", :age=>20, :val=>"[2,3]", :month=>"oct", :test=>nil}
+
+* each, each_pair - Calls a given block with each key-value pair.
+  x.each{|i,n| puts "* #{i} is #{n}"}
+  * name is vikram
+  * age is 20
+  * val is [2,3]
+  * month is oct
+  * test is 
+
+
+* each_key - Calls a given block with each key.
+  x.each{|i| puts "#{i}"}
+
+* each_pair - Calls a given block with each value.
+  x.each{|n| puts "#{n}"}
+
+------------------------ Converting -------------------------------------
+
+x = {:name=>"vikram", :age=>20, :val=>"[2,3]", :month=>"oct", :test=>nil}
+
+* inspect, to_s - Returns a new String containing the hash entries.
+
+  x.to_s => "{:name=>\"vikram\", :age=>20, :val=>\"[2,3]\", :month=>\"oct\", :test=>nil}" 
+
+* to_a - Returns a new array of 2-element arrays; each nested array contains a key-value pair from self.
+ 
+  x.to_a => [[:name, "vikram"], [:age, 20], [:val, "[2,3]"], [:month, "oct"], [:test, nil]] 
+
+* to_h - Returns self if a Hash; if a subclass of Hash, returns a Hash containing the entries from self.
+
+* to_proc - Returns a proc that maps a given key to its value.
+
+------------------------ Transforming Keys and Values --------------------------------- 
+
+x = {:name=>"vikram", :age=>20, :val=>"[2,3]", :month=>"oct", :test=>nil}
+
+* transform_keys - Returns a copy of self with modified keys.
+  x.transform_keys{|i| i.to_s}
+
+  x = {"name"=>"vikram", "age"=>20, "val"=>"[2,3]", "month"=>"oct", "test"=>nil}
+
+
+* transform_keys! - To update keys in self.
+
+* transform_values - Returns a copy of self with modified values.
+  x.transform_values{|i| i.to_s}
+
+  x = {:name=>"vikram", :age=>"20", :val=>"[2,3]", :month=>"oct", :test=>""}
+
+* transform_values! - To update values in self.
+
+* flatten - Returns an array that is a 1-dimensional flattening of self.
+
+  x.flatten => [:name, "vikram", :age, 20, :val, "[2,3]", :month, "oct", :test, nil]
+
+* invert - Returns a hash with the each key-value pair inverted.
+
+  x.invert => {"vikram"=>:name, 20=>:age, "[2,3]"=>:val, "oct"=>:month, nil=>:test}
+
+
+
+  
+  
