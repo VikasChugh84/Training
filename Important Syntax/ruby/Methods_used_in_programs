@@ -1,0 +1,77 @@
+
+Methods and Operators used in programs for future reference:
+
+
+------------------- Integer Methods --------------------
+
+* (.times) - array_p1.rb
+* (.sort) - array_p2.rb
+* (.remainder) - logic_p2.rb
+* (.to_f) - logic_p5.rb
+
+
+
+
+------------------- Range Methods ----------------------
+
+* (.to_a) - array_p1.rb
+* (.select) - logic_p2.rb
+
+
+
+
+------------------- Array Methods ----------------------
+
+* (.each) - logic_p2.rb
+* (.map) - array_p1.rb
+* (.intersection) - array_p2.rb
+* (.push) - logic_p1.rb
+* (&) - logic_p1.rb
+* (.max) - logic_p2.rb
+* (.pop) - logic_p4.rb
+
+
+
+
+------------------- String Methods ----------------------
+
+* (.split) - array_p2.rb
+* (.grep) - array_p2.rb
+* (.to_i) - array_p2.rb
+
+
+
+
+--------------------- Use of Ruby Operators -----------------
+
+* (+=) - logic_p2.rb, logic_p5.rb
+* (<<) - array_p1.rb, logic_p4.rb
+* (*) - array_p1.rb
+* (&) - array_p2.rb
+* (>=) - logic_p5.rb
+* (%) - logic_p5.rb
+
+
+
+
+--------------------- Use of Ruby Regex ---------------------
+
+* (/\d+/) - array_p2.rb
+
+
+
+
+--------------------- Use of Conditions ---------------------
+
+* (if..then..end) - logic_p2.rb 
+
+
+
+
+--------------------- Use of loops ---------------------
+
+* (until) - logic_p4.rb 
+* (while) - logic_p5.rb
+
+
+

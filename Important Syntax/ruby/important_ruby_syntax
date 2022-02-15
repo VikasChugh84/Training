@@ -1,33 +1,63 @@
 Important ruby syntax/functions
 
-* Convert integer to array?
+--------------------Integer to array----------------------
 
-  x = 1234 convert to Array x = x.split("")
+  x = 1234 
 
-  => Output : x = ["1","2","3","4"]
+* (.split) - x.to_s.split("") => ["1234"]
 
-* Find the integer values from array of strings? 
+* (.chars) - x.to_s.chars  => ["1","2","3","4"]
 
-  x = ["1", "2", "3", "8", "h", "b", "s", "h", "w", "5", "3", "5"]
 
-  x.grep(/\d+/)
 
+-------------------Integer from array of strings----------------- 
+
+  x = ["1","2","3","8","h","b","s","h","w","5","3","5"]
+
+* (.grep) - x.grep(/\d+/) => ["1", "2", "3", "8", "5", "3", "5"]
   # grep method used to find like select, filter
 
-  # \d+ is the regex that matches all the integers with the string and return the integer.
+* (\d+) - is the regex that matches all the integers with the string and return the integer.
 
-  => Output : ["1", "2", "3", "8", "5", "3", "5"]
-
-  x.grep(/\d+/, &:to_i)
-
-  => Output : [1,2,3,8,5,3,5]
+* x.grep(/\d+/, &:to_i) => [1,2,3,8,5,3,5]
 
 
-* Find the number of integers in array?
 
-  ['a', 'b', 'c', 1, 2, 3].count { |e| e.is_a? Integer}
+------------------Count Integer in array----------------------
+  
+  x = ['a','b','c',1,2,3]
 
-  => Output : 3
+* (.count) - x.count { |e| e.is_a? Integer} => 3
+
+
+
+
+-----------------------(.each) & (.map) difference array --------------------------
+
+Major difference between each and map lies in the return value.
+
+* (.each) executes the given block for each element of the array, then returns the array itself.
+
+* (.map) do the same and executes the given block for each element of the array but returns a new array whose values are the return values of each iteration of the block and Return value is also the same array.
+
+Example1 : names  = ["ab","cd","ef"]
+           names.each {|i| i.upcase}
+           Result => ["ab","cd","ef"] # No values upgraded because it returns the same array, no values change.
+
+           names  = ["ab","cd","ef"]
+           names.map {|i| i.upcase}
+           Result => ["AB","CD","EF"] # values upgraded as it returns the new array with return values of each iteration of block.
+
+Example2 : numbers = [1,2,3,4,5]
+           numbers.each { |num| num * 2 }
+           Result=> [1, 2, 3, 4, 5] # No values change
+
+           numbers = [1,2,3,4,5]
+           numbers.each { |num| num * 2 }
+           Result => [2, 4, 6, 8, 10] # Values upgraded
+
+
+
 
 
 

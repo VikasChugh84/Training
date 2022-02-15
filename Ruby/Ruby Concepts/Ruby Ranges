@@ -1,0 +1,188 @@
+
+Class Range
+
+Range is basically an interval - set of values with a beginning and an end.
+
+Values of a range can be numbers, characters, strings or objects
+
+Example: (-5..-1).to_a => [-5, -4, -3, -2, -1]
+
+* Double dot(..) - It includes the last element of range.
+  
+  (a..d).to_a => ["a", "b", "c", "d"]
+
+* Triple dot(..) - It excludes the last element of range.
+  
+  (a...d).to_a => ["a", "b", "c"]
+
+------------------------------- Range Methods ------------------------------
+
+* (==) or .eql?() - Returns true only if obj is a Range, has equivalent begin and end items.
+
+   (2..6) == (2..6) => true
+   (2..6) == Range.new(1,4) => false
+   (2..6) == Range.new(2,6) => true
+   (2..6) == (2...6) => false
+
+
+* (===) - Returns true if obj is between begin and end of range (Used in case)
+
+  case 10
+    when 1..20  then puts "y"
+    when 10..25 then puts "n"
+
+    Result => "y"
+
+
+* (.begin) - Returns the object that defines the beginning of the range.
+  
+   (2..6).begin => 2
+
+
+* (.end) - Returns the object that defines the end of the range.
+  
+   (2..6).begin => 6
+
+
+* (.bsearch) - Binary search finds a value in range which meets the given condition
+
+  Work in two modes:
+
+  arr = [2,4,5,7,8,10,24]
+
+  a.) find-minimum mode
+
+    (0..arr.size).bsearch{|i| arr[i] >= 5} => 2
+
+    (0..arr.size).bsearch{|i| arr[i] >= 10} => 5
+
+  b.) find-any mode
+
+    (0..arr.size).bsearch{|i| 10 - arr[i]} => 5
+
+    (0..arr.size).bsearch{|i| 24 - arr[i]} => 6
+
+    (0..arr.size).bsearch{|i| 5 - arr[i]} => 2
+
+
+
+* .cover(obj) - Returns true if obj is between the begin and end of the range.
+   
+   (2..6).cover?(6) => true
+   (2...6).cover?(6) => false
+
+
+* .cover(range) - Returns true if range is between the begin and end of the range.
+
+   (2..6).cover?(1..4) => false
+   (2..6).cover?(3..5) => true
+  
+
+* .each - Iterates over the elements of range, passing each in turn to the block.
+   
+   The each method can only be used if the begin object of the range supports the succ method.
+
+   if the object does not have succ method defined (like Float), raise error.
+
+   x = (2..6).each {|i| p i} => 2 3 4 5 6 => 2..6
+
+   x = (2.5..6).each {|i| p i} => error
+
+
+* entries - Returns an array containing the items in the range.
+  
+  (2..6).to_a => [2,3,4,5,6]
+
+
+* .exclude_end? - Returns true if the range excludes its end value.
+
+  (2..6).exclude_end? => false
+  (2..6).exclude_end? => true
+
+
+* .first() - Returns object and array in range
+  
+  (2..6).first => 2 # Returns the first object in the range.
+
+  (2..6).first(3) => [2,3,4] # Returns an array of the first n elements.
+
+
+* .last() - Returns object and array in range in reverse mode.
+
+  (2..6).first => 6 # Returns the last object in the range.
+
+  (2..6).last(3) => [4,5,6] # Returns an array of the last n elements.
+
+
+* .include?() / .member?() - Returns true if obj is an element of the range.
+  
+  (2..6).include?(4) => true
+
+  ('ab'..'ef').include?('c') => false
+  
+  ('ab'..'ef').include?('cd') => true
+
+
+* .inspect - Convert this range object to a printable form.
+
+
+* .max - Returns the maximum value in the range, or an array of maximum values in the range if given an Integer argument.
+
+  (5..49).max => 49 # Maximum value in the range
+
+  (5..49).max(3) => [47,48,49] # Array of maximum values in the range
+
+
+
+* .min - Returns the manimum value in the range, or an array of minimum values in the range if given an Integer argument.
+   
+  (5..49).max => 5 # Minimum value in the range
+
+  (5..49).max(3) => [5,6,7] # Array of minimum values in the range
+
+
+* .size - Returns the number of elements in the range. Both the begin and the end of the Range must be Numeric, otherwise nil is returned.
+
+  (5..49).size => 45
+
+  (a..49).size => nil
+
+
+* .step - Using this method you can iterate over the range in increments of n, where n is the argument passed to step.
+  
+  (2..12).to_a => [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
+  (2..12).step(3).to_a => [2, 5, 8, 11] 
+
+  (2..12).step(4).to_a => [2, 6, 10] 
+
+
+-------------------------------- Enumerated Methods ------------------------------
+
+* chain() - Join/chain the two objects into enumerator object.
+
+  ('a'..'b').chain([4, 5]) => <Enumerator::Chain: ["a".."d", [4, 5]]>
+  
+  ('a'..'b').chain([4, 5]).to_a => ["a","b","c","d",4,5]
+
+* chunk() - Consecutive elements which return the same block value are chunked together.
+
+  (4..7).chunk{|i| i.even?}.to_a => [[true, [4]], [false, [5]], [true, [6]], [false, [7]]]
+
+  [3,1,4,7,5,2,8].chunk{|i| i.even?}.to_a => [[false, [3, 1]], [true, [4]], [false, [7, 5]], [true, [2, 8]]]
+
+  [3,1,4,7,5,2,8].chunk{|i| i.even?}.each{|x, y| puts x,y}
+
+* chunk_while() 
+
+  [3,1,4,7,5,2,8].chunk_while{|i, n| i+1 == n}.to_a
+  
+  [[3], [1], [4], [7], [5], [2], [8]] 
+
+
+
+
+
+
+
+

@@ -14,7 +14,7 @@ class Sub
   # Method 2
   def arr_val_way_2(num,length)
     arr = (1..length).to_a.map{|x| x * num}
-    # uses hash class (1..length) to convert into array
+    # uses range class (1..length) to convert into array and map to return new array values from iteration in block.
     puts arr
   end
 
