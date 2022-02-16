@@ -3,10 +3,10 @@
 class Arf
   
   def arr_num(x,y)
-  	arr_x = x.split('').grep(/\d+/, &:to_i).sort
-  	arr_y = y.split('').grep(/\d+/, &:to_i).sort
-  	arr = arr_x.intersection(arr_y)
-  	puts arr
+    arr_x = x.split('').grep(/\d+/, &:to_i).sort
+    arr_y = y.split('').grep(/\d+/, &:to_i).sort
+    arr = arr_x.intersection(arr_y)
+    puts arr
   end
 
 end

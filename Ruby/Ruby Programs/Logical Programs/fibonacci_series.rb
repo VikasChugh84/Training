@@ -4,14 +4,14 @@
 
 class Practice
   def fibonacci_seq(x)
-  	arr = [0, 1]
-	until x >= 255
-		y = arr[-1] + arr[-2]
-		x = y
-		arr << x
-	end
-	arr.pop
-	puts arr
+    arr = [0, 1]
+    until x >= 255
+      y = arr[-1] + arr[-2]
+      x = y
+      arr << x
+    end
+    arr.pop
+    puts arr
   end
 end
 

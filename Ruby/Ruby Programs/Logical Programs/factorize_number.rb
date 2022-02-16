@@ -4,7 +4,7 @@
 
 class Practice
   def factorize_number(x)
-  	y = []
+    y = []
     (1..x).select{|y| if x.remainder(y) == 0 then p y end}
   end
 end
