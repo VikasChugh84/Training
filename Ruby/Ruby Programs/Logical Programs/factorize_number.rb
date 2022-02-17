@@ -10,4 +10,4 @@ class Practice
 end
 
 Pct = Practice.new
-Pct.factorize_number(8)
+Pct.factorize_number(95)
