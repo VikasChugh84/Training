@@ -3,7 +3,7 @@
 class Arr
 
   def find_prime_number(x)
-  	y = 1
+    y = 1
     arr = []
     x.times.each do  
       arr << x%y 

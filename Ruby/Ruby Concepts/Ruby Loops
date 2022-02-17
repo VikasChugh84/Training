@@ -1,26 +1,18 @@
 Ruby Loops
 
-* Looping clears the way for the execution of a set of instructions or functions repeatedly when some of the condition evaluates to true or false.
-
 ------------------- while Loop --------------------------
 
-* It is used to iterate the program several times.If the number of iterations is not fixed for program we use while loop.
+* It executes the condition while condition is true & loop gets stopped once condition become false.
 
-* while loop executes the condition while condition is true & loop gets stopped once condition become false.
-
-Syntax:
-  
-  while conditional do
-    # code
-  end
-
-Example:
-  
-  value = 20
-
-  while value >= 2
-    value = value - 1
-    puts "value is #{value}"
+Syntax with Example
+  while (n < arr.length)
+    if arr[i] > arr[n]
+      x = arr[i] 
+      arr[i] = arr[n]
+      arr[n] = x
+    end
+    i += 1
+    n += 1
   end
 
 Output => Loop continues until condition becomes true.
@@ -28,50 +20,29 @@ Output => Loop continues until condition becomes true.
 
 --------------------- until Loop --------------------------
 
-It executes the statements till the given condition evaluates to true.
+* It executes the statements till the given condition evaluates to true.
 
-Syntax:
-  until conditional [do]
-    #code
+Syntax with Example:
+x = 0
+arr = [0, 1]
+  until x >= 255
+    y = arr[-1] + arr[-2]
+    x = y
+    arr << x
   end
-
-Example: 
-
-  x = 10
-
-  until x == 20 do
-    x = x + 2
-    puts "value for x is #{x}"
-  end
+arr.pop
+puts arr
 
 
 ------------------- for Loop --------------------------
 
-* It is preferable when number of times loop statements to be executed is known beforehand.It iterates over specific range of numbers.
+* It executes the condition while condition is true & loop gets stopped once condition become false.
 
-Syntax:
+Syntax with Example
 
-  for variable_name in expression |do|
-    # code
-  end
-
-  # for : Ruby keyword which indicates the beginning of the loop.
-
-  # variable_name : It serves as the reference to the current iteration of the loop.
-
-  # in : Ruby Keyword primarly used in loop.
-
-  # expression : It executes code once for each element in expression.Here expression may be array or range variable.
-
-  # do : It indicates the beginning of the 'for loop block' of code to be repeatedly executed. (do is optional)
-
-  # end : It indicates the end of 'for loop block' started from do keyword.
-
-* Example using range as expression
-  
    value = 100
   
-   for a in (1..6) do
+   for x in (1..6) do
       value = value - 1
       puts value
    end
@@ -91,6 +62,7 @@ Syntax:
   Loop continues till the specified range
 
   Output => 99 98 97 96 95 94
+
 
 
 

@@ -10,10 +10,10 @@ class Bin
   @@str_n_to_z = "n,z"
 
   def convert_binary
-  	@str_a_to_m = @@str_a_to_m.tr_s("a,m", '0')
-  	  puts @str_a_to_m
-  	@str_n_to_z = @@str_n_to_z.tr_s("n,z", '1')
-  	  puts @str_n_to_z
+    @str_a_to_m = @@str_a_to_m.tr_s("a,m", '0')
+      puts @str_a_to_m
+    @str_n_to_z = @@str_n_to_z.tr_s("n,z", '1')
+      puts @str_n_to_z
   end
   
 end
