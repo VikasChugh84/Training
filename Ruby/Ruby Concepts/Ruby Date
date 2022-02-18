@@ -1,0 +1,364 @@
+
+----------------------------------Date Methods-------------------------------------
+
+  require 'date' # Load the date from library
+
+* (.today) - Return the current date.
+  Date.today => <Date: 2022-02-17 ((2459628j,0s,0n),+0s,2299161j)>
+
+
+* (.today.to_s) - Return the current date in string.
+  Date.today.to_s => "2022-02-17" 
+
+
+* (._parse) - Return the date in hash.
+  x = Date.today
+  Date._parse(x.to_s) => {:year=>2022, :mon=>2, :mday=>17} 
+
+
+* (._strptime)Return the date in hash
+  x = Date.today
+  Date._strptime(x.to_s, '%Y-%m-%d') => {:year=>2022, :mon=>2, :mday=>18}
+
+
+* (.commercial) - Return the week and day information in year
+  Syntax:
+  Date.commercial(year, week, week-days)
+
+  week should be maximum 52 weeks as in year
+  
+  days should be maximum 7 in the week
+
+  -------Example-1 with week and date------
+  Date.commercial(2021,1).to_s => "2021-01-04" 
+  # 1st week starts from 4.Jan, Monday
+
+  Date.commercial(2021,1,3).to_s => "2021-01-06" 
+  # 3rd day of 1st week is 6.Jan, Wednesday
+
+  -------Example-2 with week and date------
+  
+  Date.commercial(2021,2).to_s => "2021-01-11"
+  # 2nd week starts from 11.Jan, Monday
+
+  Date.commercial(2021,2,7).to_s => "2021-01-17" 
+  # 7th day of 2nd week is 17.Jan, Sunday
+
+  -------Example-3 with week and date------
+
+  Date.commercial(2021,48).to_s => "2021-11-29"
+  # 48th week starts from 29.Nov, Monday
+
+  Date.commercial(2021,48,4).to_s => "2021-12-02"
+  # 4th day of 48th week is 2.Dec, Thursday
+
+
+* (.gregorian) - Return the year either its gregorian leap or not.
+  gregorian_leap are centurial years that are divisible by 400.
+
+  Date.gregorian_leap? (1800) => false
+  Date.gregorian_leap? (4000) => true
+
+
+* (.httpdate) - Return the date avilable in http format by parsing from string.
+  Date.httpdate('Fri, 18 Feb 2022 00:00:00 GMT').to_s => "2022-02-18"
+
+
+* (.iso8601) - Return the date from string by parsing it.
+  Date.iso8601('20221212').to_s => "2022-12-12"
+  Date.iso8601('20221412').to_s => Raise error as can't parse 14 as year have 12 months    
+  Date.iso8601('2022-W05-6').to_s => "2022-02-05" 
+
+
+* (.jd) - Return the date from julian day number.
+  Date.jd(23424783).to_s => "59422-10-11" 
+
+
+* (.julian_leap) - Return the year either its gregorian leap or not.
+
+  Date.julian_leap? (1800) => true
+  Date.julian_leap? (2022) => false
+
+* (.leap) - Return the year either its leap or not.
+
+  Date.leap? (2000) => true
+  Date.leap? (1995) => false
+
+* (.ordinal) - Return the date that is on specified given day of the year.
+
+  Date.ordinal(2001,34).to_s => "2001-02-03"
+  # on 34th day of year date is above
+
+  Date.ordinal(2001,88,1).to_s => "2001-03-29"
+  # on 88th day of the year is above
+
+* (.parse) - Return the default date format by parsing the formats.
+  
+  Date.parse('20220203').to_s => "2022-02-03"
+  Date.parse('3rd Feb 2022').to_s => "2022-02-03"
+
+
+*(.strptime) - Return the date with given template but output format is default %Y-%m-%d
+
+
+  Date.strptime('2022-03-15', '%Y-%m-%d').to_s => "2022-03-15"
+
+  Date.strptime('15-03-2022', '%Y-%m-%d').to_s => "0015-03-20" 
+
+  ----Date.strptime('2022-56', '%Y-%j').to_s => "2022-02-25"----
+  # %j returns the month and date i.e on 56th day of the year
+
+  ----Date.strptime('2022-W02-6', '%G-W%V-%u').to_s => "2022-01-16"
+  # It returns the 2nd week and its 6th day date of the year.
+
+  ----Date.strptime('2022-W08-4', '%G-W%V-%u').to_s => "2022-02-24"
+  # It returns the 8th week and its 4th day date of the year.
+
+  ----Date.strptime('2022 04 2', '%Y %U %w').to_s => "2022-01-25" 
+  # It returns the 4th week and its 2nd day date of the year.
+
+  ----Date.strptime('2022 10 5', '%Y %U %w').to_s => "2022-03-11" 
+  # It returns the 10th week and its 5th day date of the year.
+
+  ----Date.strptime('sat3feb22', '%a%d%b%y').to_s => "2022-02-03" 
+
+
+* (.valid_date?) - Returns true or false and tells either date is valid or not.
+  
+   Date.valid_date?(2022,2,25) => true
+   Date.valid_date?(2022,2,30) => false # These is no 30th date in feb month 
+
+----------------- Date Operators (+),(-),(<<),(<=>),(===),(>>)----------------
+
+* (+) - Increment the date by specified number.
+  (Date.new(2022,02,25) + 3).to_s - "2022-02-28"
+
+* (-) - Decrement the date by specified number
+  (Date.new(2022,02,25) - 8).to_s - "2022-02-17"
+
+* (<<) - Push and replace the specified month value 
+  Date.new(2022,02,25) << 1 => "2022-01-25"
+  (Date.new(2022,02,25) << 1 << 2).to_s => "2021-11-25"
+
+* (<=>) - Compare the two date values and return -1,0,1 based on operand values.
+  Date.new(2022,2,3) <=> Date.new(2022,2,5) => -1
+  Date.new(2022,2,3) <=> Date.new(2022,2,3) => 0
+  Date.new(2022,2,6) <=> Date.new(2022,2,4) => 1
+
+* (===) - Check either true or false
+
+* (>>) - Extend the specified month value.
+  Date.new(2001,1,31) >> 1 => #<Date: 2001-02-28 ((2451969j,0s,0n),+0s,2299161j)> 
+
+---------------------------------------------------------------------------------
+
+* (.cwday) - Returns the day number of specified week.
+  Date.new(2022,2,18).cwday =>  5
+  # Here week day starts from monday 1 and on friday its the 5th day of week.
+
+* (.cweek) - Returns the week number of calender year.
+  Date.new(2022,2,18).cweek => 7
+
+* (.cyear) - Returns the year number.
+  Date.new(2022,2,18).cwyear => 2022
+
+* (.day)/(.mday) - Returns the day of the month.
+  Date.new(2022,2,18).day = > 18
+
+* (.day_fraction) - Returns the fractional part of day.
+  DateTime.new(2022,2,3,12).day_fraction => 1/2
+
+* (.downto) - It is equivalent to step(min, -1){|date| …} and returns the enumerator.
+
+* (.sunday?) to (.saturday?) - Returns true or false
+  Date.today.sunday? => false
+  Date.today.friday? => true
+
+* (.httpdate) - Return date in http format
+  Date.today.httpdate => "Fri, 18 Feb 2022 00:00:00 GM
+
+* (.inspect) - Return the value as string for inspection.
+  Date.today.inspect => "#<Date: 2022-02-18 ((2459629j,0s,0n),+0s,2299161j)>"
+
+* (.jd) - Returns the Julian day number and adjusted by the offset as the local time.
+  Date.today.jd => 2459629 
+  DateTime.new(2001,2,3,4,5,6,'+7').jd => 2451944
+
+* (.mjd) - Returns the modified Julian day number.
+
+* (.ld) - Returns the lilian day number and adjusted by the offset as the local time.
+  Date.today.ld => 160469 
+
+* (.julian?) - Return true or false
+
+* (.month) => Return the month number
+  Date.today.month => 2
+ 
+* (.day) => Return the day number
+  Date.today.day => 18
+
+* (.next) / (.next_day) / (.succ)- Return the next date
+  Date.today.next => "2022-02-19" 
+  Date.today.next_day => "2022-02-19" 
+
+* (.next_month) - Return the next month with same date
+  Date.today.next_month => <Date: 2022-03-18 ((2459657j,0s,0n),+0s,2299161j)>
+
+* (.next_year) - Return the next year with 11 months count
+   Date.today.next_year => <Date: 2023-02-18 ((2459994j,0s,0n),+0s,2299161j)>
+
+* (.prev_day) / (.prev_month) / (.prev_year) => Return the previous date/month and year respectively.
+
+* (.start) - Returns the Julian day number denoting the day of calendar reform
+
+* (.step) - Iterates evaluation of the given block, which takes a date object. The limit should be a date object.
+   Date.today.step(Date.new(2023,1,1)).select{|d| d.sunday?}.size
+
+* strftime
+  x = Date.today
+  x.strftime("%m-%d-%Y") =>  "02-18-2022" 
+
+
+-------------------------------Date (Year, Month, Day)-------------------------
+
+  %Y - Year with century (can be negative, 4 digits at least)
+          -0001, 0000, 1995, 2009, 14292, etc.
+  %C - year / 100 (round down.  20 in 2009)
+  %y - year % 100 (00..99)
+
+  %m - Month of the year, zero-padded (01..12)
+          %_m  blank-padded ( 1..12)
+          %-m  no-padded (1..12)
+  %B - The full month name (``January'')
+          %^B  uppercased (``JANUARY'')
+  %b - The abbreviated month name (``Jan'')
+          %^b  uppercased (``JAN'')
+  %h - Equivalent to %b
+
+  %d - Day of the month, zero-padded (01..31)
+          %-d  no-padded (1..31)
+  %e - Day of the month, blank-padded ( 1..31)
+
+  %j - Day of the year (001..366)
+
+--------------------------------Time (Hour, Minute, Second, Subsecond)---------------
+
+  %H - Hour of the day, 24-hour clock, zero-padded (00..23)
+  %k - Hour of the day, 24-hour clock, blank-padded ( 0..23)
+  %I - Hour of the day, 12-hour clock, zero-padded (01..12)
+  %l - Hour of the day, 12-hour clock, blank-padded ( 1..12)
+  %P - Meridian indicator, lowercase (``am'' or ``pm'')
+  %p - Meridian indicator, uppercase (``AM'' or ``PM'')
+
+  %M - Minute of the hour (00..59)
+
+  %S - Second of the minute (00..60)
+
+  %L - Millisecond of the second (000..999)
+  %N - Fractional seconds digits, default is 9 digits (nanosecond)
+          %3N  millisecond (3 digits)   %15N femtosecond (15 digits)
+          %6N  microsecond (6 digits)   %18N attosecond  (18 digits)
+          %9N  nanosecond  (9 digits)   %21N zeptosecond (21 digits)
+          %12N picosecond (12 digits)   %24N yoctosecond (24 digits)
+
+
+------------------------------- Time zone -------------------------
+
+  %z - Time zone as hour and minute offset from UTC (e.g. +0900)
+          %:z - hour and minute offset from UTC with a colon (e.g. +09:00)
+          %::z - hour, minute and second offset from UTC (e.g. +09:00:00)
+          %:::z - hour, minute and second offset from UTC
+                                            (e.g. +09, +09:30, +09:30:30)
+  %Z - Equivalent to %:z (e.g. +09:00)
+
+
+------------------------------- Weekday -------------------------
+
+  %A - The full weekday name (``Sunday'')
+          %^A  uppercased (``SUNDAY'')
+  %a - The abbreviated name (``Sun'')
+          %^a  uppercased (``SUN'')
+  %u - Day of the week (Monday is 1, 1..7)
+  %w - Day of the week (Sunday is 0, 0..6)
+
+
+------------------------------- Week number -------------------------
+
+  The week 1 of YYYY starts with a Sunday or Monday (according to %U
+  or %W).  The days in the year before the first week are in week 0.
+  %U - Week number of the year.  The week starts with Sunday.  (00..53)
+  %W - Week number of the year.  The week starts with Monday.  (00..53)
+
+
+------------------------------- Literal string -------------------------
+  %n - Newline character (\n)
+  %t - Tab character (\t)
+  %% - Literal ``%'' character
+
+
+------------------------------- Combination -------------------------
+
+  %c - date and time (%a %b %e %T %Y)
+  %D - Date (%m/%d/%y)
+  %F - The ISO 8601 date format (%Y-%m-%d)
+  %v - VMS date (%e-%^b-%Y)
+  %x - Same as %D
+  %X - Same as %T
+  %r - 12-hour time (%I:%M:%S %p)
+  %R - 24-hour time (%H:%M)
+  %T - 24-hour time (%H:%M:%S)
+  %+ - date(1) (%a %b %e %H:%M:%S %Z %Y)
+
+
+---------------------------- Standard formats ------------------------------
+
+%Y%m%d           => 20071119                  Calendar date (basic)
+%F               => 2007-11-19                Calendar date (extended)
+%Y-%m            => 2007-11                   Calendar date, reduced accuracy, specific month
+%Y               => 2007                      Calendar date, reduced accuracy, specific year
+%C               => 20                        Calendar date, reduced accuracy, specific century
+%Y%j             => 2007323                   Ordinal date (basic)
+%Y-%j            => 2007-323                  Ordinal date (extended)
+%GW%V%u          => 2007W471                  Week date (basic)
+%G-W%V-%u        => 2007-W47-1                Week date (extended)
+%GW%V            => 2007W47                   Week date, reduced accuracy, specific week (basic)
+%G-W%V           => 2007-W47                  Week date, reduced accuracy, specific week (extended)
+%H%M%S           => 083748                    Local time (basic)
+%T               => 08:37:48                  Local time (extended)
+%H%M             => 0837                      Local time, reduced accuracy, specific minute (basic)
+%H:%M            => 08:37                     Local time, reduced accuracy, specific minute (extended)
+%H               => 08                        Local time, reduced accuracy, specific hour
+%H%M%S,%L        => 083748,000                Local time with decimal fraction, comma as decimal sign (basic)
+%T,%L            => 08:37:48,000              Local time with decimal fraction, comma as decimal sign (extended)
+%H%M%S.%L        => 083748.000                Local time with decimal fraction, full stop as decimal sign (basic)
+%T.%L            => 08:37:48.000              Local time with decimal fraction, full stop as decimal sign (extended)
+%H%M%S%z         => 083748-0600               Local time and the difference from UTC (basic)
+%T%:z            => 08:37:48-06:00            Local time and the difference from UTC (extended)
+%Y%m%dT%H%M%S%z  => 20071119T083748-0600      Date and time of day for calendar date (basic)
+%FT%T%:z         => 2007-11-19T08:37:48-06:00 Date and time of day for calendar date (extended)
+%Y%jT%H%M%S%z    => 2007323T083748-0600       Date and time of day for ordinal date (basic)
+%Y-%jT%T%:z      => 2007-323T08:37:48-06:00   Date and time of day for ordinal date (extended)
+%GW%V%uT%H%M%S%z => 2007W471T083748-0600      Date and time of day for week date (basic)
+%G-W%V-%uT%T%:z  => 2007-W47-1T08:37:48-06:00 Date and time of day for week date (extended)
+%Y%m%dT%H%M      => 20071119T0837             Calendar date and local time (basic)
+%FT%R            => 2007-11-19T08:37          Calendar date and local time (extended)
+%Y%jT%H%MZ       => 2007323T0837Z             Ordinal date and UTC of day (basic)
+%Y-%jT%RZ        => 2007-323T08:37Z           Ordinal date and UTC of day (extended)
+%GW%V%uT%H%M%z   => 2007W471T0837-0600        Week date and local time and difference from UTC (basic)
+%G-W%V-%uT%R%:z  => 2007-W47-1T08:37-06:00    Week date and local time and difference from UTC (extended)
+
+* (.to_date) - Return Self
+
+* (.to_datetime) - Return datetime
+
+* (.to_time) - Return time.
+   Date.today.to_time => 2022-02-18 00:00:00 +0530 
+
+* .yday - Return number day in year between 1 to 365
+  Date.today.yday => 49
+
+
+
+
+
+
