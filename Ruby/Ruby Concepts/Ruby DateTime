@@ -73,6 +73,8 @@
 * (.jd) - Return the date from julian day number.
   Date.jd(23424783).to_s => "59422-10-11" 
 
+  # Julian day refers to the number of days passed since the beginning of a self-created cycle of 7980 years and cycle of 7980 referred as julian period.
+
 
 * (.julian_leap) - Return the year either its gregorian leap or not.
 
@@ -356,6 +358,68 @@
 
 * .yday - Return number day in year between 1 to 365
   Date.today.yday => 49
+
+------------------------------ strptime vs strftime ----------------------------------
+
+* strptime is for parsing date time input and on the other hand strftime is for formatting date time output.
+
+# Parsing is basically means taking input from strings and return the meaningful data into specified format. 
+
+
+----------------------------------DateTime & Time Methods-------------------------------------
+
+require 'time' # Load the date from library
+
+* (.httpdate) - Parse date and converts it into time object.
+  Time.httpdate("Thu, 21 Feb 2022 02:26:12 GMT") => 2022-02-21 02:26:12 UTC
+
+* (.parse) - Takes a string representation of a Time and attempts to parse it to heuristic.
+   Time.parse("10.00") => 2022-02-21 10:29:10 +0530 
+
+* (.strptime) - It converts string representation of time into desired format.
+  Time.strptime("2022-10-25", "%Y-%m-%d") => 2022-10-25 00:00:00 +0530 
+
+  Time.strptime("25-10-2022", "%d-%m-%Y") => 2022-10-25 00:00:00 +0530 
+
+  # It takes the default format %Y-%m-%d
+
+* (.now) - Returns the current date and time.
+  DateTime.now.to_s => "2022-02-21T10:46:20+05:30"
+
+* (.new) - To define the new date.
+  DateTime.new(2022,03,28) => "2022-03-28T00:00:00+00:00" 
+
+* (.commercial) - Creates a DateTime object denoting the given week date.
+
+  DateTime.commercial(2022,8).to_s => "2022-02-21T00:00:00+00:00"
+  # 8 represents 8th week of year and returns the starting date and time of week.
+
+  DateTime.commercial(2022,8,4).to_s => "2022-02-24T00:00:00+00:00"
+  # 8 represents 8th week of year and 4 is 4th day of week and return the value.
+
+* (.httpdate) - Parse date and time and returns it into date time object.
+  DateTime.httpdate('Sat, 21 Feb 2022 04:05:06 GMT').to_s => "2022-02-21T04:05:06+00:00" 
+
+* (.jd) - (.ordinal) - (.parse) - (.strptime)
+  # Reference above
+
+* (.hour) / (.min) / (.minute) / (.sec) - It returns current running hour / minutes / seconds of the day.
+  DateTime.now.hour => 11  
+  DateTime.now.min => 5 
+
+* (.new_offset) - Duplicate self and reset its offset.
+
+* (.to_date) - Returns only date from self.
+  DateTime.now.to_date.to_s => "2022-02-21"
+
+* (.to_time) - Returns time object from self.
+  DateTime.now.to_time.to_s => "2022-02-21 11:29:00 +0530"
+
+* (.zone) - Returns the time zone from self.
+  DateTime.now.zone => "+05:30" 
+
+* (.strftime) - Returns the formatted time
+  # Format directives - Reference above
 
 
 
