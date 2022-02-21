@@ -1,0 +1,159 @@
+* iterate means doing one thing multiple times and that is what iterators do.
+
+Basically iterators are methods that are supported by collections (Array/Hashes etc.) Ruby supports multiple iterators.
+
+
+----------------------- Undertsand Enumerator -------------------------- 
+
+It refers to the process of traversing over a set of elements.
+
+Example: Lets say we have an array 
+
+arr = [1,2,3,4]
+
+Now we can collect elements of x 
+
+x = arr.collect
+
+x => <Enumerator: [1, 2, 3, 4]:collect>
+
+Here x is enumerable contains the set of arr elements.
+
+
+---------------------- each Iterator ---------------------------
+
+* Syntax: 
+  collection.each do |var|
+    #code to be iterate
+  end
+
+  Collection can be anything range,array or hash and we can use var by different names like i,n or whatever we want.
+
+
+---------------------- collect Iterator ---------------------------
+
+* Syntax:
+  collection.collect
+
+  It returns the all element of collection regardless of collection is array or hash.
+
+  It can be used with block and without block.
+
+  -- Example (without block)
+
+  arr = [2,3,4,5]
+
+  arr.collect => <Enumerator: [1, 2, 3, 4]:collect>
+  # It collects all the elements of arr
+
+  -- Example (with block)
+  
+  arr.collect {|i| (2 * i)} => [4, 6, 8, 10] 
+
+  
+
+----------------------- each vs collect ---------------------------
+
+Understand with example:
+
+* arr.each {|i| (2 * i)} => [2, 3, 4, 5]
+  # each - Returns the self array.
+
+* arr.collect {|i| (2 * i)} => [4, 6, 8, 10]
+  # collect - Returns the new array with code executed in the block.
+
+
+------------------------ times iterator --------------------------
+
+* Syntax:
+  
+  t.times do |i| 
+   # code to be iterate
+  end
+
+  -- a loop is implanted with the specific number of time initially started with 0 and upto specified time.
+
+  Example:
+
+  x = 1
+
+  5.times do |i|
+   x += 1 # Here iteration runs 5 times and increment the x value by 1
+  end
+
+  puts x => 5 
+
+------------------------ upto iterator --------------------------
+
+* Syntax: 
+  top.upto(bottom) do |variable_name|
+    # code to execute 
+  end
+
+  -- It works on top to bottom approach means we know the from where to start and where to end.
+
+  -- Point to be noted here bottom value is greater than top else return nothing.
+
+  Example:
+
+  x = 10
+  
+  6.upto(8) do |x|  
+    puts x
+  end 
+
+  x => 678 # It runs loop from 6 and upto 8 means 3 times and return the value.
+
+
+------------------------ downto iterator --------------------------
+
+* Syntax: 
+  bottom.upto(top) do |variable_name|
+    # code to execute 
+  end
+
+  -- It works on bottom to top approach means we know the from where to start and where to end.
+
+  -- Point to be noted here top value is greater than bottom else return nothing.
+
+  Example:
+
+  x = 10
+  
+  8.downto(2) do |x|  
+    puts x
+  end 
+
+  x => 8765432 => 8 # It runs loop from 8 and downto 2 means 6 times and return the value.
+
+
+------------------------ step iterator ----------------------------
+
+* Syntax: 
+  Collection.step(range) do |variable_name|
+    # code to be executed
+  end
+
+  It is used where we want to skip the specific range in collection.
+
+  Example:
+
+  range = (10..20)
+
+  We want an output by skipping twp elements in array.
+
+  x = range.step(3) do |i|
+    puts i
+  end
+
+  range => 10 13 16 19 => (10..20)
+  
+
+
+
+
+
+
+
+
+

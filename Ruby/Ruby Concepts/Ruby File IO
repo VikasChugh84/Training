@@ -1,0 +1,17 @@
+Base class for ruby I/O methods is class IO.
+
+* puts - It instructs the program to display the entire value stored in the variable. 
+  x = "Best approach is never quit"
+
+  puts x => "Best approach is never quit"
+
+* putc - It instructs the program to display one character at a time.
+  x = "Best approach is never quit"
+
+  putc x => "B"
+
+* print - Cursor under it points on same line instead of next line like puts.
+
+* gets - It can be used to take any input from the user from standard screen called STDIN.
+
+Practical reference ruby program read_write_csv_file.rb
