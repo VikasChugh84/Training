@@ -36,7 +36,7 @@ puts arr
 
 ------------------- for Loop --------------------------
 
-* It executes the condition while condition is true & loop gets stopped once condition become false.
+* It executes the condition till condition is true & loop gets stopped once condition become false.
 
 Syntax with Example
 
@@ -64,11 +64,9 @@ Syntax with Example
   Output => 99 98 97 96 95 94
 
 
+------------------- do while Loop - (break/next/redo)--------------------------
 
-
-------------------- do while Loop --------------------------
-
-* It checks the condition after executing the statements i.e it checks the loop body one time foe sure.It tests the condition which presents at the end of the loop body.
+* It checks the condition after executing the statements i.e it checks the loop body one time for sure.It tests the condition which presents at the end of the loop body.
 
 Syntax:
   loop do
@@ -77,38 +75,51 @@ Syntax:
    break if Boolean_Expression
   end
 
-Example:
-  x = 10
-  y = 0
+  x = 10  y = 0
 
+* (Example: using break statement in do while loop)
+  
   loop do
-    y = x - 1
-    puts "y value is #{y}"
-    if y == 9
-      break
+    if y < x
+      puts y
+      y = x +1
     end
+    break
+    puts y
   end
 
-  Output => y value is 9
+* (Example: using break statement in for loop)
+  
+  for i in 0..x
+    if y < x
+      y = x +1
+    end
+    break
+    puts y
+  end
 
 
------------------------- break / next / redo statement -------------------------
-
-Example :
- 
-Consider an x = 10 and y = 5
-
-
-* break statement
+* (Example: next statement)
 
   for i in 0..10
-    if x > y 
-      puts "No value"
-      break
+    if i < 5 then
+      next # It jumps to next iteration till condition becomes false
     end
-    x = x + 1
-    puts "Value of x is #{x}"
+    puts "Value of local variable is #{i}"
   end
+
+* (Example: redo statement)
+
+  for i in 0..10
+    if i < 5 then
+      redo # This restarts the iteration from here again without checking the loop condition and results in infinite loop
+    end
+    puts "Value of local variable is #{i}"
+  end
+
+
+
+
 
 
 
