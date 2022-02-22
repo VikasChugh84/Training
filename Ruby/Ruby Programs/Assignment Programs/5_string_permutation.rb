@@ -4,9 +4,9 @@
 
 class Practice
   def fetch_permutations(str)
-  	str = str.chars
-  	str_per_mut = str.permutation(6).to_a
-  	print str_per_mut
+    str = str.chars
+    str_per_mut = str.permutation(6).to_a
+    print str_per_mut
   end
 end
 
