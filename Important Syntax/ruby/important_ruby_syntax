@@ -39,6 +39,16 @@ z = []
   end
 end
 
+-------------------------- find maximum count of elements in array ---------------------
+
+x = [3, 3, 4, 2, 4, 4, 2, 4, 4]
+
+Fetch maximum number of element and their count
+
+max_elem = arr.each{|i| arr.count(i)}.max
+max_elem_count = arr.map{|i| arr.count(i)}.max
+
+
 --------------------Integer to array----------------------
 
   x = 1234 
