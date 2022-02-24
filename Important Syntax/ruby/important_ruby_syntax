@@ -48,6 +48,14 @@ Fetch maximum number of element and their count
 max_elem = arr.each{|i| arr.count(i)}.max
 max_elem_count = arr.map{|i| arr.count(i)}.max
 
+-------------------------- remove duplicate elements and its instance from array ------------
+
+arr = [1,2,2,3,2,4]
+
+* arr.uniq => [1,2,3,4] # remove duplicates and return the values without deleting instance
+
+* arr.reject{|x| arr.count(x)>1} => [1,3,4] # remove duplicates and its instance
+
 
 --------------------Integer to array----------------------
 
