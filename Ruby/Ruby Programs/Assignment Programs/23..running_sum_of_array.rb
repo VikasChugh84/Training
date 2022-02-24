@@ -11,17 +11,17 @@
 
 class Practice
   def sum_of_arr(arr)
-  	arr = arr.grep(/\d+/, &:to_i)
-  	pro_arr = []
-  	(1..arr.count).each do |i|
-  	  pro_arr << arr.permutation(i).to_a.first
-  	  i = i+1
+    arr = arr.grep(/\d+/, &:to_i)
+    pro_arr = []
+    (1..arr.count).each do |i|
+      pro_arr << arr.permutation(i).to_a.first
+      i = i+1
     end
-  	fin_res = []
-  	 pro_arr.each do |i|
-       fin_res << i.sum
-  	end
-  	 print fin_res
+    fin_res = []
+    pro_arr.each do |i|
+      fin_res << i.sum
+    end
+    print fin_res
   end
 end
 

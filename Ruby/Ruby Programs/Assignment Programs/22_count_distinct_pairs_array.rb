@@ -6,9 +6,9 @@
 
 class Practice
   def fetch_pair(k)
-  	arr = [0, 4, 8, 12, 16, 20] 
-  	arr = arr.permutation(2).to_a
-  	pro_arr = []
+    arr = [0, 4, 8, 12, 16, 20] 
+    arr = arr.permutation(2).to_a
+    pro_arr = []
     arr.each do |i|
       pro_arr << i.inject(:-)
     end
