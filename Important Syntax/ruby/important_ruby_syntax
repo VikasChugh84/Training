@@ -48,6 +48,14 @@ Fetch maximum number of element and their count
 max_elem = arr.each{|i| arr.count(i)}.max
 max_elem_count = arr.map{|i| arr.count(i)}.max
 
+--------------------------array elements value and their count into hash ---------------------
+
+#["a", "a", "c", "c", "e", "e", "r", "r"]
+
+hs = arr.inject(Hash.new(0)) { |key, val| key[val] += 1 ;key}
+
+{"a"=>2, "c"=>2, "e"=>2, "r"=>2}
+
 -------------------------- remove duplicate elements and its instance from array ------------
 
 arr = [1,2,2,3,2,4]
