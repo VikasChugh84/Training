@@ -13,18 +13,18 @@
 
 class Practice
   def roman_to_int(hs)
-  	str = hs.fetch(:str)
-  	arr = str.chars
-  	v = 0
-  	i = 0
-  	roman_int = ''
-  	(0..3).each do |n|
-  	  if arr[n] == hs.key(5).to_s
-  	    v = hs[:v]
+    str = hs.fetch(:str)
+    arr = str.chars
+    v = 0
+    i = 0
+    roman_int = ''
+    (0..3).each do |n|
+      if arr[n] == hs.key(5).to_s
+        v = hs[:v]
       else
-      	if arr[n] == hs.key(1).to_s
+        if arr[n] == hs.key(1).to_s
           i = i +1
-      	end
+        end
       end
     end
     v = v.to_s
