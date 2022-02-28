@@ -39,6 +39,8 @@ z = []
   end
 end
 
+
+
 -------------------------- find maximum count of elements in array ---------------------
 
 x = [3, 3, 4, 2, 4, 4, 2, 4, 4]
@@ -48,13 +50,28 @@ Fetch maximum number of element and their count
 max_elem = arr.each{|i| arr.count(i)}.max
 max_elem_count = arr.map{|i| arr.count(i)}.max
 
---------------------------array elements value and their count into hash ---------------------
+
+
+
+--------------------------Count array elements store them into hash---------------------
 
 #["a", "a", "c", "c", "e", "e", "r", "r"]
 
 hs = arr.inject(Hash.new(0)) { |key, val| key[val] += 1 ;key}
 
 {"a"=>2, "c"=>2, "e"=>2, "r"=>2}
+
+
+--------------------------Count String characters and store them in hash ---------------------
+
+str = 'rasdcefrar'
+
+hs = {}
+
+str_hs = str.each_char {|char| hs.store(char, str.count(char))}
+
+str_hs => {"r"=>3, "a"=>2, "s"=>1, "d"=>1, "c"=>1, "e"=>2, "f"=>1}
+
 
 -------------------------- remove duplicate elements and its instance from array ------------
 
