@@ -7,8 +7,8 @@
 
 class Practice
   def missing_number
-  	arr = [0,1,2,3,4,6,7,8]
-  	mis_num = ''
+    arr = [0,1,2,3,4,6,7,8]
+    mis_num = ''
     (arr.size-1).times do
       if arr.last-1 != arr[-2]
         mis_num = arr[-1] - 1
