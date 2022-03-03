@@ -4,7 +4,7 @@ Postgresql Installation & Practical Tweaking with Postgres Users & Database.
 
 * Access/Enter in Postgres session
 
-  sudo -u psotgres psql
+  sudo -u postgres psql
 
 * \q - To exit the interactive postgres session
 
