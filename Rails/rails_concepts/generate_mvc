@@ -30,4 +30,23 @@ b.) Controller - Controller can process the request here and render it to view.
 c) View - Includes index.html.erb file to display result on browser.
 
 
+----------------------------- Server Request Handling ----------------------------------
+
+Workflow:
+
+* Browser ----> Web Server ----> Public ---->  Routing ----> 
+
+* Controller ----> Model -----> Controller -----> View ----> Web server 
+
+Initially the server looking for request under Public folder and if it's found request there it can neglect the whole framework.
+
+For Example: Consider the case localhost:3000/demo/index
+
+If we create a folder demo under public folder server retrieve the output from there itself instead of moving to route where we defined get 'demo/index'.
+
+Ideally public folder has its importance if we want to return static page or defined context where we don't need mvc inteference.
+
+# Initiates its practical implementation on the app.
+
+
 
