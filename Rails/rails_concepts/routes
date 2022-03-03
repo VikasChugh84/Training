@@ -1,0 +1,64 @@
+Routes - It's an resourceful route that provides a mapping between browser URL's to controller actions.When the request comes web server should know about where to redirect the specific request and that can be done with help of routes.
+
+routes.rb file is located under config folder 
+
+On web, usually we have get and post request.
+
+a.) :get - It is used to retreieve information.
+
+b.) :post - It is used to post or submit information.
+
+
+(Most popular routes as of now are resourceful routes)
+
+Types of Routes
+
+---------------------------- Simple match route --------------------------------- 
+
+These are generated when we generate our controller and its view.
+    
+=> get 'demo/index'
+
+Expanded version - match "demo/index", :to => "demo/index", :via => :get
+     
+Sending request to index action of demo controller, matching means the string we are matching should have available controller and action.
+
+
+----------------------------- Default route ------------------------------------
+
+Basic Structure: 
+
+=> :controller/:action/:id
+
+Lets understand with example say we have students contoller and their is a method role under it.
+
+Routes would be like:
+
+=> get ':students(/:role)'
+
+Expanded form - match ':students(/:role)', :via => :get
+
+Consider we have role_id 4 to match, routes would be like
+
+=> get ':students(/:role(:/4))'
+
+Expanded form - match ':students(/:role(:/4))'. :via => :get
+
+
+----------------------------- Root route ---------------------------------------
+
+It's only purpose route a request to root of application say home page.It can be defined 
+on top under routes .rb.
+
+Basic Structure:
+
+root "demo#index"
+
+Expanded form match "/", :to => "demo#index", :via => :get
+
+# Here "/" means match nothing
+
+
+------------------------------ Resourceful route -------------------------------
+
+Cover later.
