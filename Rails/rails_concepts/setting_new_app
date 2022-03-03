@@ -1,0 +1,8 @@
+Rails is the framework using ruby language to create web applications.
+
+-----Creating new rails app-------
+
+* rails new 'app_name' -d 'database'
+  # we can define our database the one we would like to work on like mysql, postgresql etc.In case we didn't mention it by default it takes 'sqlite3'.
+
+ 
