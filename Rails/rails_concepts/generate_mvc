@@ -1,0 +1,33 @@
+Move onto MVC architecture..we may see model connection is slightly optional some request used it and some.On the other hand view and controller comes in mandatory play.
+
+----------------------------- generate controller ----------------------------------
+
+Step-1: rails generate controller Demo index
+
+# Here the Demo is controller name.
+
+# index is action or we can say method against which the corresonding view file index is created.
+
+# inside app > controllers > demo_controller is created with the action index have .rb extension means belongs to ruby class.
+
+# we can see it can inherit from main class Application Controller..basically all the controllers inherit from application_controller.rb
+
+# There is corresponding view to every controller and its method (if we create view while generating controller its html.erb file is created else we have to set it manually) like we have demo folder here with the file name created by default index.html.erb.
+
+# Routes - Another important scope, its basically tells our application how to direct the request.
+
+For example : demo/index - it redirects the request to demo controller and its index action.
+
+# On browser http://localhost:3000/demo/index - /demo/index controller and their index. We can set the default root under routes for any action controller. 
+
+
+Important things:
+
+a.) Routes - For redirection - Redirected to controller action.
+
+b.) Controller - Controller can process the request here and render it to view.
+
+c) View - Includes index.html.erb file to display result on browser.
+
+
+

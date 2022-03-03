@@ -1,0 +1,21 @@
+------------------------ Steps access to configure and access the app -------------------------
+
+Step-1: create database in postgres.
+        # The one we find under database.yml file under development, use same or rename it depends on us.
+
+Step-2: create new user in postgres with password.
+
+Step-3: Grant all priveleges to that user to access on database.
+        # Grant all privileges on database 'database name' to 'username;
+
+Step-4: add configuration in database.yml file. 
+        username: vikas         # Here we created user vikas and grant him all access
+        password: changeit      # Password we set it from the user
+        host: localhost         # define the host i.e for local machine
+        port: 5432              # optional - it be default runs on this port
+
+Step-5: Start web server and to close it ctrl+C
+
+Step-6: Move on to the browser and specify the ip 127.0.0.1:3000 or localhost:3000 and we are in.
+ 
+
