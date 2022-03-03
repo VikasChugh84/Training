@@ -10,7 +10,7 @@ class Organisation
 
   def employee_info
     # This is block created for method employee in which we passing parameters under |x,y|
-    employee {|x,y| puts"#{x}: Ranjit is 30 years old."}
+    employee {|x,y| puts"#{x}: Ranjit is 30#{y} years old."}
   end
 end
 
