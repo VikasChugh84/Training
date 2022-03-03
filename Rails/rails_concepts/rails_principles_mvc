@@ -1,0 +1,33 @@
+Rails is the web framework - set of code libraries and data structures provide generic functionality that can be further customize to create desired web app.
+
+Principles:
+
+* Follow DRY Code - Concise and consistent code that is easy to maintain.
+
+* Convention over configuration - It means code is preconfigured to use default options that fits on most common usages.
+
+---------------------- MVC Architecture -----------------------------
+
+Model - View - Controller
+
+* Model - Active Record - Data code goes into model - Handles data - Interacts with Database.
+
+* View - Action View - Presentation code goes into view - Handles presentation.
+
+* Controller - Action Controller - Decesion code goes into controller - Handles decesions.
+
+Action Pack term is the combination of Action Controller and Action View.
+
+Workflow:
+
+Browser(request) -> Controller(request) -> Model(Processed the query) -> Controller(Decides the conclusion) -> View(uses html,css and further sends it back browser in user readable format)-> Browser
+
+
+----------------------Creating new rails app -------------------------
+
+* rails new 'app_name' -d 'database'
+  # we can define our database the one we would like to work on like mysql, postgresql etc.In case we didn't mention it by default it takes 'sqlite3'.
+
+
+
+ 
