@@ -1,0 +1,18 @@
+<h1>HTML Links</h1>
+
+<h4>Basic HTML link</h4>
+
+<p><a href="/demo/show">Submit Html Link</a></p>
+>> Clicking on this link browser send request to web server that is further parsed by routes to specific action controller.
+
+<h4>Rails link_to helper method</h4>
+
+<p> >> Syntax : "<%#= link_to(text, target) %> Used # to comment the ruby code in html.erb templates.</p>
+
+>> First argument is text of link and second argument is target
+
+<h5>Rails link with example with testing:</h5>
+
+<%= link_to("Submit Rails link", {:controller => 'demo', :action => 'show'}) %></br>
+
+<p> >> Submit is the link created,click on that link can redirect us show action of demo controller</p>

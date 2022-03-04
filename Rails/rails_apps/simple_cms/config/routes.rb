@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  
 
   #root 'demo#index'
     
@@ -11,6 +12,9 @@ Rails.application.routes.draw do
   get 'books/related_subject'
   get 'books/check_book'
   get 'books/check_subject'
+
+  # Helper Methods Routes
+  get 'helper_methods/link_to'
 
   # Defines the root path route ("/")
   # root "articles#index"
