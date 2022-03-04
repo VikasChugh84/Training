@@ -1,0 +1,3 @@
+Reference document and code is defined under all_books_count action of books controller.
+
+route is get 'books/all_books_count'
