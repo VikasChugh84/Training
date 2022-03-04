@@ -1,0 +1,24 @@
+redirect_to is send the new request to browser.
+
+Lets understand with example from books controller:
+
+def check_book
+  redirect_to :controller => 'demo', :action => 'show'
+  # This can redirect request to show action of demo controller. 
+end
+
+def check_subject
+  redirect_to controller: 'books', action: 'related_subject'
+  # This can redirect to check action of books controller
+  # Redirect could be written in above format as well.
+end
+
+Under check_book method point to be noted is server takes two requests 
+
+* First request is of get 'books/check_book', when it goes into controller new request generate of url redirect.
+
+-------------------------------- render vs redirect ----------------------------
+
+There is an important difference between render and redirect_to: render will tell Rails what view it should use but redirect_to sends a new request to the browser.
+
+To be notice : When we render top url remains same only view template is rendered on the other hand under  redirect url changes to specfied action and controller.
