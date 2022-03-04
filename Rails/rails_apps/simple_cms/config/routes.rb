@@ -1,12 +1,14 @@
 Rails.application.routes.draw do
-  root 'demo#index'
-  # define demo index as root route. 
 
+  # root 'demo#index'
+    
+  # Demo Controller Routes
   get 'demo/index'
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  get 'demo/show'
 
-  get ':controller(/:action)'
-  # default route structure
+  # Books Controller Routes
+  get 'books/all_books_count'
+  get 'books/related_subject'
 
   # Defines the root path route ("/")
   # root "articles#index"
