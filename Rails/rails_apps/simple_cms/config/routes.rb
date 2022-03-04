@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   # Demo Controller Routes
   get 'demo/index'
   get 'demo/show'
+  get 'demo/about'
+  get 'demo/contact'
 
   # Books Controller Routes
   get 'books/all_books_count'
