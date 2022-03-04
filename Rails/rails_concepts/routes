@@ -20,7 +20,21 @@ These are generated when we generate our controller and its view.
 => get 'demo/index'
 
 Expanded version - match "demo/index", :to => "demo/index", :via => :get
-     
+# Latest rails not supported, didn't take the controller
+
+=> match '/demo/:index', :to => 'demo#index', :via => :get
+
+This will work but issue here is it takes all the other actions request to this action itself.
+
+=> Example: match '/demo/:show', :to => 'demo#show', :via => :get
+
+This one also redirect to index action by default
+
+Best suggested way is use of simple routes or resourceful routes comes later.
+
+=> get 'demo/index'
+=> get 'demo/show'
+
 Sending request to index action of demo controller, matching means the string we are matching should have available controller and action.
 
 
