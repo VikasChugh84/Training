@@ -1,3 +1,32 @@
 <h2> Books Count </h2>
 
-<p> Books count will be approx 25 including all subjects </p>
+<p> Default book count will be approx 25 including all subjects </p>
+
+=> Insert ruby code in html.erb
+
+It could be achieve using ERB - embedded ruby
+
+As file name suggests all_books_count.html.erb means template name is 'all_books_count' and processed with
+ERB file and give output in HTML format.
+
+# Here @count is instance variable comes from action controller and we want to display on html output. 
+
+<p>Upgraded book count will be <%= @count %> including all subjects</p>
+
+# Lets add ruby code loop and see how it will get work in erb file:
+
+<% 3.times do |i| %>
+  <p><%= i %></p>
+<% end %>
+
+# Lets take an another example: 
+</br></br>
+
+<% target = 40 %>
+<%= "Maximum target is #{target}" %>
+
+<h2>All the ruby code will be comes under <% %></h2>
+
+<% target = 40 %> - It only assigns 40 under the variable target, didn't output anything.
+
+To get its output it we should use = symbol like <%= target = 40 %>
