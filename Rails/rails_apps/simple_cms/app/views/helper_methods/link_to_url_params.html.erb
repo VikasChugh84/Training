@@ -1,0 +1,30 @@
+<h4>Rails link with example with testing:</h4>
+
+<%= link_to("Submit Rails link", {:controller => 'demo', :action => 'show'}) %></br>
+
+<p> Submit is the link created,click on that link can redirect us show action of demo controller</p>
+
+<p>Lets pass other params in URL: </p>
+
+<p><%= link_to("Submit link with url params", {:controller => 'demo', :action => 'show', :id => 2, :name => 'vikram', :age => 33}) %></p>
+
+# Rails will turning these hash values into url strings.
+
+<p> >> Url after link => http://localhost:3000/demo/show?age=33&id=2&name=vikram</p>
+
+<p># In above link Active routes is get 'demo/show' and we can see id is passed as parameters and visible after the ?
+
+<p>Point to be notice here is when we go through with default routes 'id' parameter has special priviledge.</p>
+
+<p>Change active routes to default route i.e get ':controller(:/action(:/id))' and comment basic route.
+</p>
+
+<p> >> Url comes after link => http://localhost:3000/demo/show/2?age=33&name=vikram</p>
+
+<p># It is useful Sometimes we need id with the action instead in params.</p>
+
+
+
+
+
+

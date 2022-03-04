@@ -1,0 +1,3 @@
+Follow the link_to_url_params action of helper_methods controller for syntax and process.
+
+routes get 'helper_methods/link_to_params_url'
