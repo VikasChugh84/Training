@@ -1,0 +1,35 @@
+render terms belongs to template i.e views.
+
+Example:
+
+class DemoController < ApplicationController
+   
+  def index
+  end
+
+  def show
+  end
+
+end
+
+By default behaviour suggests current action pointed to its template as defined in its routes.
+
+Lets try render:
+
+Syntax: 
+render(:template => 'demo/index') could be written as render('demo/index') or if its in same controller we
+can use render('index')
+
+Here under 'demo/index' considered demo as folder from views directory instead of demo as controller and index as html page defined under that folder.
+
+How it works?
+
+def index
+  render ('demo/show')
+  # This can render the show template of demo folder.
+end
+
+def show
+  render ('demo/index')
+  # This can render the index template of demo folder.
+end
