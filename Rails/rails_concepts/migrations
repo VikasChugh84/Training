@@ -1,0 +1,166 @@
+How to manage database tables?
+
+Option-1: Use the legacy database means already have tables and data in database and connect it.
+
+Option-2: Manually create database, tables, add columns, drop values etc directly on sql/postgresql.
+
+Option-3: Using Ruby on rails migrations.
+
+------------------------------ Migrations ---------------------------------------
+
+* Migrations are basically set of database instructions written in ruby and helps us to create the tables,columns,drop columns i.e migrate the database from one state to another.
+
+* Migrations includes instructions for moving up to new stage and moving down to previous stage as well.
+For example we got instructions to add a table, columns and parallely we have instructions to drop the table and columns.
+
+Why migrations?
+
+* Keep database schema with application code.
+
+* Once instructions written down..it can executable and repeatable any time. Consider an instance we can switch to another machine and we need to recreate the database all we have to do run migrations.
+
+* Allow share schema means lets say we have added few columns in order to execute some functionality, developer on other end just take migration schema and run it in order get the columns on their database.
+
+* Migrations can also provide versioning to check the previou version and migrate database in previous stage if require.
+
+* It allows ruby code to be written for easy methods compare to any other database.
+
+------------------------- Two ways to generate migrations ----------------------------------
+
+* Syntax: rails generate migration MigrationName
+  
+  This one is general purpose migration used commonly used in case of modifying table or other changes.
+
+* Syntax: rails generate model ModelName
+
+  This one used to generate new model with their correspoding tables.
+
+ Migrations get stored under db directory.
+
+--------------------------- General Purpose migration ---------------------------------
+
+* Example : rails g migration testing
+
+  Created file is 20220307051456_testing.rb
+
+  class Testing < ActiveRecord::Migration[7.0]
+    def change
+    end
+  end
+
+Here 20220307051456 is the timestamp the day and time migration is created.
+
+Change method is short hand of two methods up and down
+
+  def up
+  end
+
+  def down
+  end
+
+Up means creates a new table and down means drop the table, its renamed as change.
+
+Most often the methods inside migration file are create_table, drop_table, rename_table, add, drop and rename columns.
+
+------------------------------ Model based migration ---------------------------------
+
+To generate the model and their corresponding tables.
+
+* rails g model User name:string password:string email:string age:integer
+ 
+=> This will implement create_table method inside the change method and providing the attributes is short hand to add the columns. 
+
+=> t.timestamps column with automatically created to keep the track the time entry is created and updated.
+
+=> id - primary key is automatically created by default in rails, no need to specify it seperately.
+
+To delete the model and their corresponding tables
+
+* rails d model User name:string password:string email:string age:integer
+
+------------------------------ Run Migrations ---------------------------------
+
+* Syntax: rails db:migrate
+  
+  =>  This will run and up all files under migration with latest migration in the list.
+
+* Syntax: rails db:migrate VERSION=0
+
+  => This will run and drop all the files that has been up.
+
+* rails db:migrate VERSION='version number'
+  
+  Version number i.e stored in schema migration or we can take it from migration file under db.
+ 
+ => This will run all the migrations till this version number means migrations created after this version number will not run.
+
+Take an example:
+
+rails db:migrate VERSION='20220307053334'
+
+------------------------------ Schema Migrations table ---------------------------------
+
+This is automatically created when we run the migrations.
+
+It can store all the tables version number that has already been run so when we again run the rails db:migrate command it can initially search for version number under scheme migration table and skips those migrations that has already been run and up once.
+
+------------------------------ How to define a Foreign Key in table? ---------------------------------
+
+Consider two models Subject and page.
+
+Page is belongs to subject means subject has many pages.
+
+Page table would be like:
+
+create_table :pages do |t|
+  t.integer :id 
+  t.string :name 
+  t.string :permalink 
+  t.integer :position
+  t.boolean :visible
+
+  # Foreign Key defined in either way mentioned below:
+
+  t.references :subject 
+  t.belongs_to :subject
+  t.integer    :subject_id, index: true
+
+  t.timestamps
+  
+  # Points mentiones below for understanding not to specified in table.
+  id         :It is the primary key for page automatically created by rails when we create model Page
+  name       :It stores page name
+  permalink  :It stores the url link
+  position   :It stores the postion 
+  visible    :It is boolean to tell either page is available or not
+  context    :It contains the details of page. 
+  subject    :Defined as foriegn_key tells us page is belongs to which subject.
+end
+
+
+  
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
