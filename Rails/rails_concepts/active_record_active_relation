@@ -1,0 +1,38 @@
+-------------------------------- ActiveRecord ----------------------------------
+ActiveRecord refers as design pattern of relational database.It retrieve and manipulates data as objects and these objects can understand the structure of table and knows how to interact with them.They can contain code to CRUD rows in table.
+
+Take an example:
+
+* user = User.new # Create new instance of User class and this User class is the ActiveRecord Class and has database table by name of users where we can store the record.
+
+* user.name = "Vikram" # Set the user name
+
+* user.save # Save the object record in database. 
+
+* user.destroy # Delete the object record in database.
+
+Here it plays the role of database statements.
+
+-------------------------------- ActiveRelation ----------------------------------
+
+ActiveRelation simplifies the complex database queries means we can create the small queries and then combine together using joins and aggregations.
+
+Take an example:
+
+* users = User.where(name: "Vikram")
+* users = users.order("name asc").limit(3)
+
+ActiveRelation goes into database to retrieve the info we specified in query.
+
+
+
+
+
+
+
+
+
+
+
+
+
