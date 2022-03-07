@@ -1,0 +1,91 @@
+--------------------------------- Rails Console -----------------------------------
+
+Rails console - It is command line program for interacting with the rails applications.Default platform is irb only bacically it has power of ruby language with rails enviornment.
+
+Syntax : rails c
+
+By default its development only means
+
+* rails c -e development and rails c is one and a same thing.To open it in production
+
+* rails c -e production
+
+Ideally we can access the database under console and perform the actions on objects like create, update, delete, find etc from database.
+
+------------------------- Create Records : New + Save --------------------------------
+
+subject_1 = Subject.create(:name => 'First Subject', :position => 4, :visible => 'true')
+
+subject_2 = Subject.create(:name => 'Second Subject', :position => 3, :Visible => 'false')
+
+Though we don't need to assign a variable like subject_1 or subject_2 its just for reference to understand that when we call subject_1 rails is smart enough to recall the object means if we call subject_1.name it gives us 'First Subject' as name.
+
+------------------------- Update Records : Find Records + Set Values + Save -----------------
+ 
+subject = Subject.find(2) - It fetches the record by id.
+
+Subject.find_by_name("First Subject") - It fetches the record by name.
+
+subject_1 = Subject.update(:name => 'Initial Subject', :position => 2, :visible => 'true')
+
+subject_2 = Subject.update(:name => 'Last Subject', :position => 4, :visible => 'false')
+
+------------------------- Delete Records : Find Records + Destroy + Save -----------------
+
+Subject.create(:name => 'Bad Subject', :position => 3, :Visible => 'false')
+
+subject = Subject.find_by_name('Bad Subject') - It fetches the record by name.
+
+subject.destroy
+
+It can destroy the record having the name 'Bad Subject' if we got two same names we fetch record from id.
+
+Still in ruby memory we find the record like subject.name = 'Bad Subject'
+
+If we trying to update it got the error "can't modify frozen attributes (FrozenError)" because when rows got deleted from database the object become frozen i.e no longer modified.
+
+Why it's available under stored memory says on controller side we destroy the record and now we want to display it on view template that "Bad Subject is deleted" we retrieve that information from memory.
+
+------------------------------------ Find Records : Conditions --------------------------------
+
+* Single where Query
+
+  => Subject.where("position => 2")
+
+  (Object doesn't support #inspect) - rails 3.0.0 doesn't support to inspect we would use it like
+
+  => Subject.where(:position => 2)
+
+  => Subject.where(position: 2)
+
+* Where query with AND
+   
+  => Subject.where("position => 2 AND id => 1")
+
+   rails 3.0.0 doesn't support AND so we would use it like
+
+  => Subject.where(position: 2, id: 1)
+
+* Pass it like array 
+
+  => Subject.where(["name like?", "Initial Subject"])
+
+* Order, limit, offset
+ 
+  => Subject.order('id ASC')
+
+  => Subject.order('id DESC')
+
+  => Subject.limit(1)
+
+  => Subject.offset(1)
+
+* Join Queries
+ 
+  => Subject.where(position: 2).order('id DESC').limit(1)
+
+
+
+
+
+
