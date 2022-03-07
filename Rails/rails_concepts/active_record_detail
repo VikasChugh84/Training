@@ -1,0 +1,91 @@
+----------------------------- Active Record ------------------------------- 
+
+-- It allows your models to interact with the application's database.
+
+-- Represent models and their data.
+
+-- Represent associations between these models.
+
+-- Validate models before they get persisted to the database.
+
+-- Perform database operations in an object-oriented way.
+
+
+
+---------------------------Object Relational Mapping (ORM)----------------------
+
+Using ORM, the attributes and relationships of the objects in an application can be easily stored and retrieved from a database without writing SQL statements directly. 
+
+
+
+------------------------- Convention over configuration ------------------------
+
+Rails focus more on convention than of configuration.
+
+* Model Class - Singular with the first letter of each word capitalized (e.g., BookClub).
+
+* Database Table - Plural with underscores separating words (e.g., book_clubs).
+
+Examples:
+
+* Model / Class - Article , LineItem , Deer , Mouse
+
+* Table / Schema - articles , line_items , deers , Mice
+
+
+
+--------------------------- Foreign Key / Primary Key ---------------------------
+
+Foreign keys - These fields should be named following the pattern singularized_table_name_id (e.g., item_id, order_id). These are the fields that Active Record will look for when you create associations between your models.
+
+Primary keys - By default, Active Record will use an integer column named id as the table's primary key (bigint for PostgreSQL and MySQL, integer for SQLite). When using Active Record Migrations to create your tables, this column will be automatically created.
+
+
+-------------------------- Create Active Record Model ---------------------------
+
+Example
+
+* rails g model Product
+
+This will create a Product model, mapped to a products table at the database.
+
+
+-------------------------- Overriding Naming Conventions ---------------------------
+
+Take an example :
+
+* rails g model Employee
+
+Default table created is employees.
+
+We looking for table name as 'set_employees' instead of employees.
+
+This can be achieve by setting up ActiveRecord::Base.table_name = 'new_table_name'
+
+Step-1 :
+  class Employee < ApplicationRecord
+    self.table_name = "set_employees'
+    # Here self is ActiveRecord Base class as ApplicationRecord inherits from ActiveRecord::Base class
+  end
+
+Step-2 :
+  class EmployeeTest < ActiveSupport::TestCase
+    set_fixture_class set_employees: Employee
+    fixtures :set_employees
+  end
+
+Step-3 : Update table_name in database and we are done.
+
+-------------------------- CRUD-Reading & Writing Data ---------------------------
+
+Already completed under Rails console with practical implementation.
+
+
+
+
+
+
+
+
+
+
