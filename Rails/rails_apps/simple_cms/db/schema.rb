@@ -10,11 +10,41 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_07_122634) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_08_150455) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "employees", force: :cascade do |t|
+  create_table "employees_subjects", id: false, force: :cascade do |t|
+    t.bigint "employee_id", null: false
+    t.bigint "subject_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["employee_id", "subject_id"], name: "index_employees_subjects_on_employee_id_and_subject_id"
+    t.index ["subject_id", "employee_id"], name: "index_employees_subjects_on_subject_id_and_employee_id"
+  end
+
+  create_table "pages", force: :cascade do |t|
+    t.string "name"
+    t.string "permalink"
+    t.boolean "visible"
+    t.string "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.decimal "price", precision: 5, scale: 2
+    t.string "user_type", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_type", "user_id"], name: "index_pages_on_user"
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_products_on_name"
+  end
+
+  create_table "set_employees", force: :cascade do |t|
     t.string "name"
     t.float "salary"
     t.text "address"
@@ -24,24 +54,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_07_122634) do
     t.string "city"
   end
 
-  create_table "pages", force: :cascade do |t|
-    t.string "name"
-    t.string "permalink"
-    t.integer "position"
-    t.boolean "visible"
-    t.text "content"
-    t.bigint "subject_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["subject_id"], name: "index_pages_on_subject_id"
-  end
-
   create_table "subjects", force: :cascade do |t|
     t.string "name"
     t.integer "position"
     t.boolean "visible"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_subjects_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -51,6 +71,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_07_122634) do
     t.integer "age"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "subject_id"
   end
 
+  add_foreign_key "subjects", "users"
+  add_foreign_key "users", "subjects"
 end
