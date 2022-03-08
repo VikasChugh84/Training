@@ -12,6 +12,16 @@ By default its development only means
 
 Ideally we can access the database under console and perform the actions on objects like create, update, delete, find etc from database.
 
+
+------------------------- Fetch database tables and attributes -----------------------------  
+
+
+Fetch Tables - ActiveRecord::Base.connection.tables
+
+Fetch Tables Atrributes - ActiveRecord::Base.connection.columns('projects').map(&:name)
+
+
+
 ------------------------- Create Records : New + Save --------------------------------
 
 subject_1 = Subject.create(:name => 'First Subject', :position => 4, :visible => 'true')
