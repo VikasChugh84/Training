@@ -1,0 +1,296 @@
+ActiveRecord validation featurei is the state of objects before they go into the database.Key Objective is to to ensure that only valid data is saved into your database.
+
+--------------------------- When Validation happens ?------------------------------
+
+* Creating and saving a new record will send an SQL INSERT operation to the database.
+
+* Updating an existing record will send an SQL UPDATE operation.
+
+Validations are typically run before these commands are sent to the database. If any validations fail, the object will be marked as invalid and Active Record will not perform the INSERT or UPDATE operation. This avoids storing an invalid object in the database.
+
+--------------------------- Methods that trigger validation -----------------------
+
+create
+create!
+save
+save!
+update
+update!
+
+'save' also has the ability to skip validations if passed validate:
+false as an argument.
+
+save(validate: false)
+
+--------------------------- Methods that skipped validation -----------------------
+
+decrement!
+decrement_counter
+increment!
+increment_counter
+insert
+insert!
+insert_all
+insert_all!
+toggle!
+touch
+touch_all
+update_all
+update_attribute
+update_column
+update_columns
+update_counters
+upsert
+upsert_all
+
+---------------------------------- Standard Validation ---------------------------------------
+
+* validates :name, presence: true 
+  # Behind this validation .valid? method runs while saving the object..it only save once it's true
+
+
+---------------------------------- Errors Method ---------------------------------------
+
+Any errors found can be accessed through the errors instance method, which returns a collection of errors
+
+Example:
+
+user = User.new(name: nil)
+
+user.valid? returns false as it's returning nil.
+
+* user.errors => #<ActiveModel::Errors [#<ActiveModel::Error attribute=name, type=blank, options={}>]>
+
+* user.errors.objects.first.full_message => "Name can't be blank"
+
+--------------------------------------- acceptance --------------------------------------------
+
+This check is performed only if terms_of_service is not nil. The default error message for this helper is "must be accepted"
+
+* validates :terms_and_conditions, acceptance: true
+
+  user = User.new(name: "Ravi",  terms_and_conditions: false)
+
+  user.errors.objects.first.full_message => "Terms and conditions must be accepted" 
+
+--------------------------------------- validates_associated --------------------------------------------
+
+This helper comes in view when our model has associations with other models and they also need to be validated. When we try to save your object .valid? will be called upon each one of the associated objects.
+
+Example:
+
+class Subject < ApplicationRecord
+  has_many :pages
+  validates_associated :pages
+end
+
+In order to create subject .valid? should be true for pages validations.
+
+--------------------------------------- confirmation ------------------------------------------------
+
+It comes in use when we have two text fields that should receive exactly the same content. For example, we may want to confirm an email address or a password. This validation creates a virtual attribute whose name is the name of the field that has to be confirmed with "_confirmation" appended
+
+<%= text_field :user, :email %>
+<%= text_field :user, :email_confirmation %>
+
+This check is performed only if email_confirmation is not nil
+
+class User < ApplicationRecord
+  validates :email, confirmation: true
+  validates :email_confirmation, presence: true
+end
+
+user = User.new(name: "ss",  email: "ss@abc.com")
+
+user.valid? => false
+
+user.errors.objects.first.full_message => "Email confirmation can't be blank" 
+
+--------------------------------------- comparison ------------------------------------------------
+
+This check will validate a comparison between any two comparable values. The validator requires a compare option be supplied. Each option accepts a value, proc, or symbol.
+
+class User < ApplicationRecord
+  validates :created_at, comparison: { :equal_to :updated_at }
+end
+
+Options supported
+
+:greater_than 
+:greater_than_or_equal_to
+:equal_to
+:less_than 
+:less_than_or_equal_to
+:other_than
+
+--------------------------------------- inclusion ------------------------------------------------
+
+This helper validates that the attributes' values are included in a given set. In fact, this set can be any enumerable object.
+
+class Page < ApplicationRecord
+  validates :size, inclusion: { in: %w(small medium large),
+    message: "%{value} is not a valid size" }
+end
+
+ page = Page.new(name: "ss")
+
+ page.valid? false
+ 
+  page.errors.objects.first.full_message => "Size  is not a valid size" 
+
+Similarly there are number of validation helpers
+
+--------------------------------------- validates_with ------------------------------------------------
+
+class Subject < ActiveModel::Validator
+  def validate(page)
+    if options[:fields].any? { |field| page.send(field) == "test" }
+      record.errors.add :base, "This is test subject"
+    end
+  end
+end
+
+class Page < ApplicationRecord
+  validates_with Subject, fields: [:name]
+end
+
+The validates_with helper takes a class, or a list of classes to use for validation. There is no default error message for validates_with. You must manually add errors to the record's errors collection in the validator class.
+
+To implement the validate method, we must have a page parameter defined, which is the page to be validated.
+
+Similarly we have other Validation helpers:
+
+* exclusion, format, length, numericality, presence, absence, uniqueness, validates_each
+
+
+--------------------------------------- Common Validations ----------------------------------------------
+
+* allow_nil - The :allow_nil option skips the validation when the value being validated is nil.
+
+class Page < ApplicationRecord
+  validates :size, inclusion: { in: %w(small medium large),
+    message: "%{value} is not a valid size" }, allow_nil: true
+end
+
+---------------------
+
+* allow_blank - The :allow_blank option is similar to the :allow_nil option. This option will let validation pass if the attribute's value is blank?, like nil or an empty string for example.
+
+class Employee < ApplicationRecord
+  validates :name, length: { is: 7 }, allow_blank: true
+end
+
+---------------------
+
+* message - the :message option lets you specify the message that will be added to the errors collection when validation fails. When this option is not used, Active Record will use the respective default error message for each validation helper
+
+class User < ApplicationRecord
+  validates :name, presence: { message: "name is mandatory to enter" }
+end
+
+---------------------
+
+* on - The :on option lets you specify when the validation should happen. The default behavior for all the built-in validation helpers is to be run on save.
+
+If you want to change it, you can use on: :create to run the validation only when a new record is created or on: :update to run the validation only when a record is updated
+
+class User < ApplicationRecord
+  # it will be possible to update email with a duplicated value
+  validates :email, uniqueness: true, on: :create
+
+  # it will be possible to create the record with a non-numerical age
+  validates :age, numericality: true, on: :update
+
+  # the default (validates on both create and update)
+  validates :name, presence: true
+end
+
+--------------------------------------- Strict Validations ----------------------------------------------
+
+You can also specify validations to be strict and raise ActiveModel::StrictValidationFailed when the object is invalid.
+
+class Product < ApplicationRecord
+  validates :name, presence: { strict: true }
+end
+
+product = Product.new(name: '')
+
+product.valid? => /home/beryl-pc/.rvm/gems/ruby-3.0.0/gems/activemodel-7.0.2.2/lib/active_model/errors.rb:316:in `add': Name can't be blank (ActiveModel::StrictValidationFailed)
+
+--------------------------------------- Conditional Validations -----------------------------------------
+
+Here we can use the :if option when we want to specify when the validation should happen. If we want to specify when the validation should not happen, then we may use the :unless option.
+
+* If statement 
+
+class Order < ApplicationRecord
+  validates :card_number, presence: true, if: :paid_with_card?
+
+  def paid_with_card?
+    payment_type == "card"
+  end
+end
+
+* Unless statement 
+
+class User < ApplicationRecord
+  validates :password, confirmation: true, unless: Proc.new { |a| a.password.blank? }
+end
+
+------------------------------------ Grouping Conditional Validations ------------------------------
+
+Sometimes it is useful to have multiple validations use one condition. It can be easily achieved using with_options.
+
+class User < ApplicationRecord
+  with_options if: :is_end_user? do |end_user|
+    end_user.validates :password, length: { minimum: 10 }
+    end_user.validates :email, presence: true
+  end
+end
+
+------------------------------------ Custom Validators ------------------------------------
+
+The best way to add custom validators for validating individual attributes is with the convenient ActiveModel::EachValidator.
+
+class EmailValidator < ActiveModel::EachValidator
+  def validate_each(record, attribute, value)
+    unless value =~ /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+      record.errors.add attribute, (options[:message] || "is not an email")
+    end
+  end
+end
+
+class User < ApplicationRecord
+  validates :email, presence: true, email: true
+end
+
+------------------------------------ Custom Methods ---------------------------------------
+
+You can also create methods that verify the state of your models and add errors to the errors collection when they are invalid. You must then register these methods by using the 'validate' class method, passing in the symbols for the validation methods' names.
+
+class Invoice < ApplicationRecord
+  validate :active_customer
+
+  def active_customer
+    errors.add(:customer_id, "is not active") unless customer.active?
+  end
+end
+
+
+------------------------------------- Errors ---------------------------------------------------
+
+* errors - gateway through which we can go to the various details of each error.
+  
+  user.errors.full_messages
+
+* errors[] - is used when you want to check the error messages for a specific attribute. It returns an array of strings with all error messages for the given attribute, each string with one error message. If there are no errors related to the attribute, it returns an empty array.
+
+  user = User.new(name: "JD")
+  user.valid? => false
+  user.errors[:name] => ["is too short (minimum is 3 characters)"]
+
+* errors.where , errors.add, errors[:base], errors.clear, errors.size
+
+Later in Views Section - Displaying Validation Errors in Views
+
+
