@@ -25,6 +25,15 @@ Why migrations?
 
 * It allows ruby code to be written for easy methods compare to any other database.
 
+
+--------------------------- Type Parameters ---------------------------------------
+
+Type parameter is normally one of the migrations native types
+
+:primary_key, :string, :text, :integer, :bigint, :float, :decimal, :numeric, :datetime, :time, :date, :binary, :blob, :boolean
+
+
+
 ------------------------- Two ways to generate migrations ----------------------------------
 
 * Syntax: rails generate migration MigrationName
@@ -137,12 +146,273 @@ create_table :pages do |t|
   subject    :Defined as foriegn_key tells us page is belongs to which subject.
 end
 
+-------------------------- See attributes in rails console ------------------
+Model.inspect
 
+Example Subject.inspect, User.inspect
+
+
+------------------------- Index in rails ---------------------------------
+
+An index is used to speed up the performance of queries on a database. 
+
+Rails allows us to create index on a database column by means of a migration. 
+
+By default, the sort order for the index is ascending
+
+Index : true or false
+
+Overall, Index improve speed of data retrieval operations on database tables. When we write index: true to any column, it adds a database index to this column
+
+
+------------------------------ Add column ---------------------------------
+
+Lets add column name detail to subject table.
+
+It can be achieved by create standalone migration:
+
+rails g migration AddDetailToSubjects
+# manually enter the column name and its datatype in migration
+
+or
+
+rails g migration AddDetailToSubjects detail:text
+# This one automatically add the column in table.
+
+class AddDetailToSubjects < ActiveRecord::Migration[7.0]
+  def change
+    add_column :subjects, :detail, :text
+    add_index  :subjects, :detail
+  end
+end
+
+
+----------------------------- Remove column --------------------------------
+
+rails g migration RemoveDetailFromSubjects
+
+class RemoveDetailFromSubjects < ActiveRecord::Migration[7.0]
+  def change
+    remove_column :subjects, :detail, :text
+  end
+end
+
+---------------------------- Revert/Down the migration -------------------------
+
+rake db:migrate:down VERSION="unique_version_number"
+
+
+
+---------------------------- Add/Remove foreign key in table --------------------------
+
+rails g migration AddUserRefToSubjects
+
+class AddUserRefToSubjects < ActiveRecord::Migration[7.0]
+  def change
+    add_reference :subjects, :user, foreign_key: true, index: false
+    # This will add user_id in subjects table as reference key
+  end
+end
+
+class RemoveUserRefFromSubjects < ActiveRecord::Migration[7.0]
+  def change
+    remove_reference :subjects, :user, foreign_key: true, index: false
+    # This will remove user_id from subjects table as reference key
+  end
+end
+
+---------------------------- Create Join Table --------------------------------
+
+Way-1 : rails g migration CreateJoinTableEmployeeSubject employee subject
+
+class CreateJoinTableEmployeeSubject < ActiveRecord::Migration[7.0]
+  def change
+    create_join_table :employees, :subjects do |t|
+      t.index [:employee_id, :subject_id]
+      t.index [:subject_id, :employee_id]
+      # This will create employees_subjects seperate table with these two attributes.
+    end
+  end
+end
+
+Way-2 : rails g migration CreateJoinTableEmployeeSubject
+
+class CreateJoinTableEmployeeSubject < ActiveRecord::Migration[7.0]
+  def change
+    create_join_table :employees, :subjects , table_name: :emp_sub
+  end
+end
+
+--------------------------- Passing Modifiers ----------------------------------
+
+rails generate migration AddPriceToPages 'price:decimal{5,2}' user:references{polymorphic}
+
+class AddPriceToPages < ActiveRecord::Migration[7.0]
+  def change
+    add_column :pages, :price, :decimal, precision: 5, scale: 2
+    add_reference :pages, :user, polymorphic: true, null: false
+  end
+end
+
+--------------------------- Changing table/remove column/rename column ----------------------------------
+
+rails g migration ChangeAttributesPages
+
+class ChangeAttributesPages < ActiveRecord::Migration[7.0]
+  def change
+    change_table :pages do |t|
+      t.remove :position, :subject_id
+      t.rename :content, :data
+    end
+  end
+end
+
+--------------------------- Changing column datatype ----------------------------------
+
+rails g migration ChangeDataColumnPages
+
+class ChangeDataColumnPages < ActiveRecord::Migration[7.0]
+  def change
+    change_column :pages, :data, :string
+  end
+end
+
+
+-------------------------- Column Modifiers -----------------------------------------
+
+* :collation - Collation provides the sorting rules, case, and accent sensitivity properties for the data in the database.Specifies the collation for a :string or :text column. If not specified, the column will have the same collation as the table.
+
+* :default - The column's default value. Use nil for NULL.
+
+* :limit - Requests a maximum column length. This is the number of characters for a :string column and number of bytes for :text, :binary, :blob, and :integer columns.
   
+  Examples: 
+
+  add_column(:users, :picture, :binary, limit: 2.megabytes)
+
+  add_column(:articles, :status, :string, limit: 20, default: 'draft', null: false)
+
+  change_column(:suppliers, :name, :string, limit: 80)
+
+* :null - Allows or disallows NULL values in the column.
+
+  add_timestamps(:suppliers, null: true)
+
+* :precision - Specifies the precision for the :decimal, :numeric, :datetime, and :time columns.
+
+  Examples:
+  
+  add_column(:answers, :bill_gates_money, :decimal, precision: 15, scale: 2)
+
+* :scale - Specifies the scale for the :decimal and :numeric columns
+
+* :if_not_exists - Specifies if the column already exists to not try to re-add it. This will avoid duplicate column errors.
+
+  add_foreign_key(:articles, :authors, if_not_exists: true)
+
+  add_index(:suppliers, :name, if_not_exists: true)
+
+* array - Add text in array type
+
+  Examples:
+
+  add_column(:users, :skills, :text, array: true)
+  # ALTER TABLE "users" ADD "skills" text[]
+
+-------------------------- Add foreign Key -----------------------------------------
+
+class AddSubjectfKeytoUsers < ActiveRecord::Migration[7.0]
+  def change
+    add_foreign_key :users, :subjects
+  end
+end
+
+-------------------------- Add foreign Key -----------------------------------------
+
+class AddIndexToUsers < ActiveRecord::Migration[7.0]
+  def change
+    add_index(:users, :name)
+  end
+end
+
+-------------------------- Add Timestamp -----------------------------------------
+
+class AddTimestampToEmployeeSubjects < ActiveRecord::Migration[7.0]
+  def change
+    add_timestamps(:employees_subjects, null: true)
+  end
+end
+
+------------------------- Change_column_default --------------------------------
+
+* change_column_default(:suppliers, :qualification, 'new')
+
+* change_column_default(:users, :email, nil)
+
+* change_column_default(:posts, :state, from: nil, to: "draft")
+
+
+------------------------- Change_column_null --------------------------------
+
+Sets or removes a NOT NULL constraint on a column
+
+* change_column_null(:users, :name, false)
+
+* change_column_null(:users, :name, true)
+
+------------------------- Rolling Back Migrations --------------------------------
+
+* rails db:rollback
+
+  Revert the last migration.
+
+* rails db:rollback STEP=3
+
+  Revert the last 3 migrations.
+
+------------------------- Revert Rolling Back / Redo --------------------------------
+
+rails db:migrate:redo STEP=3
+
+
+------------------------ Setup and Reset the database -------------------------------
+
+* rails db:setup
+
+  This will command will create the database, load the schema, and initialize it with the seed data.
+
+* rails db:reset 
+
+  This command will drop the database and set it up again. This is functionally equivalent to bin/rails db:drop db:setup.
+
+---------------------------- Check Migrations Status --------------------------------
+
+* rails db:migrate:status
+
+  It will show all the previous migrations run.
+
+---------------------------- Seeds.rb ------------------------------------------
+
+Seeds can used in development and test mode.
+
+To add initial data after a database is created, Rails has a built-in 'seeds' feature that speeds up the process.
+
+Example:
+
+Say we have user table and we want to create multiple records, we define it under seeds.rb
+
+run rails db:seed to create them all instantly
 
 
 
 
+
+
+
+
+
+
+ 
   
 
 
