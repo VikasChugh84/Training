@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_08_150455) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_08_184555) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -33,6 +33,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_08_150455) do
     t.decimal "price", precision: 5, scale: 2
     t.string "user_type", null: false
     t.bigint "user_id", null: false
+    t.string "size"
     t.index ["user_type", "user_id"], name: "index_pages_on_user"
   end
 
@@ -72,6 +73,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_08_150455) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "subject_id"
+    t.boolean "terms_and_conditions"
+    t.boolean "is_end_user", default: true
   end
 
   add_foreign_key "subjects", "users"
