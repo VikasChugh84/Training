@@ -12,4 +12,12 @@ class User < ApplicationRecord
     end_user.validates :password, length: { minimum: 10 }
     end_user.validates :email, presence: true
   end
+
+  after_save_commit :log_user_saved_to_db
+
+  private
+  def log_user_saved_to_db
+    puts 'User was saved to database'
+  end
+
 end
