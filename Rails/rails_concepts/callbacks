@@ -1,0 +1,157 @@
+Callbacks allow you to trigger logic before or after an alteration of an object's state.With callbacks it is possible to write code that will run whenever an Active Record object is created, saved, updated, deleted, validated, or loaded from the database.
+
+For process and work understanding, we can see the code under product.rb
+
+It is considered good practice to declare callback methods as private. If left public, they can be called from outside of the model and violate the principle of object encapsulation.
+
+List of Available Callbacks
+
+------------------------------------- Creating and Updating an Object ----------------------------------------
+
+* before_validation
+* after_validation
+* before_save
+* around_save
+* before_create
+* around_create
+* after_create
+* after_save
+* after_commit / after_rollback
+
+------------------------------------- Destroying an Object --------------------------------------------
+
+* before_destroy
+* around_destroy
+* after_destroy
+* after_commit / after_rollback
+
+------------------------------------- Random Callbacks -----------------------------------------------
+
+* after_initialize
+* after_find
+* after_touch
+
+------------------------------------methods trigger callbacks ----------------------------------------
+
+* create
+* create!
+* destroy
+* destroy!
+* destroy_all
+* destroy_by
+* save
+* save!
+* save(validate: false)
+* toggle!
+* touch
+* update_attribute
+* update
+* update!
+* valid?
+
+------------------------------------ Relational Callbacks -------------------------------------------
+
+Callbacks work through model relationships, and can even be defined by them. 
+
+Take our database example where a subject has many articles. A user's articles should be destroyed if the user is destroyed. Let's add an after_destroy callback to the User model by way of its relationship to the Article model:
+
+class Subject < ApplicationRecord
+  has_many :pages, dependent: :destroy
+end
+
+class Page < ApplicationRecord
+  after_destroy :log_destroy_action
+
+  def log_destroy_action
+    puts 'Page destroyed'
+  end
+end
+
+------------------------------------ Conditional Callbacks -------------------------------------------
+
+class Order < ApplicationRecord
+  before_save :normalize_card_number, if: :paid_with_card?
+end
+
+------------------------------------ Callback Classes -----------------------------------------------
+
+It means we can define the callbacks in another class so that multiple models can reuse same callback method if required.
+
+For example:
+
+class SaveCallbacks
+  def self.after_destroy(name)
+    if User.exist?
+      User.destroy
+    end
+  end
+end
+
+class User < ApplicationRecord
+  after_destroy SaveCallbacks
+end
+
+Where do you put ActiveRecord callback classes? 
+
+create a folder in app/models/callbacks/
+
+- app
+  - models
+    - callbacks
+      user.rb
+
+class User < ApplicationRecord
+  after_create ::Callbacks::User
+  after_destroy ::Callbacks::User
+  # we have to prepend :: here because it would try to refer to the namespace
+  # ActiveModel::Validations::Callbacks otherwise
+end
+
+------------------------------------ Transaction Callbacks -------------------------------------------
+
+There are two additional callbacks that are triggered by the completion of a database transaction: after_commit and after_rollback.
+
+Consider, for example, the previous example where the PictureFile model needs to delete a file after the corresponding record is destroyed.
+
+* class PictureFile < ApplicationRecord
+  after_commit :delete_picture_file_from_disk, on: :destroy
+
+  def delete_picture_file_from_disk
+    if File.exist?(filepath)
+      File.delete(filepath)
+    end
+  end
+end
+
+after_commit callback only on create, update, or delete is common, there are aliases for those operations:
+
+=> after_destroy_commit
+
+We can also use after_destroy_commit in above callback i.e
+
+* class PictureFile < ApplicationRecord
+  after_destroy_commit :delete_picture_file_from_disk
+
+  def delete_picture_file_from_disk
+    if File.exist?(filepath)
+      File.delete(filepath)
+    end
+  end
+end
+
+=> after_create_commit
+=> after_update_commit 
+
+There is an alias for above two callbacks i.e
+
+=> after_save_commit
+
+
+
+
+
+
+
+
+
+
