@@ -1,0 +1,124 @@
+An association is a connection between two Active Record models.They make common operations simpler and easier in the code.
+
+Why need associations?
+
+* Without association, we need to deal with each model independantly despite of relation between models.
+
+* With Active Record associations, we can streamline the operations by telling Rails that there is a connection between the two models.
+
+
+------------------------------------------ Understand Relationship ----------------------------------------
+
+Lets understand with example, we got two models author and book relationship between would be like authos can write multiple books and specific book is written by author.
+
+* Relationship - Author has_many books and book is belongs_to particular author.
+
+class Author < ApplicationRecord
+  has_many :books, dependent: :destroy
+end
+
+class Book < ApplicationRecord
+  belongs_to :author
+end
+
+* How it helps? Lets say we want to create book for specific author.
+
+@author = Author.create(name: "satpal", age: 45, email: "satpal@abc.com")
+
+@book = @author.books.create(name: "book_by_satpal", page_count: 10, published_on: "Date.today")
+
+=> #<Book:0x00007f78d47a5018                                   
+ id: 1,                                                     
+ book_name: "book_by_satpal",                               
+ page_count: 10,                                            
+ published_on: Wed, 09 Mar 2022 ,                                         
+ author_id: 1,                                              
+ created_at: Wed, 09 Mar 2022 09:47:38.259489000 UTC +00:00,
+ updated_at: Wed, 09 Mar 2022 09:47:38.259489000 UTC +00:00> 
+
+ @author.destroy will delete the specific author and their associations too.
+
+
+------------------------------------------- Types of Associations ----------------------------------------
+
+* belongs_to
+* has_one
+* has_one :through
+* has_many
+* has_many :through
+* has_and_belongs_to_many
+
+------------------------------------------- belongs_to -----------------------------------------------
+
+A belongs_to association sets up a connection with another model, such that each instance of the declaring model "belongs to" one instance of the other model.
+
+For example:
+
+One of the Book (Instance of Class Book) is belongs_to an specific author (Instance of Class Author)
+
+* belongs_to associations must use the singular term i.e belongs_to :author
+
+When used alone, belongs_to produces a one-directional one-to-one connection.Therefore each book in the above example "knows" its author, but the authors don't know about their books.
+
+* To setup a bi-directional association - use belongs_to in combination with a has_one or has_many on the other model
+
+belongs_to does not ensure reference consistency so we need to define foreign key constraint
+
+create_table :books do |t|
+  t.belongs_to :author, foreign_key: true
+end
+
+------------------------------------------- has_one -----------------------------------------------
+
+A has_one association indicates one-to-one connection with another model.It indicates that each instance of the model has one instance of another model.
+
+For reference..supplier and account model is created with their corresponding tables.
+
+
+----------------------------------------- has_many -------------------------------------------------
+
+A has_many association is similar to has_one, but indicates a one-to-many connection with another model. This association indicates that each instance of the model has zero or more instances of another model.
+
+For reference..author and book model is created with their corresponding tables.
+
+
+-------------------------------------- has_many :through ---------------------------------------------
+
+A has_many :through association is often used to set up a many-to-many connection with another model. This association indicates that the declaring model can be matched with zero or more instances of another model by proceeding through a third mode.
+
+For reference..actor, actress and film model is created with their corresponding tables.
+
+The has_many :through association is also useful for setting up through nested has_many associations
+
+class Company < ApplicationRecord
+  has_many :users
+  has_many :roles, through: :users
+end
+
+class Role < ApplicationRecord
+  belongs_to :user
+  belongs_to :company
+end
+
+class User < ApplicationRecord
+  belongs_to :company
+  has_many :roles
+end
+
+-------------------------------------- has_one :through ---------------------------------------------
+
+A has_one :through association sets up a one-to-one connection with another model. This association indicates that the declaring model can be matched with one instance of another model by proceeding through a third model
+
+class Supplier < ApplicationRecord
+  has_one :account
+  has_one :account_history, through: :account
+end
+
+class Account < ApplicationRecord
+  belongs_to :supplier
+  has_one :account_history
+end
+
+class AccountHistory < ApplicationRecord
+  belongs_to :account
+end
