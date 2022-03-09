@@ -7,7 +7,7 @@ Why need associations?
 * With Active Record associations, we can streamline the operations by telling Rails that there is a connection between the two models.
 
 
------------------------------------------- Understand Relationship ----------------------------------------
+------------------------------------- Understand Relationship --------------------------------------
 
 Lets understand with example, we got two models author and book relationship between would be like authos can write multiple books and specific book is written by author.
 
@@ -122,3 +122,23 @@ end
 class AccountHistory < ApplicationRecord
   belongs_to :account
 end
+
+------------------------------- has_and_belongs_to_many -------------------------------------------
+
+A has_and_belongs_to_many association creates a direct many-to-many connection with another model, with no intervening model. This association indicates that each instance of the declaring model refers to zero or more instances of another model.
+
+Lets understand with example: Car and spare parts.
+
+Case1: Car has many spare parts and individual spare part belongs to that specific car.
+Case2: One spare part used in many cars means spare part has many cars and individual car belongs to that spare part.
+
+class Car < ApplicationRecord
+  has_and_belongs_to_many :spare_parts
+end
+
+class SpareParts < ApplicationRecord
+  has_and_belongs_to_many :cars
+end
+
+In such case we can generate common migration for car and spare parts to save the records
+

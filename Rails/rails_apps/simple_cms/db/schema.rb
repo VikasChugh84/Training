@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_09_121427) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_09_135005) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -61,6 +61,21 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_09_121427) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["author_id"], name: "index_books_on_author_id"
+  end
+
+  create_table "cars", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "cars_and_spare_parts", force: :cascade do |t|
+    t.bigint "car_id"
+    t.bigint "spare_part_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["car_id"], name: "index_cars_and_spare_parts_on_car_id"
+    t.index ["spare_part_id"], name: "index_cars_and_spare_parts_on_spare_part_id"
   end
 
   create_table "employees_subjects", id: false, force: :cascade do |t|
@@ -115,6 +130,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_09_121427) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "city"
+  end
+
+  create_table "spare_parts", force: :cascade do |t|
+    t.string "part_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "subjects", force: :cascade do |t|
