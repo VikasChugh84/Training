@@ -1,0 +1,2 @@
+class Setter < Vehicle
+end
