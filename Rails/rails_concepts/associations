@@ -7,7 +7,7 @@ Why need associations?
 * With Active Record associations, we can streamline the operations by telling Rails that there is a connection between the two models.
 
 
-------------------------------------- Understand Relationship --------------------------------------
+--------------------------------- Understand Relationship ---------------------------------------
 
 Lets understand with example, we got two models author and book relationship between would be like authos can write multiple books and specific book is written by author.
 
@@ -141,4 +141,469 @@ class SpareParts < ApplicationRecord
 end
 
 In such case we can generate common migration for car and spare parts to save the records
+
+=> create_table :cars_and_spare_parts do |t|
+  # pass id: false to create_table because that table does not represent a model
+  t.belongs_to :car
+  t.belongs_to :spare_part
+  t.timestamps
+end
+
+or using create_join_table
+
+=> create_join_table :cars, :spare_parts do |t|
+    t.belongs_to :car
+    t.belongs_to :spare_part
+  end
+end
+
+
+------------------------------- one-to-one / many-to-many --------------------------------------
+
+* has_one and belongs_to - It allows us to declare one-to-one relationship.
+
+* has_and_belongs_to_many - It allows us to declare many-to-many relationship directly.
+
+* has many :through - It allows up many-to-many relationship indirectly through joining model.
+
+
+
+------------------------------- Polymorphic Associations --------------------------------------
+
+With polymorphic associations, a model can belong to more than one other model, on a single association.
+
+Reference Model for association and tables.
+
+* User
+* Product
+* Picture
+
+------------------------------- Self Joins --------------------------------------
+
+In designing a data model, you will sometimes find a model that should have a relation to itself. For example, you may want to store all workers in a single database model, but be able to trace relationships such as between manager and subordinates.
+
+Reference Model for self join association and tables.
+
+* Worker
+
+------------------------------- Control Caching ----------------------------------------------
+
+* reload! - Update the cache memory and load the current data, we can call it on associations as well.
+
+Consider an example
+
+@author.books.load - retrieves books from the database
+
+@author.books.size - uses the cached copy of books
+
+
+------------------------------- Module Scope Association --------------------------------------
+
+By default, associations look for objects only within the current module's scope. This can be important when you declare Active Record models within a module.
+
+module Business
+  class Supplier < ApplicationRecord
+    has_one :account
+  end
+
+  class Account < ApplicationRecord
+    belongs_to :supplier
+  end
+end
+
+Supplier and Account are under business scope so will will fine.
+
+
+---------------------------- Associate models under different modules -------------------
+
+module Common
+  module Business
+    class Supplier < ApplicationRecord
+      has_one :account,
+        class_name: "MyApplication::Billing::Account"
+    end
+  end
+
+  module Billing
+    class Account < ApplicationRecord
+      belongs_to :supplier,
+        class_name: "MyApplication::Business::Supplier"
+    end
+  end
+end
+
+Since both the classes are under different modules, we need to specify the complete class declaration in association to get them associated.
+
+---------------------------- Bi-directional Association  ----------------------------------------
+
+Active Record will not automatically identify bi-directional associations that contain the :through or :foreign_key options.
+
+Consider an example we would like to call book writer instead of author using author_id we should use inverse method for writer in Author Model.
+
+Reference code under:
+
+* Author 
+* Book
+
+
+DETAILED ASSOCIATION REFERENCE - belongs_to
+
+
+------------------------------------- belongs_to Methods ------------------------------------------
+
+class Book < ApplicationRecord
+  belongs_to :author
+end
+
+Each instance of the Book has these methods.
+
+author
+author=
+build_author
+create_author
+create_author!
+reload_author
+author_changed?
+author_previously_changed?
+
+-------------------------------- belongs_to Options -------------------------------------------------
+
+class Book < ApplicationRecord
+  belongs_to :author, touch: :books_updated_at,
+    counter_cache: true
+end
+
+:autosave
+:class_name
+:counter_cache
+:dependent
+:foreign_key
+:primary_key
+:inverse_of
+:polymorphic
+:touch
+:validate
+:optional
+
+-------------------------------- belongs_to Scopes ------------------------------------------------
+
+* where
+
+class Book < ApplicationRecord
+  belongs_to :author, -> { where active: true }
+end
+
+* includes
+
+There's no need to use includes for immediate associations - that is, if you have Book belongs_to :author, then the author is eager-loaded automatically when it's needed.
+
+class Chapter < ApplicationRecord
+  belongs_to :book, -> { includes :author }
+end
+
+class Book < ApplicationRecord
+  belongs_to :author
+  has_many :chapters
+end
+
+class Author < ApplicationRecord
+  has_many :books
+end
+
+* readonly
+* select
+
+
+DETAILED ASSOCIATION REFERENCE - has_one
+
+
+------------------------------------- has_one methods --------------------------------------------
+
+association
+association=(associate)
+build_association(attributes = {})
+create_association(attributes = {})
+create_association!(attributes = {})
+reload_association
+
+Each instance of the Supplier model will have these methods:
+
+account
+account=
+build_account
+create_account
+create_account!
+reload_account
+
+------------------------------------- has_one options ---------------------------------------------
+
+:as
+:autosave
+:dependent
+:inverse_of
+:primary_key
+:through
+:validate
+
+
+=> :class_name
+
+If the name of the other model cannot be derived from the association name, you can use the :class_name option to supply the model name. For example, if a supplier has an account, but the actual name of the model containing accounts is Billing, you'd set things up this way:
+
+class Supplier < ApplicationRecord
+  has_one :account, class_name: "Billing"
+end
+
+
+=> :foreign_key
+
+By convention, Rails assumes that the column used to hold the foreign key on the other model is the name of this model with the suffix _id added. The :foreign_key option lets you set the name of the foreign key directly:
+
+class Supplier < ApplicationRecord
+  has_one :account, foreign_key: "supp_id"
+end
+
+
+=> :touch
+
+If you set the :touch option to true, then the updated_at or updated_on timestamp on the associated object will be set to the current time whenever this object is saved or destroyed:
+
+class Supplier < ApplicationRecord
+  has_one :account, touch: true
+end
+
+class Account < ApplicationRecord
+  belongs_to :supplier
+end
+
+
+=> :source - It specifies the source association name for a has_one :through association.
+
+:source_type - It specifies the source association type for a has_one :through association that proceeds through a polymorphic association.
+ 
+class Author < ApplicationRecord
+  has_one :book
+  has_one :hardback, through: :book, source: :format, source_type: "Hardback"
+  has_one :dust_jacket, through: :hardback
+end
+
+class Book < ApplicationRecord
+  belongs_to :format, polymorphic: true
+end
+
+class Paperback < ApplicationRecord; end
+
+class Hardback < ApplicationRecord
+  has_one :dust_jacket
+end
+
+class DustJacket < ApplicationRecord; end
+
+
+------------------------------------- has_one scopes (Sql) ---------------------------------------------
+
+* where
+* includes
+* readonly
+* select
+
+
+
+DETAILED ASSOCIATION REFERENCE - has_many
+
+
+------------------------------------- has_many methods --------------------------------------------
+
+collection
+collection<<(object, ...)
+collection.delete(object, ...)
+collection.destroy(object, ...)
+collection=(objects)
+collection_singular_ids
+collection_singular_ids=(ids)
+collection.clear
+collection.empty?
+collection.size
+collection.find(...)
+collection.where(...)
+collection.exists?(...)
+collection.build(attributes = {})
+collection.create(attributes = {})
+collection.create!(attributes = {})
+collection.reload
+
+Author model had access to these methods of books:
+
+@book = Book.find(id)
+
+books
+books << @book
+books.delete(@book)
+books.destroy(object, ...)
+books=(objects)
+book_ids - Return the id's array
+book_ids=(ids)
+books.clear
+books.empty?
+books.size
+books.find(...)
+books.where(...)
+books.exists?(...)
+books.build(attributes = {}, ...)
+books.create(attributes = {})
+books.create!(attributes = {})
+books.reload
+
+
+------------------------------------- has_many options --------------------------------------------
+
+:as
+:autosave
+:class_name
+:counter_cache
+:dependent
+:foreign_key
+:inverse_of
+:primary_key
+:source
+:source_type
+:through
+:validate
+
+
+------------------------------------- has_many scopes (Sql queries) ---------------------------------------
+
+where
+extending
+group
+includes
+limit
+offset
+order
+readonly
+select
+distinct
+
+
+DETAILED ASSOCIATION REFERENCE - has_and_belongs_to_many
+
+------------------------------------- methods --------------------------------------------
+
+collection
+collection<<(object, ...)
+collection.delete(object, ...)
+collection.destroy(object, ...)
+collection=(objects)
+collection_singular_ids
+collection_singular_ids=(ids)
+collection.clear
+collection.empty?
+collection.size
+collection.find(...)
+collection.where(...)
+collection.exists?(...)
+collection.build(attributes = {})
+collection.create(attributes = {})
+collection.create!(attributes = {})
+collection.reload
+
+Each instance of the Car model will have these methods:
+
+spare_parts
+spare_parts<<(object, ...)
+spare_parts.delete(object, ...)
+spare_parts.destroy(object, ...)
+spare_parts=(objects)
+assembly_ids
+assembly_ids=(ids)
+spare_parts.clear
+spare_parts.empty?
+spare_parts.size
+spare_parts.find(...)
+spare_parts.where(...)
+spare_parts.exists?(...)
+spare_parts.build(attributes = {}, ...)
+spare_parts.create(attributes = {})
+spare_parts.create!(attributes = {})
+spare_parts.reload
+
+------------------------------------- options --------------------------------------------
+
+
+:association_foreign_key
+:autosave
+:class_name
+:foreign_key
+:join_table
+:validate
+
+------------------------------------- scopes --------------------------------------------
+
+* where
+*extending
+* group 
+* includes
+* limit
+* offset
+* order
+* readonly
+* select
+* distinct
+
+
+---------------------------------------Association Callbacks-------------------------------------------
+
+Association callbacks are similar to normal callbacks, but they are triggered by events in the life cycle of a collection. There are four available association callbacks:
+
+before_add
+after_add
+before_remove
+after_remove
+
+For code reference author.rb
+
+
+---------------------------------------Association Extensions -------------------------------------------
+
+Rails automatically builds into association proxy objects. we can extend these objects through anonymous modules, adding new finders, creators, or other methods.
+
+module FindRecentExtension
+  def find_recent
+    where("created_at > ?", 5.days.ago)
+  end
+end
+
+class Author < ApplicationRecord
+  has_many :books, -> { extending FindRecentExtension }
+end
+
+For reference : author model and modules folder under models
+
+--------------------------------------- Single Table Inheritance ------------------------------------------
+
+Define two models inherited by parent model and retreive attributes from parent model table.
+
+For Reference: 
+
+* Model - Setter < Vehicle
+* Model - Brisk < Vehicle
+* Model - Vehicle
+* Table - vehicles
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

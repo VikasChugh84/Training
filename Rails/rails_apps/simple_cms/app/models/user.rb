@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  has_many :pictures, as: :imageable
+
   include EmailValidate
 
   validates :name, presence: { message: "name is mandatory to enter" }

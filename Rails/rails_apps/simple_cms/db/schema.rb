@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_09_135005) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_10_132538) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -60,6 +60,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_09_135005) do
     t.bigint "author_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "processed", default: true
     t.index ["author_id"], name: "index_books_on_author_id"
   end
 
@@ -76,6 +77,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_09_135005) do
     t.datetime "updated_at", null: false
     t.index ["car_id"], name: "index_cars_and_spare_parts_on_car_id"
     t.index ["spare_part_id"], name: "index_cars_and_spare_parts_on_spare_part_id"
+  end
+
+  create_table "chapters", force: :cascade do |t|
+    t.string "name"
+    t.bigint "book_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_chapters_on_book_id"
   end
 
   create_table "employees_subjects", id: false, force: :cascade do |t|
@@ -112,6 +121,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_09_135005) do
     t.string "size"
     t.integer "subject_id"
     t.index ["user_type", "user_id"], name: "index_pages_on_user"
+  end
+
+  create_table "pictures", force: :cascade do |t|
+    t.string "name"
+    t.string "imageable_type"
+    t.bigint "imageable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["imageable_type", "imageable_id"], name: "index_pictures_on_imageable"
   end
 
   create_table "products", force: :cascade do |t|
@@ -167,10 +185,25 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_09_135005) do
     t.boolean "is_end_user", default: true
   end
 
+  create_table "vehicles", force: :cascade do |t|
+    t.string "color"
+    t.decimal "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "workers", force: :cascade do |t|
+    t.bigint "manager_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["manager_id"], name: "index_workers_on_manager_id"
+  end
+
   add_foreign_key "account_histories", "accounts"
   add_foreign_key "accounts", "suppliers"
   add_foreign_key "films", "actors"
   add_foreign_key "films", "actresses"
   add_foreign_key "subjects", "users"
   add_foreign_key "users", "subjects"
+  add_foreign_key "workers", "workers", column: "manager_id"
 end
