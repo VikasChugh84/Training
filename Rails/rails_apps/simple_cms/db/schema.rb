@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_10_132538) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_11_053638) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -61,7 +61,22 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_10_132538) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "processed", default: true
+    t.string "title"
+    t.integer "year_published"
+    t.decimal "price"
+    t.boolean "out_of_print"
+    t.integer "views"
+    t.bigint "supplier_id"
     t.index ["author_id"], name: "index_books_on_author_id"
+  end
+
+  create_table "books_orders", force: :cascade do |t|
+    t.bigint "book_id"
+    t.bigint "order_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_books_orders_on_book_id"
+    t.index ["order_id"], name: "index_books_orders_on_order_id"
   end
 
   create_table "cars", force: :cascade do |t|
@@ -87,6 +102,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_10_132538) do
     t.index ["book_id"], name: "index_chapters_on_book_id"
   end
 
+  create_table "customers", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "title"
+    t.string "email"
+    t.integer "visits"
+    t.integer "orders_count"
+    t.integer "lock_version"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "employees_subjects", id: false, force: :cascade do |t|
     t.bigint "employee_id", null: false
     t.bigint "subject_id", null: false
@@ -106,6 +133,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_10_132538) do
     t.datetime "updated_at", null: false
     t.index ["actor_id"], name: "index_films_on_actor_id"
     t.index ["actress_id"], name: "index_films_on_actress_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.datetime "date_submitted"
+    t.integer "status"
+    t.decimal "subtotal", precision: 5, scale: 2
+    t.decimal "shipping", precision: 5, scale: 2
+    t.decimal "tax", precision: 5, scale: 2
+    t.decimal "total", precision: 5, scale: 2
+    t.bigint "customer_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_orders_on_customer_id"
   end
 
   create_table "pages", force: :cascade do |t|
@@ -138,6 +178,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_10_132538) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_products_on_name"
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.string "title"
+    t.text "body"
+    t.integer "rating"
+    t.integer "state"
+    t.bigint "customer_id"
+    t.bigint "book_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_reviews_on_book_id"
+    t.index ["customer_id"], name: "index_reviews_on_customer_id"
   end
 
   create_table "set_employees", force: :cascade do |t|
@@ -201,8 +254,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_10_132538) do
 
   add_foreign_key "account_histories", "accounts"
   add_foreign_key "accounts", "suppliers"
+  add_foreign_key "books", "suppliers"
   add_foreign_key "films", "actors"
   add_foreign_key "films", "actresses"
+  add_foreign_key "orders", "customers"
+  add_foreign_key "reviews", "books"
+  add_foreign_key "reviews", "customers"
   add_foreign_key "subjects", "users"
   add_foreign_key "users", "subjects"
   add_foreign_key "workers", "workers", column: "manager_id"
