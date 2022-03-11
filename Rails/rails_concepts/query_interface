@@ -279,11 +279,217 @@ The point here is to fetch the result with minimum queries instead of fetch all 
 
   books = Book.eager_load(:author).limit(10)
 
+---------------------------------------- Scopes -------------------------------------------
+
+Scoping allows you to specify commonly-used queries which can be referenced as method calls on the association objects or models.With these scopes, you can use every method previously covered such as where, joins and includes.
+
+we use the scope method inside the class, passing the query that we'd like to run when this scope is called:
+
+class Book < ApplicationRecord
+  scope :price, -> { where(price > 1500) }
+end
+
+To call this out_of_print scope we can call it on either the class or association.
+
+=> on Class:
+   
+   Book.price
+
+=> on Assocaition:
+
+   author = Author.first
+   author.books.price
+
+* Passing Arguments in Scope
+
+  class Book < ApplicationRecord
+    scope :costs_more_than, ->(amount) { where("price > ?", amount) }
+  end
+
+  Book.costs_more_than(100.10)
+
+* Using Conditions in Scope
+  
+  class Order < ApplicationRecord
+    scope :created_before, ->(time) { where("created_at < ?", time) if time.present? }
+  end
+
+* Default Scope
+
+  It is type of scope to be applied across all queries to the model we can use the default_scope method within the model itself.
+
+  class Book < ApplicationRecord
+    default_scope { where(out_of_print: false) }
+  end
+
+* Merging Scopes
+  
+  Just like where clauses, scopes are merged using AND conditions.
+
+  class Book < ApplicationRecord
+    scope :in_print, -> { where(out_of_print: false) }
+    scope :out_of_print, -> { where(out_of_print: true) }
+
+    scope :recent, -> { where('year_published >= ?', Date.current.year - 50 )}
+    scope :old, -> { where('year_published < ?', Date.current.year - 50 )}
+  end
+
+  We can mix and match scope and where conditions
+
+  Book.in_print.where('price < 100')
+
+  If we do want the last where clause to win then merge can be used.
+
+  Book.in_print.merge(Book.out_of_print)
+
+* Remove all Scopes
+  
+  Book.unscoped.all
+
+  Book.where(out_of_print: true).unscoped.all
+
+  unscoped can also accept a block:
+
+  Book.unscoped { Book.out_of_print }
+
+---------------------------------------- Dynamic Finders -------------------------------------------
+
+If you have a field called first_name on your Customer model for example, you get the instance method find_by_first_name for free from Active Record. If you also have a locked field on the Customer model, you also get find_by_locked method.
+
+chain finders:
+
+To find more than one attrubute
+
+Customer.find_by_first_name_and_orders_count("Ranjit", 3)
 
 
+---------------------------------------- Enums -------------------------------------------
+
+An enum lets you define an Array of values for an attribute and refer to them by name. The actual value stored in the database is an integer that has been mapped to one of the values.
+
+class Order < ApplicationRecord
+  enum :status, [:shipped, :being_packaged, :complete, :cancelled]
+end
+
+These scopes are created automatically and can be used to find all objects with or without a particular value for status
+
+Order.shipped - # all orders with status == :shipped
+
+Order.complete - # all orders with status == :completed 
+
+---------------------------------------- Method Chaining -------------------------------------------
+
+* Retrieving filtered data from multiple tables
+
+=> Customer.select('customers.id, customers.last_name, reviews.body').joins(:reviews).where('reviews.created_at > ?', 1.week.ago)
+
+* Retrieving specific data from multiple tables
+
+=> Book.select('books.id, books.title, authors.first_name').joins(:author)
+  .find_by(title: 'Abstraction and Specification in Program Development')
+
+-------------------------------- Find or Build a New Object --------------------------------------
+
+* find_or_create_by
+
+  Suppose you want to find a customer named "Andy", and if there's none, create one. 
+  
+  => Customer.find_or_create_by(first_name: 'Andy')
+
+  Suppose we want to set the 'locked' attribute to false if we're creating a new record, but we don't want to include it in the query
+
+  => Customer.create_with(locked: false).find_or_create_by(first_name: 'Andy')
+
+* find_or_initialize_by
+
+  The find_or_initialize_by method will work just like find_or_create_by but it will call new instead of create. This means that a new model instance will be created in memory but won't be saved to the database
+
+  => vikram = Customer.find_or_initialize_by(first_name: 'Vikram')
 
 
+-------------------------------- Find by SQL --------------------------------------
+
+Use own SQL to find records in a table you can use find_by_sql. The find_by_sql method will return an array of objects even if the underlying query returns just a single record
+
+=> Customer.find_by_sql("SELECT * FROM customers INNER JOIN orders ON customers.id = orders.customer_id ORDER BY customers.created_at desc")
+
+* select_all
+
+Customer.connection.select_all("SELECT first_name, created_at FROM customers WHERE id = '1'").to_a
+
+-------------------------------- Pluck - Return Array --------------------------------------
+
+pluck can be used to query single or multiple columns from the underlying table of a model
+
+* Book.where(out_of_print: true).pluck(:id)
+
+* Customer.pluck(:id, :first_name) => [[1, "Ravi"], [2, "Harish"]
+
+Unlike select, pluck directly converts a database result into a Ruby Array, without constructing ActiveRecord objects
+
+* Difference between select and pluck
+
+Customer.select(:first_name).map &:name
+
+=> ["I am Ravi", "I am Harish"]
+
+Customer.pluck(:first_name)
+
+=> ["Ravi", "Harish"]
+
+* Use pluck in Joins
+
+Order.joins(:customer, :books).pluck("orders.created_at, customers.email, books.title")
+
+* pluck triggers an immediate query, and thus cannot be chained with any further scopes, although it can work with scopes already constructed earlier
+
+Customer.pluck(:first_name).limit(1) - Raise Error
+
+Customer.limit(1).pluck(:first_name) - ["Ravi"]
+
+* ids - ids can be used to pluck all the IDs for the relation using the table's primary key.
+
+Book.ids
 
 
+-------------------------------- Existence of Objects --------------------------------------
+
+* Customer.exists?(1)
+
+* Multiple Values - Customer.exists?(id: [1,2,3])
+
+* Customer.where(first_name: 'Ryan').exists?
+
+Any and Many
+
+* Order.shipped.any?
+
+* Order.shipped.many?
+
+Via Relation
+
+* Book.where(out_of_print: true).any?
+
+Via Association
+
+Customer.first.orders.many?
+
+-------------------------------- Calculations --------------------------------------
+
+* Customer.count
+
+* Customer.where(first_name: 'Ryan').count
+
+* Customer.includes("orders").where(first_name: 'Ryan', orders: { status: 'shipped' }).count
+
+=> Count - Customer.count(:title).
+
+=> Average - Order.average("subtotal")
+
+=> Minimum - Order.minimum("subtotal")
+
+=> Maximum - Order.maximum("subtotal")
+
+=> Sum - Order.sum("subtotal")
 
 
