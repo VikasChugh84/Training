@@ -1,0 +1,220 @@
+Active Record will perform queries on the database for you and is compatible with most database systems, including MySQL, MariaDB, PostgreSQL, and SQLite.
+
+------------------------------ use of scope -----------------------------------
+
+Scopes are custom queries that you define inside your Rails models with the scope method.
+
+Every scope takes two arguments:
+
+* A name, which you use to call this scope in your code.
+* A lambda, which implements the query.
+
+* Where to use scopes ?
+
+consider an query on controller where we can find the views count of book and we have to use this query in multiple locations so instead of writing in code we can define it in model as scope 
+
+def index
+  @book = Book.where("views < 45")
+end
+
+we can define it as scope under book model i.e scope :views_count, -> { where(views < 50) }
+
+use of scope with arguments..below we fetch the record with the dynamic length and ? indicates the length here.
+
+class Book
+  scope :with_long_title, ->(length) { where("LENGTH(title) > ?", length) }
+end
+
+class Book
+  scope :with_long_title, ->(length = 20) { where("LENGTH(title) > ?", length) }
+  # In case length is 20 by default.
+end
+
+----------------------------------- use of enum -----------------------------------------
+
+class Order < ApplicationRecord
+  belongs_to :customer
+  has_and_belongs_to_many :books, join_table: 'books_orders'
+
+  enum :status, [:shipped, :being_packed, :complete, :cancelled]
+end
+
+Lets understand with example:
+
+* status here is normal integer type attribute and we defined it as enum just above.
+
+How it works?
+
+When we create the order record:
+
+=> order = Order.create(date_submitted: Date.today, status: 1, subtotal: 1000, shipping: 100, tax: 5, total: 1050, customer_id: 1)
+
+We defined status = 1 here that means value saved there is "being_packed" that's the first element of enum array class and we can update the status by defining its offset.
+
+order.update(status: 2)
+
+# Here the status value is updated to complete.
+
+-------------------------------- Retrieving a Single Object --------------------------------------
+
+* find
+* take
+* first
+* last
+* find_by
+
+-------------------------------- Retrieving a Multiple Objects --------------------------------------
+
+* find_each
+* batch_size
+* start
+* finish
+* find_in_batches
+
+--------------------------------------- Conditions ------------------------------------------------
+
+* Pure String Conditions
+
+  Book.where("book_name = 'dffdsa'")
+
+* Array Conditions
+
+  Book.where("title = ?", params[:title])
+
+  first argument as the conditions string and any additional arguments will replace the question marks (?) in it.
+
+* Placeholder Conditions
+  
+  Book.where("created_at >= :start_date AND created_at <= :end_date",
+  {start_date: params[:start_date], end_date: params[:end_date]})
+
+* Hash Conditions
+
+  Equality Conditions - Book.where(out_of_print: true)
+
+  Range Conditions - Book.where(created_at: (Time.now.midnight - 1.day)..Time.now.midnight)
+
+  Subset Conditions - Customer.where(orders_count: [1,3,5])
+  
+* NOT Conditions 
+
+  Customer.where.not(orders_count: [1,3,5])
+
+* OR Conditions
+  
+  Customer.where(last_name: 'Smith').or(Customer.where(orders_count: [1,3,5]))
+
+* AND Conditions
+
+  AND conditions for the logical intersection between relations can be built by calling and on the first relation, and passing the second one as an argument.
+
+  Book.where(id: [1, 2]).and(Book.where(id: [2, 3]))
+
+--------------------------------------- Ordering ------------------------------------------------
+
+* Book.order(:created_at)
+
+* Book.order(created_at: :desc)
+
+* Book.order(title: :asc, created_at: :desc)
+  # Multiple fields
+
+--------------------------------- Selecting Specific fields -----------------------------------
+
+* Book.select(:id, :out_of_print)
+
+* Customer.select(:last_name).distinct
+
+--------------------------------- Limit and Offset --------------------------------------------
+
+* Book.limit(2)
+
+* Book.limit(2).offset(4)
+
+-------------------------------------- Group ------------------------------------------------
+
+* Order.select("created_at").group("created_at")
+  
+  # find a collection of the dates on which orders were created.
+
+* Order.group(:status).count
+  
+  # total of grouped items on a single query, call count after the group.
+
+-------------------------------------- Having ------------------------------------------------
+
+order = Order.select("created_at, sum(total) as total_price").group("created_at").having("sum(total) > ?", 200)
+
+order[0].total_price
+
+# returns the date and total price for each order object, grouped by the day they were ordered and where the total is more than $200
+
+---------------------------------- Overriding Conditions ------------------------------------
+
+* unscope:
+  
+  Book.where('id > 2').limit(5).order('id desc').unscope(:order)
+
+  Here we unscope order condition by removed it using the unscope method
+
+  Book.where(id: 10, out_of_print: false).unscope(where: :id)
+
+* Only:
+
+  Book.where('id > 10').limit(20).order('id desc').only(:order, :where)
+
+* reselect:
+
+  Book.select(:title, :isbn).reselect(:created_at)
+
+* reorder:
+  
+  The reorder method overrides the default scope order.
+
+  class Author < ApplicationRecord
+    has_many :books, -> { order(year_published: :desc) }
+  end
+
+  Author.find(10).books.reorder('year_published ASC')
+
+* reverse:
+
+  Book.where("author_id > 10").reverse_order
+
+  The reverse_order method reverses the ordering clause if specified.
+
+* rewhere:
+  
+  Book.where(out_of_print: true).rewhere(out_of_print: false)
+
+
+------------------------------------ Null Relation --------------------------------------
+
+* Book.none - Returns an empty Relation and fires no queries
+
+  This is useful in scenarios where you need a chainable response to a method or a scope that could return zero results.
+
+---------------------------------- Locking Records for Update ---------------------------
+
+Optimistic Locking:
+
+class Customer < ApplicationRecord
+  self.locking_column = :lock_customer_column
+  #self.locking_column = :first_name
+end
+
+Pessimistic Locking
+
+Pessimistic locking uses a locking mechanism provided by the underlying database
+
+
+
+
+
+
+
+
+
+
+
+
