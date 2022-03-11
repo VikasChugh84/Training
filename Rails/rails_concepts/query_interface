@@ -208,7 +208,76 @@ Pessimistic Locking
 Pessimistic locking uses a locking mechanism provided by the underlying database
 
 
+------------------------------------- Joining Table ------------------------------------
 
+Active Record provides two finder methods for specifying JOIN clauses on the resulting 
+
+SQL: joins and left_outer_joins
+
+joins should be used for INNER JOIN or custom queries, 
+
+left_outer_joins is used for queries using LEFT OUTER JOIN.
+
+JOIN Statement
+
+=> String SQL Fragment:
+
+   Author.joins("JOIN books ON books.author_id = authors.id AND books.out_of_print = false")
+
+=> Joining a Single Association
+
+   Book.joins(:reviews)
+
+=> Joining Multiple Associations
+  
+   Book.joins(:author, :reviews)
+
+=> Joining Nested Associations (Multiple Level)
+  
+   Author.joins(books: [{reviews: { customer: :orders} }, :supplier] )
+
+=> Specifying Conditions on the Joined Tables
+
+   time_range = (Time.now.midnight - 1.day)..Time.now.midnight
+
+   Customer.joins(:orders).where('orders.created_at' => time_range).distinct
+
+LEFT OUTER JOIN
+
+=> Customer.left_outer_joins(:reviews).distinct.select('customers.*, COUNT(reviews.*) AS reviews_count').group('customers.id')
+
+It return all customers with their count of reviews, whether or not they have any reviews at all.
+
+
+------------------------------------- Eager Loading Associations ------------------------------------
+
+Eager loading is the mechanism for loading the associated records of the objects returned by Model.find using as few queries as possible.
+
+The point here is to fetch the result with minimum queries instead of fetch all records.
+
+* includes
+
+  => Single  
+     
+     books = Book.includes(:author)
+    
+  => Array of Multiple Associations
+     
+     Customer.includes(:orders, :reviews)
+
+     # loads all the customers and the associated orders and reviews for each.
+
+  => Conditions on includes
+
+     Author.includes(:books).where(books: { out_of_print: true })
+
+* preload - With preload, Active record ensures that loaded using a query for every specified association.
+
+  books = Book.preload(:author).limit(10)
+
+* eager_load - With eager_load, Active record ensures that force eager loading by using　LEFT OUTER JOIN for all specified associations.
+
+  books = Book.eager_load(:author).limit(10)
 
 
 
