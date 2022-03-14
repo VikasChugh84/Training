@@ -69,4 +69,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "webdrivers"
+  gem "validates_email_format_of"
+  gem "email_validator"
+
 end
