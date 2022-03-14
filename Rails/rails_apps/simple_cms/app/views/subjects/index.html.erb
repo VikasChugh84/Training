@@ -1,0 +1,9 @@
+<h1>Subjects#index page - Show all Subjects</h1>
+
+<% @subjects.each do |subject| %>
+  <%= link_to("#{subject.name}", subject_path(subject.id)) %>  
+  <%= link_to 'Delete', subject_path(subject.id), data: {turbo_method: :delete} %></br>
+<% end%>
+
+
+

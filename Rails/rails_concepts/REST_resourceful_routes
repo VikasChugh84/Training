@@ -1,0 +1,85 @@
+REST stands for REpresentational State Transfer.
+
+* It describes resources (in our case URLs) on which we can perform actions. CRUD , which stands for Create, Read, Update, Delete, are the actions that we perform.
+
+* It uses HTTP requests to access and use data.
+
+REST HTTP VERBS:
+
+GET - Objective - Retrieve items from resource - links
+ 
+POST - Objective - Create new item in resource - forms
+
+PATCH - Objective - Update existing item in resource - forms
+
+DELETE - Objective - Delete existing item in resource - links,forms
+
+
+------------------------------------ RESOURCEFUL ROUTES ----------------------------------------
+
+The combination of using CRUD with restful routes leads us to resourceful routes.
+
+Instead of using simple routes we use resourceful routes in this way.
+
+Taken our application example we use it like
+
+* resources :subjects
+
+* resources :pages
+
+It is generally considered best practice to use resourceful routing when we are actually doing CRUD on a resource.
+
+We can also skip one of or multiple actions from resources like
+
+* resources :subjects, :except => [:show]
+
+=> delete action is not defined by default in resourceful routes, we can specify it like
+
+resources :subjects do
+  member do
+    get :delete
+  end
+end
+
+resources :pages do
+  member do
+    get :delete
+  end
+end
+
+=> To add other collections of action for particular controller, it would be like.
+
+resources :books do
+  member do
+    get :delete
+  end
+    
+  collection do
+    get :all_books_count
+    get :related_subject
+    get :check_book
+    get :check_subject
+  end
+end
+
+---------------------------------- RESOURCEFUL URL HELPERS -------------------------------------
+
+If we are using resourceful routes in our project then all the links and forms need to be use URL HELPERS to match those routes.
+  
+  Route               -    Action              -       Url Helper          -       Request
+
+* subjects            -    index               -      subjects_path        -         GET
+
+* subjects/:id        -    show                -      subject_path(:id)    -         GET
+
+* subjects/new        -    new                 -      new_subject_path     -         GET
+
+* subjects            -    create              -      subjects_path        -         POST
+
+* subjects/:id/edit   -    edit                -      edit_subject_path(:id) -       GET
+
+* subjects/:id        -    update              -      subject_path(:id)    -         PATCH
+
+* subjects/:id/delete -    delete              -      delete_subject_path(:id) -     GET
+
+* subjects/:id        -    destroy             -      subject_path(:id)    -         DELETE

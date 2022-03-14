@@ -1,0 +1,12 @@
+<h1>Subjects#edit</h1>
+<% # app/views/articles/edit.html.erb %>
+
+<%= form_for @subject do |f| %>
+  <%= f.label 'name' %><br>
+  <%= f.text_field :name %><br>
+
+  <%= f.label 'Position' %><br>
+  <%= f.text_area :position %><br>
+  
+  <%= f.submit "Update Subject" %>
+<% end %>
