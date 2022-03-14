@@ -12,6 +12,12 @@ class BooksController < ApplicationController
     # Point here is demo is considered just as folder instead of controller.
   end
 
+  def show
+  end
+
+  def index
+  end
+
   def check_book
     redirect_to :controller => 'demo', :action => 'show'
     # This can redirect request to show action of demo controller. 

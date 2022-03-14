@@ -75,4 +75,4 @@ Expanded form match "/", :to => "demo#index", :via => :get
 
 ------------------------------ Resourceful route -------------------------------
 
-Cover later.
+Refer to another file REST_resourceful_routes
