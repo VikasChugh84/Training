@@ -1,9 +1,27 @@
-<h1>Subjects#index page - Show all Subjects</h1>
-
-<% @subjects.each do |subject| %>
-  <%= link_to("#{subject.name}", subject_path(subject.id)) %>  
-  <%= link_to 'Delete', subject_path(subject.id), data: {turbo_method: :delete} %></br>
-<% end%>
+<div class="subject_index">
+<h1>List of All Subjects</h1>
+<table class="listing">
+  <tr class="header">
+    <th>Subject Name</th>
+    <th>&nbsp;</th>
+    <th>Created on</th>
+    <th>&nbsp;</th>
+    <th>Actions</th>
+  </tr>
+  <% @subjects.each do |subject| %>
+  <tr>
+    <td><%= link_to("#{subject.name}", subject_path(subject.id)) %></td>
+    <td>&nbsp;</td>
+    <td><%= subject.created_at.strftime("%m-%d-%Y") %></td>
+    <td>&nbsp;</td>
+    <td class="actions">
+      <%= link_to 'Show', subject_path(subject.id) %>
+      <%= link_to 'Edit', edit_subject_path(subject) %>
+    </td>
+  </tr>
+  <% end%>
+</table>
+</div>
 
 
 

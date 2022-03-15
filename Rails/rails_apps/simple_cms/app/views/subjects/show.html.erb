@@ -1,2 +1,25 @@
-<h1>Subjects#show page</h1>
-<%= link_to(@subject.name, edit_subject_path(@subject))%>
+<div class="subject_index">
+  <h2>Name: <%= @subject.name %></h2>
+  <table class="listing">
+    <tr class="header">
+      <th>Subject Name</th>
+      <th>&nbsp;</th>
+      <th>Created on</th>
+      <th>&nbsp;</th>
+      <th>Actions</th>
+    </tr>
+    <tr>
+  	  <td><%= @subject.name %></td>
+  	  <td>&nbsp;</td>
+  	  <td><%= @subject.created_at.strftime("%m-%d-%Y") %>
+  	  <td>&nbsp;</td>
+  	  <td class="actions">
+        <%= button_to 'Delete', subject_path(@subject.id), method: :delete %>
+  	  </td>
+    </tr>
+  </table>
+</div></br>
+<%= button_to 'Back to All Subjects', subjects_path, method: :get %>
+   
+    
+    
