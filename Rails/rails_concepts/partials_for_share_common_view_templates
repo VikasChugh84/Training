@@ -1,0 +1,61 @@
+Partials are basically use to optimize the code and follow DRY Concept.
+
+Lets understand with example:
+
+------------------------------- New Template ----------------------------------------
+
+We have form_for on our new template
+
+<div class="new_object">
+<h2>Add New Subject</h2>
+  <%= form_for (@subject) do |f| %>
+
+    <%= render partial: "form", locals: {f: f} %>
+    Here we have to pass local variable from here to form partial i.e f carries subject in loop and on _form we receiving it also as f variable itself 
+    
+  <div class="form_submit">
+    <%= f.submit ("Create Subject") %>
+  </div>
+  <% end %>
+</div>
+
+------------------------------- Edit Template ----------------------------------------
+
+<div class="new_object">
+<h2>Edit Subject</h2>
+  <%= form_for (@subject) do |f| %>
+
+    <%= render partial: "form", locals: {f: f} %>
+    Here we have to pass local variable from here to form partial i.e f carries subject in loop and on _form we receiving it also as f variable itself 
+    
+  <div class="form_submit">
+    <%= f.submit ("Update Subject") %>
+  </div>
+  <% end %>
+</div>
+
+--------------------------- Create (_form.html.erb) --------------------------------------
+
+Here we can create new file under subjects by name _form.html.erb, underscore self represents that it's partial file not full file.
+
+Under _form.html.erb we can set the common code from both new and edit template.
+
+(f here we received from template passed as locales carries the object)
+
+<table class="subject_form_fields">
+  <tr>
+    <th>Subject Name</th>
+    <td><%= f.text_field (:name) %></td>
+  </tr>
+  <tr>
+    <th>Position-Integer</th>
+    <td><%= f.text_field (:position) %></td>
+  </tr>
+  <tr>
+    <th>Visible-Boolean</th>
+    <td><%= f.text_field (:visible) %></td>
+  </tr>
+</table><br/>
+
+
+
