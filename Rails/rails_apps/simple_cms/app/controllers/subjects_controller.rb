@@ -17,7 +17,7 @@ class SubjectsController < ApplicationController
     if @subject.save
       redirect_to subjects_path, :notice => "Subject has successfully Saved"
     else
-      render ('subjects/new')
+      render ('subjects/new'), :notice => "Missing Attributes"
     end
   end
 

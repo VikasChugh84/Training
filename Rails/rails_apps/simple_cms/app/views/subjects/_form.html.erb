@@ -1,3 +1,6 @@
+<% if f.object.errors.any? %>
+  <%= error_messages_for (f.object) %>
+<% end %>
 
 <table class="subject_form_fields">
   <tr>

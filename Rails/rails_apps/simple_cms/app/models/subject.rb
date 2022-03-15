@@ -1,6 +1,6 @@
 class Subject < ApplicationRecord
   has_many :pages, dependent: :destroy
-  #validates_associated :pages
+  validates :name, :position, presence: true
 
   #def validate(page)
     #if options[:fields].any? { |field| page.send(field) == "test" }
