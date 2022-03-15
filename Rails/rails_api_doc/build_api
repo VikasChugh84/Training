@@ -1,0 +1,103 @@
+Consider an application to proceed with is by name of band, its members, albums et.
+
+
+----------------------rails new band_api --api--------------------
+  # Create rails app in api mode
+
+rails_api mode is basically construct in slightly different way compare to rails app.
+
+a.) Assets, helpers, application view layouts are no more part of construct.
+b.) Application controller layer is inherted from ActionController::API class
+
+
+----------------------rails g scaffold Band name---------------------
+
+a.) Scaffold means a quick way to generate some of the major pieces of an application. If you want to create the models, views, and controllers for a new resource in a single operation, scaffolding is the tool for the job.
+
+This will create our basic stuff like model, controller, set routes, migration and test files.
+
+By doing scaffold in api mode, no views assets get added. It will set json by default under controller.
+
+---------------------- rails db:migrate & run server --------------------------
+
+Create few records based on fields.
+
+Run localhost:3000/bands
+
+Resourceful routes automatically set by default..will redirect us on bands/show where we retreiving @bands = Band.all and render json: @bands means returning all bands in json format.
+
+Form of Array of Hashes
+
+[{"id":1,"name":"Band-1","created_at":"2022-03-15T18:12:02.835Z","updated_at":"2022-03-15T18:12:02.835Z"},{"id":2,"name":"Band-2","created_at":"2022-03-15T18:12:06.117Z","updated_at":"2022-03-15T18:12:06.117Z"},{"id":3,"name":"Band-3","created_at":"2022-03-15T18:12:08.657Z","updated_at":"2022-03-15T18:12:08.657Z"},{"id":4,"name":"Band-4","created_at":"2022-03-15T18:12:10.723Z","updated_at":"2022-03-15T18:12:10.723Z"},{"id":5,"name":"Band-5","created_at":"2022-03-15T18:12:12.675Z","updated_at":"2022-03-15T18:12:12.675Z"}]
+
+We can manipulate this data through default json methods but that's little tricky but there is convention is use particular specification for building API's in json. 
+
+Default Json Serializer - Defined in file json_serializer
+
+
+------------------------return only name attributes as_json------------------------
+
+def index
+  @bands = Band.all
+  render json: @bands.as_json(root: true, only: [:id, :name])
+send
+
+-----------------------rails g model Member band:references name-------------------
+
+Add another model Member belongs to band and migrate the table.
+
+Create few records
+
+Specify routes in routes.rb
+
+resources :bands do
+  resources :members
+end
+
+---------------------- include 'active_model_serializers' gem -----------------------
+
+In rails api mode, we got the active_model_serializers brings convention over configuration to JSON generation.
+
+It does this through two components: serializers and adapters. Serializers describe which attributes and relationships should be serialized. Adapters describe how attributes and relationships should be serialized.
+
+
+--------------------------------- rails g serializer band -----------------------------
+
+This will create  app/serializers/band_serializer.rbclass BandSerializer < ActiveModel::Serializer
+  attributes :id
+end
+
+class BandSerializer < ActiveModel::Serializer
+  attributes :id, :name
+  # attributes we want to retrieve.
+  has_many :members
+  # association - It automatically adds up the related members injson data.
+
+  [{"id":1,"name":"Band-1","members":[{"id":1,"name":"Mem-1"},{"id":2,"name":"Mem-1.1"}]},{"id":2,"name":"Band-2","members":[{"id":3,"name":"Mem-2.1"},{"id":4,"name":"Mem-2.2"}]},{"id":3,"name":"Band-3","members":[]},{"id":4,"name":"Band-4","members":[]},{"id":5,"name":"Band-5","members":[]}]
+
+end
+
+Similarly, we can create rails g serializer member.
+
+class MemberSerializer < ActiveModel::Serializer
+  attributes :id, :name
+  belongs_to :band
+end
+
+------------------------------ Retrieve Data :json_api --------------------------------
+ 
+create a file say active_model_serializer.rb under initializers and add the adapter that 
+converts the data in proper json_api format.
+
+Add file - ActiveModelSerializers.config.adapter = :json_api
+
+
+
+
+
+
+
+
+
+
+

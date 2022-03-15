@@ -1,0 +1,99 @@
+
+ActiveModel::Serializers brings convention over configuration to JSON generation.
+
+Initially we have to understand the Methods that basically working
+
+Includes two methods
+
+a.) as_json
+
+b.) from_json
+
+Modules Included - ActiveModel::Serialization
+
+* as_json - Returns a hash representing the model.
+
+It can be without options or with options. Lets undertsand with example:
+
+user = User.find(1)
+
+----------------------- user.as_json ----------------------------
+
+Output => { "id" => 1, "name" => "Konata Izumi", "age" => 16, "created_at" => "2006-08-01T17:27:133.000Z", "awesome" => true}
+
+Without any options, the returned Hash will include all the model's attributes.
+
+---------------------- user.as_json(root: true) ----------------------
+
+Output => { "user" => { "id" => 1, "name" => "Konata Izumi", "age" => 16, "created_at" => "2006-08-01T17:27:13.000Z", "awesome" => true } }
+
+It sets the user as key with specific values.
+
+---------------------- user.as_json(root: employee) ---------------------
+
+Output => { "employee" => { "id" => 1, "name" => "Konata Izumi", "age" => 16, "created_at" => "2006-08-01T17:27:13.000Z", "awesome" => true } }
+
+It sets the custom key as defined above employee instead of default key user.
+
+------------------------- :only and :except --------------------------------
+
+These options can be used to limit the attributes included, and work similar to the attributes method.
+
+user.as_json(only: [:id, :name])
+Output => { "id" => 1, "name" => "Konata Izumi" }
+
+user.as_json(except: [:id, :created_at, :age])
+Output => { "name" => "Konata Izumi", "awesome" => true }
+
+------------------------- Send with Single association ------------------------------
+
+user.as_json(include: :posts)
+
+Output => { "id" => 1, "name" => "Izumi", "age" => 16, "created_at" => "2006-08-01T17:27:13.000Z", "awesome" => true, "posts" => [ { "id" => 1, "user_id" => 1, "title" => "weblog-1" }, { "id" => 2, "user_id" => 1, "title" => "Weblog-2" } ] }
+
+------------------------- Send with Multiple association ------------------------------
+
+user.as_json(include: { posts: { include: { comments: {only: :body } }, only: :title } })
+
+Output => { "id" => 1, "name" => "Konata Izumi", "age" => 16, "created_at" => "2006-08-01T17:27:13.000Z", "awesome" => true, "posts" => [ { "comments" => [ { "body" => "1st post!" }, { "body" => "Second!" } ], "title" => "weblog-1" },{ "comments" => [ { "body" => "Don't think too hard" } ], "title" => "weblog-2" } ] }
+
+
+* from_json - Sets the model attributes from a JSON string. Returns self.
+
+class Person
+  include ActiveModel::Serializers::JSON
+
+  attr_accessor :name, :age, :awesome
+
+  def attributes=(hash)
+    hash.each do |key, value|
+      send("#{key}=", value)
+    end
+  end
+
+  def attributes
+    instance_values
+  end
+end
+
+---------------------------- Without include root ------------------------------
+
+include_root is false by default
+
+json = { name: 'bob', age: 22, awesome:true }.to_json
+person = Person.new
+person.from_json(json) # => #<Person:0x007fec5e7a0088 @age=22, @awesome=true, @name="bob">
+person.name            # => "bob"
+person.age             # => 22
+person.awesome         # => true
+
+---------------------------- With include root ------------------------------
+
+set include_root to true 
+
+json = { person: { name: 'bob', age: 22, awesome:true } }.to_json
+person = Person.new
+person.from_json(json, true) # => #<Person:0x007fec5e7a0088 @age=22, @awesome=true, @name="bob">
+person.name                  # => "bob"
+person.age                   # => 22
+person.awesome               # => true
