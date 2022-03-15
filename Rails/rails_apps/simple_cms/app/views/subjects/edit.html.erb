@@ -1,12 +1,11 @@
-<h1>Subjects#edit</h1>
-<% # app/views/articles/edit.html.erb %>
+<div class="new_object">
+<h2>Edit Subject</h2>
+  <%= form_for (@subject) do |f| %>
 
-<%= form_for @subject do |f| %>
-  <%= f.label 'name' %><br>
-  <%= f.text_field :name %><br>
+    <%= render partial: "form", locals: {f: f} %>
 
-  <%= f.label 'Position' %><br>
-  <%= f.text_area :position %><br>
-  
-  <%= f.submit "Update Subject" %>
-<% end %>
+  <div class="form_submit">
+      <%= f.submit ("Update Subject") %>
+    </div>
+  <% end %>
+</div>
