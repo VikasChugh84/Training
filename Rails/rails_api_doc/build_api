@@ -63,7 +63,9 @@ It does this through two components: serializers and adapters. Serializers descr
 
 --------------------------------- rails g serializer band -----------------------------
 
-This will create  app/serializers/band_serializer.rbclass BandSerializer < ActiveModel::Serializer
+This will create  app/serializers/band_serializer.rb
+
+class BandSerializer < ActiveModel::Serializer
   attributes :id
 end
 
