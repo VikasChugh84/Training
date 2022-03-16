@@ -35,7 +35,7 @@ We can manipulate this data through default json methods but that's little trick
 Default Json Serializer - Defined in file json_serializer
 
 
-------------------------return only name attributes as_json------------------------
+------------------------return only id and name attributes as_json------------------------
 
 def index
   @bands = Band.all
@@ -90,6 +90,52 @@ create a file say active_model_serializer.rb under initializers and add the adap
 converts the data in proper json_api format.
 
 Add file - ActiveModelSerializers.config.adapter = :json_api
+
+------------------------------ REST API Versioning ------------------------------------
+
+APIs only need to be up-versioned when a breaking change is made.
+
+Breaking changes include:
+
+* change in the format of the response data for one or more calls
+* change in the request or response type (i.e. changing an integer to a float)
+* removing any part of the API.
+
+
+How to version API ?
+
+Two common methods adopt here is :
+
+a.) URI Versioning - Most straightforward and commonly used approach but not comes in practice often because when version gets updated there are chances of break client integration.
+
+b.) Versioning using Custom Request Header - A custom header (e.g. Accept-version) allows you to preserve your URIs between versions though it is effectively a duplicate of the content negotiation behavior implemented by the existing Accept header.
+
+---------------------------- Implement Versioning --------------------------------------
+
+It can be achieved by defining namespace in routes with different versions.
+
+namespace :api do
+
+  namespace :v1 do
+    resources :bands do
+      resources :members
+    end
+  end
+
+  namespace :v2 do
+    resources :bands do
+      resources :members
+    end
+  end
+
+end
+
+Create seperate folder under controllers based on versions say api_v1 , api_v2 and our band controller inside it.
+
+
+
+
+
 
 
 
