@@ -1,5 +1,13 @@
 Routes - It's an resourceful route that provides a mapping between browser URL's to controller actions.When the request comes web server should know about where to redirect the specific request and that can be done with help of routes.
 
+
+We can check our routes details on running server by passing rails/info/routes
+
+* http://localhost:3000/rails/info/routes
+
+* Directly on terminal rails/routes
+
+
 routes.rb file is located under config folder 
 
 On web, usually we have get and post request.
