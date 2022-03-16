@@ -1,0 +1,96 @@
+To get it implemented we can authentication gem 'knock' that allows us to add json web tokens authentication into our rails API.
+
+* Create a user model to authenticate with as knock to add json web tokens.
+
+---------------- rails g model user email password_digest --------------------
+
+rails db:migrate
+  
+# Here is password_digest is the column that stores the password in crypted form
+
+----------------- Install gem 'knock', gem 'bcrypt' -----------------------
+
+Knock is an authentication solution for Rails API-only application based on JSON Web Tokens.
+
+Knock makes one assumption about your user model:
+
+It must have an authenticate method, similar to the one added by has_secure_password.
+
+class User < ApplicationRecord
+  has_secure_password
+end
+
+Using has_secure_password is recommended.
+
+Create a random user
+
+User.create(email: test@berylsystems.com, password: 'test', password_confirmation: 'test')
+
+* Include the Knock::Authenticable module in your ApplicationController
+
+class ApplicationController < ActionController::API
+  include Knock::Authenticable
+end
+
+We can now protect your resources by calling authenticate_user as a before_action inside your controllers:
+
+This way we can access the current user in your controller with current_user.
+
+* rails g knock:install
+
+create  config/initializers/knock.rb
+
+* rails generate knock:token_controller user
+
+create  app/controllers/user_token_controller.rb
+route  post 'user_token' => 'user_token#create'
+
+This will set our routes so that we can send our login and receive the tokens from user_token controller.
+
+------------------------------- set routes ------------------------------------
+
+namespace :api do
+  namespace :v1 do
+    post 'user_token' => 'user_token#create'
+    resources :locations do
+      resources :recordings
+    end
+  end
+end
+
+# set post 'user_token' => 'user_token#create' under api
+
+---------------------------- Set include Knock under Api controller --------------------
+
+class ApiController < AppicationController
+  include Knock::Authenticable
+  
+  before_action :authenticate_user
+  before_action :set_default_format
+  
+  private
+
+  def set_default_format
+  	request.format = :json
+  end
+
+end
+
+This will now authenticate on all api on different controllers.
+
+
+----------------------------- Define Api user_token controller -------------------------
+
+class Api::V1::UserTokenController < Knock::AuthTokenController
+end
+
+As we define our routes under namespace V1, it would expect to find the controller under api/v1 and parallely we upgrade class just mentioned above.
+
+class Api::V1::UserTokenController < Knock::AuthTokenController
+  def entity
+  	'User'
+  end
+end
+
+# Define the entity here model name, it will override the default one and give us the access to our users.
+
