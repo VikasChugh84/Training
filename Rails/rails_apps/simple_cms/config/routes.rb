@@ -7,11 +7,13 @@ Rails.application.routes.draw do
   #get 'demo/contact'
 
   # Resourceful routes for demo controller
+  namespace :api do
   resources :demo do
     collection do
       get :about
       get :contact
     end
+  end
   end
   
   # Books Controller Default Routes
