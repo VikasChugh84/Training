@@ -3,7 +3,6 @@ class Api::V1::LocationsController < ApplicationController
 
   def show
   	render json: @location
-    #request.format = :json
   end
 
   private
