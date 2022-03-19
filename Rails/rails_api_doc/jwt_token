@@ -1,0 +1,257 @@
+
+--------------------- How token-based authentication works ? ---------------------
+
+* The user enters his or her credentials and sends a request to the server.
+
+* If the credentials are correct, the server creates a unique HMACSHA256 encoded token, also known as JSON web token (JWT)
+
+* The user stores the JWT and makes all subsequent requests to the server with the token attached.
+
+d.) The server authenticates the user by comparing the JWT sent with the request to the one it has stored in the database.
+
+
+-------------------- What does JWT token Contain ? ----------------------------------
+
+The token is separated into three base-64 encoded, dot-separated values.
+
+* Header - Consists of the type of JWT and the type of encryption algorithm.
+
+* Payload - It can contain the e-mail and the password.
+
+* Signature - The signature is the application's unique secret key that identifies the service which creates the header i.e Rails.application.secrets.secret_key_base.
+
+
+----------------- Requirements for token-based approach -------------------------
+
+* Need an accessible model.
+
+* A way of encoding and decoding JWT tokens must be implemented.
+
+* We need methods for checking if the user is authenticated.
+
+* Controllers for creating and logging in users.
+
+* Need routes for creating users and logging them in and out.
+
+
+------------------------ Step1 - Create User Model ----------------------------
+
+* rails g model User name email password_digest
+
+
+* The method has_secure_password must be added to the model to make sure the password is properly encrypted into the database: has_secure_password is part of the bcrypt gem, install it.
+
+* class User < ApplicationRecord
+    has_secure_password
+  end
+
+-----------------------Step2 - Encoding and Decoding JWT Tokens ---------------------
+
+* The jwt gem will make encoding and decoding of HMACSHA256 tokens available in the Rails application
+
+*  gem 'jwt' and bundle install
+
+* Once the gem is installed, it can be accessed through the JWT global variable. Because the methods that are going to be used to require encapsulation.
+
+class JsonWebToken
+ class << self
+   def encode(payload, exp = 24.hours.from_now)
+     payload[:exp] = exp.to_i
+     JWT.encode(payload, Rails.application.secrets.secret_key_base)
+   end
+
+   # The first method, encode, takes three parameters -- the user ID, the expiration time (1 day), and the unique base key of your Rails application -- to create a unique token.
+
+   # Used For authenticating the user and generating a token for him/her.
+
+   def decode(token)
+     body = JWT.decode(token, Rails.application.secrets.secret_key_base)[0]
+     HashWithIndifferentAccess.new body
+   rescue
+     nil
+   end
+   
+   # The second method, decode, takes the token and uses the application's secret key to decode it.
+
+   # Used to check if the user's token appended in each request is correct 
+
+ end
+end
+
+create it under lib directory and included it when rails application loads
+
+class Application < Rails::Application
+  config.autoload_paths << Rails.root.join('lib')
+end
+
+--------------------------- Authenticating Users --------------------------------------
+
+The simple command gem is an easy way to create services. Its role is similar to the role of a helper, but it instead facilitates the connection between the controller and the model, rather than the controller and the view.
+
+*  gem 'simple command' and bundle install
+
+class AuthenticateUser
+  prepend SimpleCommand
+
+  def initialize(email, password)
+    @email = email
+    @password = password
+  end
+
+  def call
+    JsonWebToken.encode(user_id: user.id) if user
+  end
+
+  private
+
+  attr_accessor :email, :password
+
+  def user
+    user = User.find_by_email(email)
+    return user if user && user.authenticate(password)
+
+    errors.add :user_authentication, 'invalid credentials'
+    nil
+  end
+end
+
+The command takes the parameters and initializes a class instance with email and password attributes that are accessible within the class. The private method user uses the credentials to check if the user exists in the database using User.find_by_email.
+
+If the user is found, the method uses the built-in authenticate method. This method can be available by putting has_secure_password in the User model to check if the user's password is correct. If everything is true, the user will be returned. If not, the method will return nil
+
+
+--------------------------- Checking User Authentication ------------------------------------
+
+The token creation is done, but there is no way to check if a token that's been appended to a request is valid. The command for authorization has to take the headers of the request and decode the token using the decode method in the JsonWebToken singleton
+
+Http requests have fields known as headers. Headers can contain a wide variety of information about the request that can be helpful for the server interpreting the request.Tokens are usually attached to the 'Authorization' header.
+
+class AuthorizeApiRequest
+  prepend SimpleCommand
+
+  def initialize(headers = {})
+    @headers = headers
+  end
+
+  def call
+    user
+  end
+
+  private
+
+  attr_reader :headers
+
+  def user
+    @user ||= User.find(decoded_auth_token[:user_id]) if decoded_auth_token
+    @user || errors.add(:token, 'Invalid token') && nil
+  end
+
+  def decoded_auth_token
+    @decoded_auth_token ||= JsonWebToken.decode(http_auth_header)
+  end
+
+  def http_auth_header
+    if headers['Authorization'].present?
+      return headers['Authorization'].split(' ').last
+    else
+      errors.add(:token, 'Missing token')
+    end
+    nil
+  end
+end
+
+
+* http_auth_header - The last method in the chain, http_auth_header, extracts the token from the authorization header received in the initialization of the class.
+
+* decoded_auth-token - The previous method in the chain is decoded_auth_token, which decodes the token received from http_auth_headerand retrieves the user's ID.
+
+* user - In the first line, the ||= operator is used to assign @user by assigning "if not nil". Basically, if the User.find() returns an empty set or decoded_auth_token returns false, @user will be nil.
+
+Moving to the second line, the user method will either return the user or throw an error. In Ruby, the last line of the function is implicitly returned, so the command ends up returning the user object.
+
+
+* Implementing Helpers Methods
+
+All the logic for handling JWT tokens has been laid down. It is time to implement it in the controllers and put it to actual use. The two most essential pieces to implement are identifying user log-in and referencing the current user.
+
+-------------------------- Log In Users ------------------------------------
+
+# app/controllers/authentication_controller.rb
+class AuthenticationController < ApplicationController
+ skip_before_action :authenticate_request
+
+ def authenticate
+   command = AuthenticateUser.call(params[:email], params[:password])
+
+   if command.success?
+     render json: { auth_token: command.result }
+   else
+     render json: { error: command.errors }, status: :unauthorized
+   end
+ end
+end
+
+The authenticate action will take the JSON parameters for email and password through the params hash and pass them to the AuthenticateUser command. If the command succeeds, it will send the JWT token back to the user.
+
+* Define Routes
+
+post 'authenticate', to: 'authentication#authenticate'
+
+
+--------------------------- Autherizing Request ---------------------------------------
+
+To put the token to use, there must be a current_user method that will 'persist' the user. In order to have current_user available to all controllers, it has to be declared in the ApplicationController
+
+#app/controllers/application_controller.rb
+class ApplicationController < ActionController::API
+ before_action :authenticate_request
+  attr_reader :current_user
+
+  private
+
+  def authenticate_request
+    @current_user = AuthorizeApiRequest.call(request.headers).result
+    render json: { error: 'Not Authorized' }, status: 401 unless @current_user
+  end
+end
+
+By using before_action, the server passes the request headers (using the built-in object property request.headers) to AuthorizeApiRequest every time the user makes a request. Calling result on AuthorizeApiRequest.call(request.headers) is coming from SimpleCommand module where it is defined as attr_reader :result. The request results are returned to the @current_user, thus becoming available to all controllers inheriting from ApplicationController.
+
+------------------------------- Retrieve Token ----------------------------------------
+
+curl -H "Content-Type: application/json" -X POST -d '{"email":"test@beryl.com","password":"12345"}' http://localhost:3000/authenticate
+
+Token will be return:
+
+{"auth_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE0NjA2NTgxODZ9.xsSwcPC22IR71OBv6bU_OGCSyfE89DvEzWfDU0iybMA"}
+
+------------------------------ Check Authorization ------------------------------------
+
+* Without Token
+
+  curl http://localhost:3000/api/v1/locations
+
+  The resource is not reachable because the token has not been prepended to the headers of the request. Copy the previously generated token and put it in the Authorization header:
+
+* With Token
+  
+  curl -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2NDc4MDQyMDl9.uKsZh1yfAXbuOxL-wAgHu13FLVZJbbYt6WDuXcYRmaU" http://localhost:3000/api/v1/locations
+
+  With the token prepended, an empty array ([]) is returned. This is normal -- after you add any items, you will see them returned in the request.
+
+------------------------------ Skip Authentication ------------------------------------
+
+# before_action :authenticate_request
+
+Skip method in application_controller
+
+----------------------------- Add Token to Postman -----------------------------------
+
+Under Authorisation Tab 
+
+Define the token value returned from user in bearer token, the authorization header will be automatically generated when you send the request. 
+
+
+
+
+
