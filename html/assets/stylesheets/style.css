@@ -1,0 +1,48 @@
+.heading{
+  color: darkred;
+}
+
+.head{
+  font-size:25px;
+  color: darkred;
+  font-weight:bold;
+}
+
+.menu {  
+  position: sticky;
+  top: 0;
+  background-color: black;
+  color:white;
+  margin-top: 15px;
+  overflow: hidden;
+}
+
+.menu a {
+  float: left;
+  color: white;
+  text-align: center;
+  padding: 12px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+        
+.menu-log {
+  right: auto;
+  float: right;
+}
+
+footer {
+  width: 100%;
+  bottom: 0px;
+  background-color: black;
+  color: white;
+  position: fixed;
+  padding-top:10px;
+  padding-bottom:10px;
+  text-align:center;
+  font-size:18px;
+  font-weight:bold;
+}
+
+
+

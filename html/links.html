@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href='assets/stylesheets/style.css' rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="head">HTML Links</div>
+  </header>
+
+  <!-- Menu Navigation Bar -->
+  <div class="menu">
+    <a href="basic.html">Home</a>
+    <a href="layout.html">Layout</a>
+    <a href="attribute.html">Attribute</a>
+    <a href="formatting.html">Formatting</a>
+    <a href="links.html">Links</a>
+    <a href="quotations.html">Quotations</a>
+    <div class="menu-log">
+      <a href="#login">Sign In</a>
+    </div>
+  </div>
+  <p>The most important attribute of the (a element) is the href attribute, which indicates the link's destination.</p>
+  <a href="#link_bookmark">Jump to Link Bookmark</a>
+  <h4>a.) Target Attribute </h4>
+    <p> The target attribute specifies where to open the linked document.The target attribute can have one of the following values:</p>
+    <p>
+      a.) _self - Default. Opens the document in the same window/tab as it was clicked<br><br>
+      <a href="https://berylsystems.com", target="_self">www.berylsystems.com</a>
+    </p>
+    <p>
+      b.) _blank - Opens the document in a new window or tab<br><br>
+      <a href="https://berylsystems.com", target="_blank">www.berylsystems.com</a>
+    </p>
+    <p>
+      c.) _parent - Opens the document in the parent frame<br><br>
+      <a href="https://berylsystems.com", target="_parent">www.berylsystems.com</a>
+    </p>
+    <p>
+      d.) _top - Opens the document in the full body of the window<br><br>
+      <a href="https://berylsystems.com", target="_top">www.berylsystems.com</a>
+    </p>
+
+  <h4>b.) Absolute vs Relative URLs</h4>
+    <p>Absolute Url is used to redirect outside the application.
+    <p>Example: <a href="https://berylsystems.com", target="_blank">www.berylsystems.com</a></p>
+    <p>Relative Url is local link with in the application.
+    <p>Example: <a href="basic.html">Home Page</a></p>
+  
+  <h4>c.) Use Image as Link</h4>
+    <a href="basic.html">
+    <img src="https://pavicicdentalcoaching.com/wp-content/uploads/2015/10/7-steps-to-success.jpg" alt="success" width="80" height="80"></a>
+    <p>Click on the image to redirect to Home page</p>
+
+  <h4>d.) Link to Email Address</h4>
+    <p>Use mailto: inside the href attribute to create a link that opens the user's email program (to let them send a new email)</p>
+    Link to Email: <a href="mailto:vikaschugh84@gmail.com", title="Email format must be correct">Send email</a>
+
+  <h4>e.) Use Button as Link</h4>
+    <p>To use an HTML button as a link, we have to add some JavaScript code, JavaScript allows us to specify what happens at certain events, such as a click of a button</p>
+
+    <button onclick="document.location='basic.html'">Home Page</button>
+
+  <h4>f.) Link Titles</h4>
+    <p>The title attribute defines some extra information about an element, value of the title attribute will be displayed as a tooltip when you mouse over the element.</p>
+    <p>Example: <a href="basic.html", target="_blank", title="Redirect to Home Page">Back to Overview</a></p>
+
+  <h4 id="link_bookmark">g.) Link Bookmark</h4>
+    <p>Bookmarks are really important when it comes to reach direct on specific content.It oftenly used when length of page is too long.</p>
+  <!-- Footer Section -->
+  <footer>HTML Learning</footer>
+</body>
+</html>
