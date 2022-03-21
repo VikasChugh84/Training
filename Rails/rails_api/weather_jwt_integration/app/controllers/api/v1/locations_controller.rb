@@ -37,24 +37,32 @@ class Api::V1::LocationsController < ApplicationController
   end
 
   def update
-    @location = Location.find(params[:id])
-    @location.update(name: params[:location_name]) if ![:location_name].blank?
-    if !params[:recording_temp].blank? && !params[:recording_status].blank?
-      @location.recordings.update(temp: params[:recording_temp], status: params[:recording_status]) 
+    if !params[:id].eql? "id"
+      @location = Location.find(params[:id])
+    else
+      @location = Location.where(name: params[:location_name]).first
     end
-    render json: {message: "Location attributes successfully updated" , status: 201}
+    if !@location.nil?
+      if !params[:recording_temp].blank? && !params[:recording_status].blank?
+        @location.recordings.update(temp: params[:recording_temp], status: params[:recording_status])
+      end
+      @location.update(name: params[:location_name]) if ![:location_name].blank? 
+      render json: {message: "Location attributes successfully updated" , status: 201}
+    else
+      render json: {message: "Location not found" , status: 404}
+    end
   end
 
   def destroy
-    @location = Location.where(name: params[:location_name])
-    @location.destroy_all
+    @location = Location.where(name: params[:location_name]).first
+    @location.destroy
     render json: {message: "Location removed from database" , status: 200}
   end
 
   private
 
   def location_params_permit
-    params.permit(:location_name, :recording_temp, :recording_status)
+    params.permit(:id, :location_name, :recording_temp, :recording_status)
   end
 
 end
