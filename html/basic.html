@@ -2,6 +2,8 @@
 <html>
 <head>
   <link href='assets/stylesheets/style.css' rel="stylesheet">
+  <title>Introduction</title>
+  <link rel="icon" type="image/check.png" href="images/check.ico">
 </head>
 <body>
   <header>
@@ -12,9 +14,13 @@
     <a href="basic.html">Home</a>
     <a href="layout.html">Layout</a>
     <a href="attribute.html">Attribute</a>
-    <a href="formatting.html">Formatting</a>
+    <a href="formatting.html">Text-Format-Iframe</a>
     <a href="links.html">Links</a>
     <a href="quotations.html">Quotations</a>
+    <a href="head.html">Meta-Script-Title</a>
+    <a href="classes_id.html">Classes-ID</a>
+    <a href="tables.html">Tables-List</a>
+    <a href="tables.html">Block&Inline</a>
     <div class="menu-log">
       <a href="#login">Sign In</a>
     </div>
@@ -41,13 +47,19 @@
     <p> These are are defined with <b>(a tag)</b>.</p>
     Link: <a href="https://berylsystems.com">www.berylsystems.com</a>
 
-  <h4>f.) Images</h4>
+  <h4>e.) Favicon</h4>
+    <p> A favicon image is displayed to the left of the page title in the browser tab.</p>
+    <p>We can use Link element to add a favicon as we used on this page, ideally we should place it just below the title element under head.</p> 
+    <!-- Example: <link rel="icon" type="image/check.png" href="images/check.ico"> -->
+
+  <h4>g.) Images</h4>
     <p> These are are defined with <b>(img tag)</b></p>
     <img src="https://pavicicdentalcoaching.com/wp-content/uploads/2015/10/7-steps-to-success.jpg" alt="success" width="200" height="200">
     <p> Image Attributes: The source file (src) is image location, alternative text (alt) is optional, width and height depends we defined.</p>
-
-  <h4> Right-click to View Page Source to see the HTML source</h4>
-  
+    <img src="images/home-128.png" alt="Home Icon" style="width:80px;height:80px;">
+    <p> Another property is float comes under style attribute to shift the location left or right</p>
+    <p><b>If you have your images in a sub-folder, you must include the folder name in the src attribute.</b></p>
+    
   <!-- Footer Section -->
   <footer>HTML Learning</footer>
 </body>

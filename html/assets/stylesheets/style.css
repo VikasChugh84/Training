@@ -31,12 +31,38 @@
   float: right;
 }
 
+#demo_js{
+  color: darkred;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  border-style: dotted;
+  border-color: black;
+  #border-radius: 5px;
+  padding: 5px;
+}
+
+tr:nth-child(even) {
+  background-color: #D6EEEE;
+}
+
+.col-span{
+  #background-color:darkseagreen
+}
+
+.col-span-1{
+  #background-color:gainsboro
+}
+
+
 footer {
   width: 100%;
   bottom: 0px;
   background-color: black;
   color: white;
-  position: fixed;
+  position: relative;
   padding-top:10px;
   padding-bottom:10px;
   text-align:center;
