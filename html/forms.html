@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Self Defined CSS -->
+    <link href="assets/stylesheets/style.css" rel="stylesheet">
+
+    <title>HTML Concepts</title>
+    <link rel="icon" type="image/check.png" href="images/check.ico">
+  </head>
+  <body>
+  <!-- Header Section -->
+    <header>
+      <div class="head">HTML Forms</div>
+    </header>
+
+    <!-- Menu Navigation Bar -->
+    <div class="navbar">
+      <a href="basic.html">Home</a>
+      <a href="layout.html">Layout</a>
+      <a href="links.html">Links</a>
+      <a href="tables.html">Tables</a>
+      <a href="classes_id.html">Classes-ID</a>
+      <a href="attribute.html">Attribute</a>
+      <a href="javascript.html">Javascript</a>
+      <a href="head.html">Meta-Script-Title</a>
+      <a href="block_inline.html">Block-Inline-List</a>
+      <a href="forms.html">Forms</a>
+      <div class="menu-log">
+        <a href="login.html">Sign In</a>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">More
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+          <a href="quotations.html">Quotations</a>
+          <a href="formatting.html">Text-Format-Iframe</a>
+          <a href="semantic_elements.html">Semantic Elements</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Body section -->
+    <div class = "body_sec">
+      <p>Forms are used to collect user input. The user input is most often sent to a server for processing.</p>
+
+      <p>It is a container for different types of input elements, such as: text fields, checkboxes, radio buttons, submit buttons, etc.</p>
+
+      <table style="width:50%">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        <thead>
+        <tbody>
+          <tr>
+            <td>input type="text"</td>
+            <td>Displays a single-line text input field</td>
+          </tr> 
+          <tr>
+            <td>input type="radio"</td>
+            <td>Displays a radio button (for selecting one of many choices)</td>
+          </tr>
+          <tr>
+            <td>input type="checkbox"</td>
+            <td>Displays a checkbox (for selecting zero or more of many choices)</td>
+          </tr>
+          <tr>
+            <td>input type="submit"</td>
+            <td>Displays a submit button (for submitting the form)</td>
+          </tr>
+          <tr>
+            <td>input type="button"</td>
+            <td>Displays a clickable button</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>a.) Label Tag</h4>
+      <p>* The <b>label</b> tag defines a label for many form elements.</p>
+      <p>* The for attribute of the <b>label</b> tag should be equal to the id attribute of the element to bind them together.</p>
+
+      <h4>b.) Radio Button</h4>
+      <p>* Radio buttons let a user select ONE of a limited number of choices.</p>
+
+      <h4>c.) Checkbox</h4>
+      <p>* Checkboxes let a user select ZERO or MORE options of a limited number of choices.</p>
+
+      <h4>d.) Submit Button</h4>
+      <p>* Submit type button defines a button for submitting the form data to a form-handler.</p>
+      <p>The form-handler is specified in the form's action attribute.</p>
+      <p>Example: form action="/action_page.php", Here the submit form will go to action_page with the values.</p>
+      
+      <h4>d.) Target Attribute</h4>
+      <p>The target attribute specifies where to display the response that is received after submitting the form.</p>
+      <p>* _blank  The response is displayed in a new window or tab</p>
+      <p>* _self The response is displayed in the current window</p>
+      <p>* _parent The response is displayed in the parent frame</p>
+      <p>* _top  The response is displayed in the full body of the window
+           framename The response is displayed in a named iframe</p>
+      
+      <p>Example: form action="/action_page.php" target="_blank">/form</p>
+    
+      <h4>d.) Method Attribute</h4>
+      <p>The method attribute specifies the HTTP method to be used when submitting the form data.</p>
+      <p>The form-data can be sent as URL variables (with method="get") or as HTTP post transaction (with method="post").</p>
+      <p>The default HTTP method when submitting form data is GET.</p>
+
+    </div><br>
+    
+    <!-- Footer Section -->
+    <footer>HTML Learning</footer>
+
+  </body>
+</html>
