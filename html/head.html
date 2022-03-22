@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Self Defined CSS -->
+    <link href="assets/stylesheets/style.css" rel="stylesheet">
+  
+    <!-- Script functionality -->
+    <script>
+      function myFunction() {
+      document.getElementById("demo_js").innerHTML = "Content replaced for script for testing.";
+      }
+    </script>
+
+    <title>HTML Concepts</title>
+    <link rel="icon" type="image/check.png" href="images/check.ico">
+  </head>
+  <body>
+  <!-- Header Section -->
+    <header>
+      <div class="head">HTML Layout</div>
+    </header>
+
+    <!-- Menu Navigation Bar -->
+    <div class="menu">
+      <a href="basic.html">Home</a>
+      <a href="layout.html">Layout</a>
+      <a href="attribute.html">Attribute</a>
+      <a href="formatting.html">Text-Format-Iframe</a>
+      <a href="links.html">Links</a>
+      <a href="quotations.html">Quotations</a>
+      <a href="head.html">Meta-Script-Title</a>
+      <a href="classes_id.html">Classes-ID</a>
+      <a href="tables.html">Tables-List</a>
+      <a href="block_inline.html">Block&Inline</a>
+      <div class="menu-log">
+        <a href="#login">Sign In</a>
+      </div>
+    </div>
+
+    <!-- Body section -->
+    <div class = "body_sec">
+      <h4>a.) head Element</h4>
+      <p>The HTML (head) element is a container for the following elements: 
+      title, style, meta, link, script and base.</p>
+
+      <h4>b.) title</h4>
+      <!--Example: <title>HTML Concepts</title> -->
+      <p>The title element defines a title in the browser toolbar -- provides a title for the page when it is added to favorites -- displays a title for the page in search engine-results.</p>
+
+      <h4>c.) link</h4>
+      <!-- Example: <link href="assets/stylesheets/style.css" rel="stylesheet"> -->
+      <p>The link element defines the relationship between the current document and an external resource.The link tag is most often used to link to external stylesheets.</p>
+      
+      <h4>d.) meta</h4>
+      <!--Example: <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+      <p>
+        The metadata will not be displayed on the page, but are used by browsers (how to display cosntent or reload page), by search engines (keywords), and other web services.
+      </p>
+      <p>* Define the character set used.<meta charset="UTF-8"></p>
+      <p>* Define keywords for search engines. <meta name="keywords" content="HTML, CSS, JavaScript"></p>
+      <p>* Define a description of your web page.<meta name="description" content="Free Web tutorials"></p>
+      <p>* Define the author of a page.<meta name="author" content="Vikas"></p>
+      <p>* Refresh document every 30 seconds.<!-- <meta http-equiv="refresh" content="30"></p> -->
+      <p>* Setting the viewport to make your website look good on all devices. <meta name="viewport" content="width=device-width, initial-scale=1.0"></p>
+
+      <h4>e.) Setting Viewport</h4>
+      <!--Example: <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+      <p>The viewport is the user's visible area of a web page. It varies with the device - it will be smaller on a mobile phone than on a computer screen.</p>
+      <p> meta element should be included in all your web pages.</p>
+      <p>The width=device-width part sets the width of the page to follow the screen-width of the device (which will vary depending on the device).</p>
+      <p>The initial-scale=1.0 part sets the initial zoom level when the page is first loaded by the browser.</p>
+      
+      <h4>e.) Script</h4>
+      <p id="demo_js">The script element is used to define client-side JavaScripts.</p>
+      <p><button type="button" onclick="myFunction()">Demo_Js</button></p>
+
+      <h4>e.) base</h4>
+      <p>The base element specifies the base URL and/or target for all relative URLs in a page.The base tag must have either an href or a target attribute present, or both and there should be single base class element in a document.</p>
+    </div><br><br>
+
+    <!-- Footer Section -->
+    <footer>HTML Learning</footer>
+
+  </body>
+</html>
