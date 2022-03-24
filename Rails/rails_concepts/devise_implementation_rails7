@@ -1,0 +1,134 @@
+* What is Devise?
+
+Devise is a flexible authentication solution for Rails based on Warden. 
+It is Rack based and a complete MVC solution based on Rails engines, allows you to have multiple models signed in at the same time and is based on a modularity concept: use only what we really need.
+
+
+* # Gemfile
+gem "devise", "~> 4.8"
+
+---------------- Working Around Rails 7’s Turbo-------------------
+
+* Rails 7 includes Turbo as a cornerstone component.
+
+* Turbo lets you run asynchronous page updates without writing any Javascript but it does it by hijacking the normal flow of submitting forms and following links.
+
+* Devise isn’t (yet) prepared for that and it won’t be able to display flash messages — which it relies heavily on — by default.We need to alter the code that Devise generates for us to deal with Turbo.
+
+----------------- rails g devise:install -----------------------
+create  config/initializers/devise.rb
+create  config/locales/devise.en.yml
+
+once run rails generate devise:install we need to alter the Devise initializer config in several places beyond what the Devise README instructs us to do and add a controller as Devise’s parent controller.
+
+* require "devise" in application.rb
+
+* rails g controller turbo_devise_controller
+
+----------------- Add code in devise.rb ----------------------
+
+class TurboFailureApp < Devise::FailureApp
+  def respond
+    if request_format == :turbo_stream
+      redirect
+    else
+      super
+    end
+  end
+
+  def skip_format?
+    %w(html turbo_stream */*).include? request_format.to_s
+  end
+end
+
+
+# ...
+Devise.setup do |config|
+  # ...
+  
+  # ==> Controller configuration
+  # Configure the parent class to the devise controllers.
+  config.parent_controller = 'TurboDeviseController'
+  
+  # ...
+
+  # ==> Navigation configuration
+  # ...
+  config.navigational_formats = ['*/*', :html, :turbo_stream]
+
+  # ...
+
+  # ==> Warden configuration
+  # ...
+  config.warden do |manager|
+    manager.failure_app = TurboFailureApp
+  #   manager.intercept_401 = false
+  #   manager.default_strategies(scope: :user).unshift :some_external_strategy
+  end
+  
+  # ...
+end
+
+----------------- Add code in turbo_devise_controller ----------------------
+
+class TurboDeviseController < ApplicationController
+  class Responder < ActionController::Responder
+    def to_turbo_stream
+      controller.render(options.merge(formats: :html))
+    rescue ActionView::MissingTemplate => error
+      if get?
+        raise error
+      elsif has_errors? && default_action
+        render rendering_options.merge(formats: :html, status: :unprocessable_entity)
+      else
+        redirect_to navigation_location
+      end
+    end
+  end
+
+  self.responder = Responder
+  respond_to :html, :turbo_stream
+end
+
+
+-------------------- Action Mailer Config --------------------
+
+As per normal Devise setup, we also need to tweak the action mailer config so that we can send password recovery emails in development.
+
+# config/environments/development.rb, near the other action_mailer config. ~line 40 in an unaltered config file.
+config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+
+Also, as in normal Devise setup, we need to include the ability for our layout to show alert and notice flash notifications, since Devise uses them extensively to let us know the results of sign up, in, and out attempts
+
+# app/views/layouts/application.html.erb, above the <%= yield %>
+<% if notice %>
+  <p class="alert alert-success"><%= notice %></p>
+<% end %>
+<% if alert %>
+  <p class="alert alert-danger"><%= alert %></p>
+<% end %>
+
+------------------------ Implement model functionality --------------
+
+* rails g devise user
+
+create db/migrate/20220324060242_add_devise_to_users.rb
+       insert app/models/user.rb
+       route devise_for :users
+
+* This will add devise into user.rb and define routes for devise with migrations to add in user table.
+
+devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
+
+-------------------- Error - Undefined method devise for user class ---------
+
+Running migration leads to this error
+
+Resolved by add 'extend Devise::Models' in user model.
+
+------------------- Setup Views --------------------------
+
+You’re now able to run your app and it should include pages like /users/sign_up and /users/sign_in. In theory Devise should work now but, unfortunately, the view links and redirects used by Devise won’t work in Rails 7. Let’s fix that.
+

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>StylizeCreations</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <header>
+      <div class="head">Stylize Creations</div>
+    </header>
+
+    <!-- Menu Navigation Bar -->
+    <div class="navbar">
+      <%= link_to("Home", {:controller => 'products', :action => 'index'}) %>
+      <a href="#layout">Category</a>
+      <a href="#layout">Products</a>
+      <div class="menu-log">
+        <!--<a href="#login.html">Register</a>-->
+        <%= link_to("Register", {:controller => 'users', :action => 'new'}) %></br>
+      </div>
+      <div class="menu-log">
+        <a href="#login.html">Sign In</a>
+      </div>
+    </div>
+    <% if notice %>
+      <p class="alert alert-success"><%= notice %></p>
+    <% end %>
+    <% if alert %>
+      <p class="alert alert-danger"><%= alert %></p>
+    <% end %>
+    <%= yield %>
+
+    <!-- Footer Section -->
+    <footer>Copyright © 2022, Stylize Creations. All Rights Reserved.</footer>
+  </body>
+</html>

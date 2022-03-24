@@ -1,0 +1,11 @@
+Create new application from scratch:
+
+a.) rails new 'app_name' -d postgresql
+
+b.) see the database_name under database.yml file
+
+c.) create the database under postgres, by default postgres is owner for database but we can set and update it by [alter database 'db_name' owner to 'owner_name']
+
+d.) set username, password and host under database.yml file.
+
+e.) further start working under rails c for create model,controllers etc.
