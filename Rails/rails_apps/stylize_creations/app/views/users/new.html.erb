@@ -1,0 +1,11 @@
+<div class="new_object">
+<h2>Enter Details</h2>
+  <%= form_for (@user) do |f| %>
+  
+    <%= render partial: "form", locals: {f: f} %>
+    
+  <div class="form_submit">
+    <%= f.submit ("Register") %>
+  </div><br>
+  <% end %>
+</div>

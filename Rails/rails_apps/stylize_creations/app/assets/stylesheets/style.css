@@ -1,0 +1,158 @@
+/* Navbar container */
+.navbar {
+  overflow: hidden;
+  background-color: #7b0e1d;
+  margin-top: 10px;
+  font-family: -webkit-body;
+}
+
+/* Links inside the navbar */
+.navbar a {
+  float: left;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* The dropdown container */
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+/* Dropdown button */
+.dropdown .dropbtn {
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: white;
+  padding: 10px 16px;
+  background-color: inherit;
+  font-family: inherit; /* Important for vertical align on mobile phones */
+  margin: 0; /* Important for vertical align on mobile phones */
+}
+
+/* Add a red background color to navbar links on hover */
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: white;
+  color: black;
+  border: 1px solid #7b0e1d;
+  border-style: dotted;
+}
+
+/* Dropdown content (hidden by default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+/* Add a grey background color to dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+@font-face {  
+  font-family: 'arial';
+  font-weight: normal;  
+  font-style: normal;  
+}  
+
+
+.heading{
+  color: darkred;
+}
+
+.head{
+  font-size:25px;
+  color: darkred;
+  font-weight:bold;
+}
+
+.menu {  
+  position: sticky;
+  top: 0;
+  background-color: black;
+  color:white;
+  margin-top: 15px;
+  overflow: hidden;
+}
+
+.menu a {
+  float: left;
+  color: white;
+  text-align: center;
+  padding: 12px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+        
+.menu-log {
+  right: auto;
+  float: right;
+}
+
+#demo_js{
+  color: darkred;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  border-style: dotted;
+  border-color: black;
+  #border-radius: 5px;
+  padding: 10px;
+}
+
+tr:nth-child(even) {
+  background-color: lightgoldenrodyellow;
+}
+
+.col-span{
+  #background-color:darkseagreen
+}
+
+.col-span-1{
+  #background-color:gainsboro
+}
+
+footer {
+  width: 100%;
+  bottom: 0px;
+  background-color: #7b0e1d;
+  color: white;
+  position: relative;
+  padding-top:10px;
+  padding-bottom:10px;
+  text-align:center;
+  font-size:18px;
+  font-weight:bold;
+}
+
+.img_preview{
+  width: 100%;
+}
+
+
+
