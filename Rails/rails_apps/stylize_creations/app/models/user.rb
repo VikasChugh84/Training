@@ -4,13 +4,16 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :omniauthable, 
-         :omniauth_providers => [:facebook, :github, :google_oauth2]
+         :omniauth_providers => [:github]
 
-  def self.create_from_provider_data(provider_data)
-    where(provider: provider_data.provider, uid: provider_data.uid).first_or_create do |user|
-      user.email = provider_data.info.email
-      user.password = Devise.friendly_token[0, 20]
-    end
+  def self.from_omniauth(auth)
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+    user.name = auth.info.name
+    user.email = auth.info.email
+    user.role_id = '4'
+    #user.password = Devise.friendly_token[0,20]
+    user.password = 'stylize_cr'
+    end      
   end
   # Relationships
   belongs_to :role, optional: true
@@ -20,6 +23,6 @@ class User < ApplicationRecord
   has_many :pictures, as: :imageable
 
   # Validations
-  validates :name, :phone_number, :city, :state, :role_id, presence: true 
-  validates :phone_number, :email, uniqueness: true
+  validates :name, :email, presence: true 
+  validates :email, uniqueness: true
 end

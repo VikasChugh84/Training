@@ -6,9 +6,7 @@ Rails.application.routes.draw do
     get "users", to: "devise/sessions#new"
   end
 
-  devise_for :users, controllers: {
-    omniauth_callbacks: 'omniauth'
-  }
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
 
   # Routes for home controller
