@@ -7,10 +7,10 @@ Rails.application.routes.draw do
   end
 
   devise_for :users, controllers: {
-    sessions: 'users/sessions'
+    omniauth_callbacks: 'omniauth'
   }
 
-  
+
   # Routes for home controller
   resources :home do 
     member do 

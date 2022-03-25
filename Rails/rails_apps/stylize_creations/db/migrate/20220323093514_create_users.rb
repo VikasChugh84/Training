@@ -9,7 +9,8 @@ class CreateUsers < ActiveRecord::Migration[7.0]
       t.string :pincode
       t.date :date_of_birth
       t.references :role, foreign_key: true
-
+      t.string :provider
+      t.string :uid
       t.timestamps
     end
   end
