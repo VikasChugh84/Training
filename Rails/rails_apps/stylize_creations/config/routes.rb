@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     end
     collection do 
       get :user_image
+      get :download_pdf
     end
   end
   

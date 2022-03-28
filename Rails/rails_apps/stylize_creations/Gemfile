@@ -44,6 +44,8 @@ gem "bootsnap", require: false
 
 gem "devise", "~> 4.8"
 
+gem "prawn"
+
 gem "omniauth"
 gem 'omniauth-facebook', '~> 4.0'
 gem "omniauth-github"
