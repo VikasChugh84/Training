@@ -1,0 +1,368 @@
+
+Reference: https://guides.rubyonrails.org/routing.html
+
+
+* Resourceful Routes
+
+----------------------------- member & collection -----------------------------------
+
+resources :books do
+  member do 
+    get :delete
+  end
+  collection do
+    get :all_books_count
+    get :related_subject
+    get :check_book
+    get :check_subject
+  end
+end
+
+a.) member - This one is normal resourceful routes for books controller where action CRUD is default part i.e new, create, edit, update , show, index actions are default set by resources but delete action we have to set it manually to handle the request.
+
+b.) collection - All the defined actions under controller are specified under resources collection.
+
+For Example:
+
+* new_book_path - GET /books/new(.:format)  - books#new
+
+* book_path - GET /books/:id(.:format) - books#show
+
+* books_path - GET /books(.:format)  - books#index
+
+* books_path - POST /books(.:format)  - books#create
+
+* book_path - PATCH /books/:id(.:format) - books#show
+
+* book_path - DELETE  /books/:id(.:format) - books#destroy
+
+
+
+-------------------------------- namespace block ---------------------------------
+
+namespace :api do
+  namespace :v1 do
+    resources :locations
+  end
+end
+
+namespace :api do
+  namespace :v2 do
+    resources :locations 
+  end
+end
+
+* namespace - When we use namespace, it will prefix the URL path for the specified resources, and try to locate the controller under a module named in the same manner as the namespace. Here we have two different namespaces V1 & V2, this way it will locate for two different controllers.
+
+For Example:
+
+* api_v1_locations_path - GET /api/v1/locations(.:format) - api/v1/locations#index
+
+* api_v2_locations_path - GET /api/v2/locations(.:format) - api/v2/locations#index
+
+* new_api_v1_location_path - GET /api/v1/locations/new(.:format)  - api/v1/locations#new
+
+* new_api_v2_location_path - GET /api/v2/locations/new(.:format)  - api/v2/locations#new
+
+
+
+------------------------ Multiple resources under Group ----------------------------
+
+namespace :api do
+  namespace :v1 do
+    resources :locations, :resources 
+  end
+end
+
+
+a.) multiple - Here we are organize groups of controllers under a namespace V1 and place these controllers under the app/controllers/v1/locations_controller and app/controllers/v1/recordings_controller.
+
+For Example:
+
+* api_v1_locations_path - GET /api/v1/locations(.:format) - api/v1/locations#index
+
+* api_v1_recordings_path - GET /api/v1/recordings(.:format) - api/v1/recordings#index
+
+
+
+------------------------ Nested resources under Group ---------------------------------
+
+namespace :api do
+  namespace :v1 do
+    resources :locations do
+      resources :recordings
+    end
+  end
+end
+
+
+a.) nested - Here we are organize groups of controllers in nested way (as we defined relationship that each location has many recordings) under a namespace V1 and place these controllers under the app/controllers/v1/locations_controller directory.
+
+For Example:
+
+* api_v1_location_recordings_path - GET /api/v1/locations/:location_id/recordings(.:format) - 
+api/v1/recordings#index
+
+* new_api_v1_location_recording_path - GET /api/v1/locations/:location_id/recordings/new(.:format) 
+api/v1/recordings#new
+
+-------------------------------- scope block ---------------------------------
+
+scope :admin do
+  resources :demo do
+    member do
+      get :delete
+    end
+    collection do
+      get :about
+      get :contact
+    end
+  end
+end
+
+* Understand with Example: Routes for action new, index in demo controller
+
+=> In namespace
+new_admin_demo_path - GET /admin/demo/new(.:format) - admin/demo#new
+admin_demo_index_path - GET /admin/demo(.:format) - admin/demo#index
+
+
+=> In scope
+new_demo_path - GET /admin/demo/new(.:format) - demo#new
+demo_index_path - GET /admin/demo(.:format) - demo#index
+
+If we want to route /admin/demo/new to DemoController (without the Admin:: module prefix), we can specify the path with a scope block.
+
+-------------------------------- scope module ---------------------------------
+
+scope module: admin do
+  resources :demo do
+    member do
+      get :delete
+    end
+    collection do
+      get :about
+      get :contact
+    end
+  end
+end
+
+=> In scope
+new_demo_path - GET /admin/demo/new(.:format) - demo#new
+demo_index_path - GET /admin/demo(.:format) - demo#index
+
+=> In scope module
+new_demo_path - GET /demo/new(.:format) - admin/demo#new
+demo_index_path - GET /demo(.:format) - admin/demo#index
+
+--------------------------------  Limits to Nesting ---------------------------------
+
+resources :books do
+  member do 
+    get :delete
+  end
+  collection do
+    get :all_books_count
+    get :related_subject
+    get :check_book
+    get :check_subject
+  end
+  resources :chapters do
+    resources :pages
+  end
+end
+
+=> new_book_chapter_page_path - GET /books/:book_id/chapters/:chapter_id/pages/new(.:format) - pages#new
+
+=> book_chapter_page_path - GET /books/:book_id/chapters/:chapter_id/pages/:id(.:format) - pages#show
+
+-------------------------------- Shallow Nesting ---------------------------------
+
+resources :books do
+  resources :reviews, only: [:index, :new, :create]
+end
+resources :reviews, only: [:show, :edit, :update, :destroy]
+
+resources :books do
+  resources :reviews, shallow: true
+end
+
+This will generate the exact same routes as the first example. We can also specify the :shallow option in the parent resource, in which case all of the nested resources will be shallow.
+
+=> book_reviews_path - GET /books/:book_id/reviews(.:format) - reviews#index
+
+=> new_book_review_path - GET /books/:book_id/reviews/new(.:format) - reviews#new
+
+=> book_reviews_path - POST /books/:book_id/reviews(.:format) - reviews#index
+
+=> review_path - GET /reviews/:id(.:format) - reviews#show
+
+-------------------------------- Routing Concern Block ---------------------------------
+
+* Understand with Example:
+
+  resources :messages do
+    resources :comments
+  end
+
+  resources :articles do
+    resources :comments
+    resources :images, only: :index
+  end
+
+Here we are having nested comments for both messages and articles.To avoid this duplicacy we can use concern.
+
+  concern :commentable do
+    resources :comments
+  end
+
+  concern :image_attachable do
+    resources :images, only: :index
+  end
+
+  resources :messages, concerns: :commentable
+
+  resources :articles, concerns: [:commentable, :image_attachable]
+
+Now we are using comments as concern and we can use this concern multiple models routes.
+
+  resources :users, concerns: :image_attachable
+
+-------------------------------- Create Path & URL ---------------------------------
+
+Rails can also create paths and URLs from an array of parameters.
+
+Consider an example:
+
+Association is there i.e books has many chapters.
+
+def index
+  @book = Book.find(5)
+  @chapter = Chapter.find_by(book_id: 5)
+end
+
+* When using book_chapter_path, we can pass in instances of book and chapter instead of the numeric IDs:
+
+  <%= link_to 'Book Chapters', book_chapter_path(@book, @chapter) %>
+  <a href="/books/5/chapters/1">Book Chapters</a>
+
+
+* We can also use url_for with a set of objects, and Rails will automatically determine which route you want:
+
+  <%= link_to 'Book Chapters', url_for([@book, @chapter]) %>
+  <a href="/books/5/chapters/1">Book Chapters</a>
+
+* Rails will see that @book is a Book and @chapter is an Chapter and will therefore use the book_chapter_path helper. In helpers like link_to, we can specify just the object in place of the full url_for call:
+
+  <%= link_to 'Book Chapters', [@book, @chapter] %>
+  <a href="/books/5/chapters/1">Book Chapters</a>
+
+
+------------------------- Customize Resourceful Routes -----------------------------
+
+* Specify controller to use
+
+  For example:
+
+  resources :books, controller: 'papers' do
+    member do 
+      get :delete
+    end
+    collection do
+      get :all_books_count
+      get :related_subject
+      get :check_book
+      get :check_subject
+    end
+  
+    resources :chapters do
+      resources :pages
+    end
+  end
+
+  Instead of books controller request pass to papers controllers.
+
+  => books_path - GET /books(.:format) - papers#index
+
+* For namespaced controllers we can use the directory notation. 
+
+  For example:
+
+  resources :user_permissions, controller: 'admin/user_permissions'
+
+* Overriding the Named Route Helpers
+
+  For example:
+
+  resources :books, as: 'papers' do
+    member do 
+      get :delete
+    end
+    collection do
+      get :all_books_count
+      get :related_subject
+      get :check_book
+      get :check_subject
+    end
+  
+    resources :chapters do
+      resources :pages
+    end
+  end
+
+  Instead of books controller request pass to papers controllers.
+
+  => papers_path - GET /books(.:format) - books#index
+
+* Overriding the actions name new and edit 
+
+  resources :photos, path_names: { new: 'make', edit: 'change' }
+  
+  /photos/make
+  /photos/1/change
+
+  The actual action names aren't changed by this option. The two paths shown would still route to the new and edit actions.
+
+------------------------- Restricting the Routes Created -----------------------------
+
+By default, Rails creates routes for the seven default actions (index, show, new, create, edit, update, and destroy) for every RESTful route in your application. 
+
+We can use the :only and :except options to fine-tune this behavior. The :only option tells Rails to create only the specified routes.
+
+resources :photos, only: [:index, :show]
+
+resources :photos, except: [:destroy, :edit]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
