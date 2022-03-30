@@ -7,13 +7,30 @@ Rails.application.routes.draw do
   #get 'demo/contact'
 
   # Resourceful routes for demo controller
-  namespace :api do
-  resources :demo do
-    collection do
-      get :about
-      get :contact
+
+  scope :admin do
+    resources :demo do
+      member do
+        get :delete
+      end
+      collection do
+        get :about
+        get :contact
+      end
     end
   end
+
+  # resources :books do
+  #   resources :reviews, only: [:index, :new, :create]
+  #   end
+  # resources :reviews, only: [:show, :edit, :update, :destroy]
+
+  # resources :books do
+  #   resources :reviews, shallow: true
+  # end
+
+  concern :commentable do
+    resources :comments
   end
   
   # Books Controller Default Routes
@@ -32,6 +49,9 @@ Rails.application.routes.draw do
       get :related_subject
       get :check_book
       get :check_subject
+    end
+    resources :chapters do
+      resources :pages
     end
   end
 

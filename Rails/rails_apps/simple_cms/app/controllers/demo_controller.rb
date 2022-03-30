@@ -1,6 +1,8 @@
 class DemoController < ApplicationController
    
   def index
+    @book = Book.find(5)
+    @chapter = Chapter.find_by(book_id: 5)
   end
 
   def show

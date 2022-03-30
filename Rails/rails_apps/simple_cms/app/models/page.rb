@@ -3,6 +3,7 @@ class Page < ApplicationRecord
     message: "%{value} is not a valid size" }
   #validates_with Subject, fields: [:name]
   after_destroy :log_destroy_action
+  belongs_to :chapter
 
   def log_destroy_action
     puts 'Corresponding Subject destroyed'
