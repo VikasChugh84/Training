@@ -4,11 +4,43 @@
   <link href='assets/stylesheets/style.css' rel="stylesheet">
   <title>HTML Formatting</title>
   <link rel="icon" type="image/check.png" href="images/check.ico">
+
   <script>
     function repScript() {
-    document.getElementById("demo_js").innerHTML = "Content replaced for script.";
+    document.getElementById("demo_js").innerHTML = "Javascript can change the innerHTML Content.";
     }
   </script>
+
+  <script>
+    function css_change(value){
+      if (value == '1'){
+        document.getElementById('change_text_size').style.fontSize="25px";
+        document.getElementById('ch_tx').innerHTML = "Revert Font Size";
+        document.getElementById('ch_tx').value = "0";
+      }
+      else{
+        document.getElementById('change_text_size').style.fontSize="16px";
+        document.getElementById('ch_tx').innerHTML = "Change Font Size";
+        document.getElementById('ch_tx').value = "1";
+      }
+    }
+  </script>
+
+  <script>
+    function image_check(value){
+      if (value == "hide_image") {
+        document.getElementById("no_image").style.display="none"
+        document.getElementById("image").innerHTML = "Show Image"
+        document.getElementById("image").value="show_image";
+      }
+      else{
+        document.getElementById("no_image").style.display="block"
+        document.getElementById("image").innerHTML = "Hide Image"
+        document.getElementById("image").value="hide_image";
+      }
+    }
+  </script>
+
   <script>
     function color(sw) {
     var pic;
@@ -21,6 +53,7 @@
       document.getElementById('myCol').src = pic;
     }
   </script>
+
 </head>
 <body>
   <header>
@@ -53,27 +86,56 @@
       </div>
     </div>
   </div>
-  <p>* The HTML script tag is used to define a client-side script (JavaScript)</p>
-  <p>* Common uses for JavaScript are image manipulation, form validation, and dynamic changes of content.</p>
-  <p>* The script element either contains script statements, or it points to an external script file through the src attribute.</p>
-  <h4>a.) Calling Direct Function</h4>
-  <button type="button" onclick="document.getElementById('demo').innerHTML = Date()">
-  Click me to display Date and Time.</button>
-  <p id="demo"></p>
-  <p>* Here the javascript function Date() is calling and inserting the value into inner HTML of the id="demo"</p>
+  <div>
+    <h4>* What is Javascript?</h4>
 
-  <h4>b.) Using Script Tag to Replace Content</h4>
-  <p><button type="button" onclick="repScript()">Demo_Js</button></p>
-  <p id="demo_js">The script element is used to define client-side JavaScripts.</p>
+    <p> JavaScript is the Programming Language for the Web.</p>
 
-  <h4>b.) Using Script Tag to Replace Image</h4>
-  <p><img id="myCol" src="images/red.png" width="50" height="50"></p>
-  <p>
-    <button type="button" onclick="color(1)">Red</button>
-    <button type="button" onclick="color(0)">Green</button>
-  </p>
-  <!-- Footer Section -->
-  <footer>HTML Learning</footer>
+    <p> JavaScript can update and change both HTML and CSS.</p>
+
+    <p> JavaScript can calculate, manipulate and validate data.</p>
+  </div>
+  <div>
+    <h4>a.) JavaScript Can Change HTML Content. </h4>
+    <p> One of many JavaScript HTML methods is getElementById().</p>
+    <p> This example uses the method to "find" an HTML element (with id="demo_js") and changes the element content (innerHTML) to "Test Method".</p>
+    
+    <p>* Example-1 </p>
+    <p><button type="button" onclick="repScript()">Demo_Js</button></p>
+    <p id="demo_js">Click to see how it works.</p>
+    
+    <p>* Example-2</p>
+    <button type="button" onclick="document.getElementById('fetch_date').innerHTML = Date()">Click me to display Date and Time.</button>
+    <p id="fetch_date"></p>
+    <p>* Here the javascript function Date() is calling and inserting the value into inner HTML of the id="fetch_date"</p>
+  </div>
+
+  <div>
+    <h4>b.) JavaScript Can Change HTML Attribute Values. </h4>
+    <p> Example </p>
+    <p><img id="myCol" src="images/red.png" width="50" height="50"></p>
+    <p>
+      <button type="button" onclick="color(1)">Red</button>
+      <button type="button" onclick="color(0)">Green</button>
+    </p>  
+  </div>
+
+  <div>
+    <h4>c.) JavaScript Can Change HTML Style CSS. </h4>
+    <p> Example </p>
+    <p><button type="link" id="ch_tx" value="1" onclick="css_change(value)">Change Font Size</button></p>
+    <p id="change_text_size">Stick to your goal</p> 
+  </div>
+
+  <div>
+    <h4>d.) JavaScript Can Hide and Show HTML Elements </h4>
+    <p> Example </p>
+    <p><button type="link" id="image" value="hide_image" onclick="image_check(value)">Hide Image</button></p>
+    <p><img id="no_image" src="images/green.png" width="50" height="50"></p> 
+
+  </div>
+<!-- Footer Section -->
+<footer>HTML Learning</footer>
 </body>
 </html>
 
