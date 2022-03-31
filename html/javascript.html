@@ -4,10 +4,78 @@
   <link href='assets/stylesheets/style.css' rel="stylesheet">
   <title>HTML Formatting</title>
   <link rel="icon" type="image/check.png" href="images/check.ico">
-
+  
   <script>
     function repScript() {
     document.getElementById("demo_js").innerHTML = "Javascript can change the innerHTML Content.";
+    }
+  </script>
+
+  <script>
+    function upperCase() {
+    const x = document.getElementById("fname");
+    x.value = x.value.toUpperCase(); 
+    }
+  </script>
+
+  <script>
+    function mOver(obj) {
+      obj.innerHTML = "Set Your Goal"
+      obj.style.backgroundColor = "darkgreen";
+    }
+
+    function mOut(obj) {
+      obj.innerHTML = "Achieve Target"
+      obj.style.backgroundColor = "darkred";
+    }
+  </script>
+
+  <script>
+    function mDown(obj) {
+    obj.style.backgroundColor = "darkred";
+    obj.innerHTML = "Release Me !!";
+    }
+
+    function mUp(obj) {
+    obj.style.backgroundColor="darkgreen";
+    obj.innerHTML="Thank You !!"; 
+    }
+  </script>
+
+
+  <script>
+    function checkElements() {
+      var text = "";
+      if (navigator.cookieEnabled == true) {
+        text = "Cookies are enabled.";
+      }   else {
+        text = "Cookies are not enabled.";
+      }
+      document.getElementById("chk_elem_onload").innerHTML = text;
+    }
+  </script>
+
+  <script>
+    function validateForm(){
+      let x = document.forms["myForm"]["name"].value
+      if (x == ''){
+        alert("Name must be filled out");
+        return false;
+      }
+    }
+  </script>
+
+  <script>
+    function check_number(){
+      let x = document.getElementById("num").value;
+      let text;
+      if (isNaN(x) || x < 1 || x > 10){
+        text = "Input not valid"
+      }else
+      {
+        text = "Input OK"
+      }
+      document.getElementById("num_checked").innerHTML = text;
     }
   </script>
 
@@ -54,11 +122,15 @@
     }
   </script>
 
+  
+
 </head>
-<body>
+<body onload="checkElements()">
+
   <header>
     <div class="head">HTML Javascript</div>
   </header>
+  <p id="chk_elem_onload"></p>
 
   <!-- Menu Navigation Bar -->
   <div class="navbar">
@@ -72,6 +144,7 @@
     <a href="head.html">Meta-Script-Title</a>
     <a href="block_inline.html">Block-Inline-List</a>
     <a href="forms.html">Forms</a>
+    <a href="ajax_rails.html">Ajax Rails</a>
     <div class="menu-log">
       <a href="login.html">Sign In</a>
     </div>
@@ -87,7 +160,29 @@
     </div>
   </div>
   <div>
-    <h4>* What is Javascript?</h4>
+    <h2>* What is DOM ?</h2>
+    <p>When a web page is loaded, the browser creates a Document Object Model of the page.</p>
+
+    <h4>We can find it under inspect by right click and then Network, DOM content loaded with details.</h4>
+
+    <p>With the object model, JavaScript gets all the power it needs to create dynamic HTML</p>
+
+    * JavaScript can change all the HTML elements in the page<br>
+    * JavaScript can change all the HTML attributes in the page<br>
+    * JavaScript can change all the CSS styles in the page<br>
+    * JavaScript can remove existing HTML elements and attributes<br>
+    * JavaScript can add new HTML elements and attributes<br>
+    * JavaScript can react to all existing HTML events in the page<br>
+    * JavaScript can create new HTML events in the page<br>
+    
+    <h4> Types of DOM </h4>
+    * Core DOM - standard model for all document types<br>
+    * XML DOM - standard model for XML documents<br>
+    * HTML DOM - standard model for HTML documents<br>
+
+  </div>
+  <div>
+    <h2>* What is Javascript?</h2>
 
     <p> JavaScript is the Programming Language for the Web.</p>
 
@@ -95,7 +190,55 @@
 
     <p> JavaScript can calculate, manipulate and validate data.</p>
   </div>
+
   <div>
+    <h4 style="color: darkgreen">* Comparison between let, const and var</h4>
+    <div>
+      <h4> Features of let: </h4>
+      <p style="font-weight: bold;">a.) Variables defined with let cannot be Redeclared, with var we can.</p>
+      let x = "John Doe";<br>
+      let x = 0;<br>
+      // SyntaxError: 'x' has already been declared<br>
+
+      <p>b.) Variables defined with let must be Declared before use.</p>
+
+      <p style="font-weight: bold;">c.)  Variables defined with let have Block Scope. </p>
+      <p>Variables declared inside a { } block cannot be accessed from outside the block:</p>
+      <p>{
+        let x = 2;
+        }<br>
+        // x can NOT be used here
+      </p>
+      <p style="font-weight: bold;">d.) Redeclaring a variable inside a block will not redeclare the variable outside the block:</p>
+      <p>
+        let x = 10;<br>
+        // Here x is 10<br>
+        {<br>
+        let x = 2;<br>
+        // Here x is 2<br> 
+        }<br>
+        // Here x is 10<br>
+      </p>
+    </div>
+    <div>
+      <h4> Features of const: </h4>
+      <p style="font-weight: bold;">a.) Variables defined with const cannot be Redeclared just like let with var we can.</p>
+      const x = "John Doe";<br>
+      const x = 0;<br>
+      // SyntaxError: 'x' has already been declared<br>
+
+      <p style="font-weight: bold;">b.) A const variable cannot be reassigned: </p>
+      <p>const PI = 3.141592653589793;
+         PI = 3.14;      // This will give an error
+         PI = PI + 10;   // This will also give an error
+      </p>
+      
+      <a href="https://www.w3schools.com/js/js_const.asp">Know more about const!</a>
+    </div>
+  </div> 
+  
+  <div>
+    <h2>* Javascript Roles </h2>
     <h4>a.) JavaScript Can Change HTML Content. </h4>
     <p> One of many JavaScript HTML methods is getElementById().</p>
     <p> This example uses the method to "find" an HTML element (with id="demo_js") and changes the element content (innerHTML) to "Test Method".</p>
@@ -134,8 +277,154 @@
     <p><img id="no_image" src="images/green.png" width="50" height="50"></p> 
 
   </div>
+
+  <div>
+    <h4>d.) Form Validation with Javascript</h4>
+    <p> Example </p>
+    <p>
+      <form name="myForm" action="/action_page.php" onsubmit="return validateForm()" method="post">
+       Name: <input type="text" name="name">
+       <input type="submit" value="Submit">
+      </form>
+    </p>
+
+  </div>
+  <div>
+    <h4>e.) Automatic Form Validation with Javascript</h4>
+    <p> Example </p>
+    <p>
+      <form action="/action_page.php" method="post">
+        Name: <input type="text" name="fname" required>
+        <input type="submit" value="Submit">
+      </form>
+    </p>
+  </div>
+  <div>
+    <h4>f.) Validate Numeric Input from Javascript</h4>
+    <p> Example </p>
+    <p>Please input a number between 1 and 10:</p>
+    <input type="text" id="num">
+    <button type="button" onclick="check_number()">Submit</button>
+    <p id="num_checked"></p>
+  </div>
+
+  <div>
+    <h2>* HTML EVENT ATTRIBUTES</h2>
+
+    <p>a.) onclick Event</p>
+
+    <p>b.) onload Event</p>
+
+    <p>c.) onunload Event</p>
+
+    <p>d.) onchange Event</p>
+
+    <p>e.) onmouseover Event</p>
+
+    <p>f.) onmouseout Event</p>
+  </div>
+  <div>
+    <h4>a.) onclick Event</h4>
+    <p> Example </p>
+    <button type="button" onclick="document.getElementById('fetch_date_1').innerHTML = Date()">Click me to display Date and Time.</button>
+    <p id="fetch_date_1"></p>
+    <p>* Here the javascript function Date() is calling and inserting the value into inner HTML of the id="fetch_date_1"</p>
+
+    <h4 >b.) onload / onunload Event</h4>
+    <p>The onload and onunload events are triggered when the user enters or leaves the page.</p>
+    <p>The onload and onunload events can be used to deal with cookies.</p>
+    <p>Example:
+      Defined onload="checkElements()" on body 
+    </p>
+
+    <h4 >c.) onchange Event</h4>
+    <p>The onchange event is often used in combination with validation of input fields.</p>
+    <p>Example:<p>
+    <p>Enter your name: <input type="text" id="fname" onchange="upperCase()"></p>
+    <p>When you leave the input field, a function is triggered which transforms the input text to upper case.</p> 
+    </p>
+
+    <h4 >d.) onmouserover / onmouseout Event</h4>
+    <p>The onmouseover and onmouseout events can be used to trigger a function when the user mouses over, or out of, an HTML element:</p>
+    <p>Example:<p>
+    <div onmouseover="mOver(this)" onmouseout="mOut(this)" style="background-color:darkred;width:100px;padding:10px;color:white">Achieve Target</div> 
+    </p>
+
+    <h4 >d.) onmouseup / onmousedown Event</h4>
+    <p>The onmouseover and onmouseout events can be used to trigger a function when the user mouses over, or out of, an HTML element:</p>
+    <p>Example:<p>
+    <div onmouseup="mUp(this)" onmousedown="mDown(this)" style="background-color:darkgreen;width:100px;padding:10px;color:white">Thank You !!</div> 
+    </p>
+
+    <div>
+      <h2>* HTML EVENT METHODS</h2>
+      <h4>a.) addEventListner() Method</h4>
+      <p>
+        The addEventListener() method attaches an event handler to the specified element.We can add many event handlers to one element.
+      </p>
+      <p> Syntax: element.addEventListener(event, function, useCapture);</p>
+      <p>The first parameter is the type of the event (like "click" or "mousedown" or any other HTML DOM Event.)</p>
+
+      <p>The second parameter is the function we want to call when the event occurs.</p>
+      <p> The third parameter is a boolean value specifying whether to use event capturing. This parameter is optional.</p>
+
+      <h4>Example_1 with single function:</h4>
+      <button id="myBtn_1">Test with single function</button>
+      <p>Function is calling on id="myBtn"</p>
+
+      <h4>Example_2 with multiple functions:</h4>
+      <button id="myBtn_2">Test with multiple function</button>
+      <p id="text_ad"></p>
+
+      <h4>Example_3 with parameters pass</h4>
+      <button id="myBtn_3">Fetch parameters</button>
+      <p id="param_ad"></p>
+
+      <h4>b.) removeEventListner() Method</h4>
+      <p>The removeEventListener() method removes event handlers that have been attached with the addEventListener() method:</p>
+    </div>
+
+  </div>
+
+
 <!-- Footer Section -->
 <footer>HTML Learning</footer>
+
+
+<script>
+  var x = document.getElementById("myBtn_1");
+  x.addEventListener("click",function_1)
+  function function_1() {
+    alert ("Hello World!");
+  }
+</script>
+
+<script>
+  var x = document.getElementById("myBtn_2");
+  x.addEventListener("click",function_1)
+  x.addEventListener("click",function_2)
+  function function_1() {
+    alert ("Clicked!");
+  }
+  function function_2() {
+    document.getElementById("text_ad").innerHTML += "Clicked!<br>";
+  }
+</script>
+
+<script>
+  let p1 = 5;
+  let p2 = 7;
+  document.getElementById("myBtn_3").addEventListener("click", function() {
+    myFunction(p1, p2);
+  });
+
+  function myFunction(a, b) {
+    document.getElementById("param_ad").innerHTML = a * b; 
+  }
+</script>
+
+
+
 </body>
 </html>
 
