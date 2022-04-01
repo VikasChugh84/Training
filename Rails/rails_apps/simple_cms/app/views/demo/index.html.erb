@@ -1,14 +1,29 @@
 <p> Demo Index page is set as root page by default </p>
 
-<h2>Be stick to goal and Don't give up</h2>
+<h2>Implementation with AJAX-Plain Javascript</h2>
 
+<div id="demo">
+  <p>Let AJAX change this text.</p>
+  <button type="button" onclick="loadSingle()">Show Books</button>
+</div>
+<p>Single function callback loadSingle</p>
 
+<div id="demo_books">
+  <p>Let AJAX change this text.</p>
+  <button type="button" onclick="loadMulti('demo/show', call_books)">Call Books</button>
+</div>
+<p>Check mutiple function callbacks on loadDoc</p>
 
+<div id="demo_chapters">
+  <p>Let AJAX change this text.</p>
+  <button type="button" onclick="loadMulti('demo/show_chapters', call_chapters)">Call Chapters</button>
+</div>
+<p>check multiple function callbacks on loadDoc</p>
 
-
-
-
-
-
+<div id="demo_ready">
+  <p>Let AJAX change this text.</p>
+  <button type="button" onclick="loadOnReady()">Show Books</button>
+</div>
+<p>Testing OnReady Property</p>
 
 

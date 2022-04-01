@@ -55,6 +55,16 @@ Rails.application.routes.draw do
     end
   end
 
+  # Resourceful routes for demo controller
+  resources :demo do
+    member do 
+      get :delete
+    end
+    collection do
+      get :show_chapters
+    end
+  end
+
   # Helper Methods Controller Default Routes
   get 'helper_methods/link_to'
   get 'helper_methods/link_to_url_params'

@@ -6,6 +6,12 @@ class DemoController < ApplicationController
   end
 
   def show
+    @books = Book.all
+  end
+
+  def show_chapters
+    @book = Book.find(5)
+    @chapter = Chapter.find_by(book_id: 5)
   end
 
   def about
