@@ -2,7 +2,7 @@
 
 <div class="new_object">
 <h2>Add New Subject</h2>
-  <%= form_for (@subject) do |f| %>
+  <%= form_for @subject, :remote => true do |f| %>
   
     <%= render partial: "form", locals: {f: f} %>
     

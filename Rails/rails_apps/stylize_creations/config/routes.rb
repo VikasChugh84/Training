@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  
   root "home#index"
   
   devise_scope :user do
@@ -37,6 +38,13 @@ Rails.application.routes.draw do
     end
   end
 
+  # Routes for products controller
+  resources :categories do 
+    member do 
+      get :delete
+    end
+  end
+  
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   # Defines the root path route ("/")
   

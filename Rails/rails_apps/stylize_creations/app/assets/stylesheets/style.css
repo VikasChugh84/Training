@@ -154,5 +154,23 @@ footer {
   width: 100%;
 }
 
+.img_cat{
+  width: 80%;
+  height: 250px;
+}
+
+/* Three image containers (use 25% for four, and 50% for two, etc) */
+.column {
+  float: left;
+  width: 18.33%;
+  padding: 10px;
+}
+
+/* Clear floats after image containers */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
 
 
