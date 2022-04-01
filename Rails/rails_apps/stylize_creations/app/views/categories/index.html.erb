@@ -1,0 +1,13 @@
+<div class="row" style="padding:10px;">
+<% @categories.each do |cat| %>
+  <div class="column">
+  <% if !cat.pictures.blank? %>
+    <%= image_tag("#{cat.pictures.first.image_link}", alt: 'banner', class: 'img_cat') %>
+  <% end %>
+  <div>
+    <strong><%= cat.name %></strong>
+  </div>
+  </div>
+<% end %>
+</div>
+
