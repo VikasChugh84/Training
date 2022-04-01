@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href='assets/stylesheets/style.css' rel="stylesheet">
+  <title>HTML Attributes</title>
+  <link rel="icon" type="image/check.png" href="images/check.ico">
+  <script>
+    function loadDoc(){
+      const xhttp = new XMLHttpRequest();
+      xhttp.onload = function() 
+      {
+        document.getElementById("demo").innerHTML = this.responseText;
+      }
+      xhttp.open("GET", "here the http url should be defined");
+      xhttp.send();
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <div class="head">HTML Attributes</div>
+  </header>
+
+  <!-- Menu Navigation Bar -->
+  <div class="navbar">
+    <a href="basic.html">Home</a>
+    <a href="layout.html">Layout</a>
+    <a href="links.html">Links</a>
+    <a href="tables.html">Tables</a>
+    <a href="classes_id.html">Classes-ID</a>
+    <a href="attribute.html">Attribute</a>
+    <a href="javascript.html">Javascript</a>
+    <a href="head.html">Meta-Script-Title</a>
+    <a href="block_inline.html">Block-Inline-List</a>
+    <a href="forms.html">Forms</a>
+    <a href="ajax_with_javascript.html">Ajax Javascript</a>
+    <div class="menu-log">
+      <a href="login.html">Sign In</a>
+    </div>
+    <div class="dropdown">
+      <button class="dropbtn">More
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-content">
+        <a href="quotations.html">Quotations</a>
+        <a href="formatting.html">Text-Format-Iframe</a>
+        <a href="semantic_elements.html">Semantic Elements</a>
+      </div>
+    </div>
+  </div>
+  <div>
+    <p>
+      <a href="https://www.w3schools.com/js/js_ajax_http.asp">Reference Link - AJAX</a>
+    </p>
+    <h2>* What is AJAX ?</h2>
+    <p>AJAX stands for Asynchronous JavaScript And XML.</p>
+
+    <p>It uses the combination of:</p>
+    * A browser built-in XMLHttpRequest object (to request data from a web server)<br>
+    * JavaScript and HTML DOM (to display or use the data)
+
+    <p>AJAX allows web pages to be updated asynchronously by exchanging data with a web server behind the scenes. This means that it is possible to update parts of a web page, without reloading the whole page.</p>
+  </div>
+  <div>
+    <h4>* How AJAX Works ?</h4>
+    <p>a.) An event occurs in a web page (the page is loaded, a button is clicked)</p>
+    <p>b.) An XMLHttpRequest object is created by JavaScript.</p>
+    <p>c.) The XMLHttpRequest object sends a request to a web server.</p>
+    <p>d.) The server processes the request.</p>
+    <p>e.) The server sends a response back to the web page.</p>
+    <p>f.) The response is read by JavaScript</p>
+    <p>g.) Proper action (like page update) is performed by JavaScript</p>
+
+    <p style="color:darkred">Fetch API - Latest Browsers can use Fetch API instead of the XMLHttpRequest Object.</p>
+
+    <p>The Fetch API interface allows web browser to make HTTP requests to web servers.</p>
+  </div>
+
+  <div>
+    <h2>* What is Javascript and XML?</h2>
+    <p>Javascript already covered Seperately.</p>
+    <p>XML stands for extensible Markup Language much like HTML.<br>
+      a.) XML was designed to carry data - with focus on what data is.<br>
+      b.) HTML was designed to display data - with focus on how data looks.<br>
+      c.) The XML language has no predefined tags, we can self defined it.<br>
+    </p>
+    <p>Basically, it is tool for storing and transporting data. It can send and receive information in various formats, including JSON, XML, HTML, and text files.</p>
+  </div>
+
+  <div>
+    <h2>* XML Http Request Object</h2>
+    <strong>Keystone for AJAX:</strong>
+    <p style="color:darkred">a.) Create an XMLHttpRequest object</p>
+    <p>All modern browsers (Chrome, Firefox, IE, Edge, Safari, Opera) have a built-in XMLHttpRequest object.</p>
+    <strong> Syntax: </strong>
+    <p>variable = new XMLHttpRequest(); </p>
+
+    <p style="color:darkred">b.) Define a Callback Function</p>
+    <p>A callback function is a function passed as a parameter to another function.</p>
+    <strong> Syntax: </strong> 
+    <p>xhttp.onload = function() {<br>
+        // What to do when the response is ready<br>
+      } </p>
+
+    <p style="color:darkred">c.) Send a Request</p>
+    <p>To send a request to a server, you can use the open() and send() methods of the XMLHttpRequest object.</p>
+    <strong> Syntax: </strong> 
+    <p>xhttp.open("GET", "ajax_info.txt");<br>
+       xhttp.send();
+    </p>
+  </div>
+  
+  <div>
+    <h4 style="color:darkred">* Lets understand with Example</h4>
+    <div id='demo'>
+      <p>Let AJAX change this text.</p>
+      <button type="button" onclick="loadDoc()">Change Content</button>
+    </div>
+    <p> Use() for script code display</p>
+    <p style="color:darkgreen">(script)<br>
+         function loadDoc(){<br>
+          const xhttp = new XMLHttpRequest();<br>
+          xhttp.onload = function() <br>
+          {<br>
+            document.getElementById("demo").innerHTML = this.responseText;<br>
+          }<br>
+          xhttp.open("GET", "here the http url should be defined");<br>
+          xhttp.send();<br>
+         }<br>
+       (/script)
+    </p>
+    <p>In xhttp.open, we should have http url location and it should be on the same domain means both the web page and the XML file it tries to load, must be located on the same server.For security reasons, browsers do not allow access across domains.</p>
+    <p>We can't define it here because we are simple using directory instead of local server so it can't process the request.Tested on local app and it works fine</p>
+  </div>
+
+  <div>
+    <h2>* XML Http Request Methods</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Method</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>new XMLHttpRequest()</td>
+          <td>Creates a new XMLHttpRequest object</td>
+        </tr>
+        <tr>
+          <td>abort()</td>
+          <td>Cancels the current request</td>
+        </tr>
+        <tr>
+          <td>getAllResponseHeaders()</td>
+          <td>Returns header information</td>
+        </tr>
+        <tr>
+          <td>getResponseHeader()</td>
+          <td>Returns specific header information</td>
+        </tr>
+        <tr>
+          <td>open(method, url, async, user, psw)</td>
+          <td>Specifies the request<br>
+              method: the request type GET or POST<br>
+              url: the file location<br>
+              async: true (asynchronous) or false (synchronous)<br>
+              user: optional user name<br>
+              psw: optional password<br>
+          </td>
+        </tr>
+        <tr>
+          <td>send()</td>
+          <td>Sends the request to the server<br>
+              Used for GET requests<br>
+          </td>
+        </tr>
+        <tr>
+          <td>send(string)</td>
+          <td>Sends the request to the server.<br>
+              Used for POST requests<br>
+          </td>
+        </tr>
+        <tr>
+          <td>setRequestHeader()</td>
+          <td>Adds a label/value pair to the header to be sent.</td>
+        </tr>
+      </tbody>
+    </table><br>
+  </div>
+
+  <div>
+    <h2>* XML Http Request Methods</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Property</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>onload</td>
+          <td>Defines a function to be called when the request is recieved (loaded)</td>
+        </tr>
+        <tr>
+          <td>onreadystatechange</td>
+          <td>Defines a function to be called when the readyState property changes</td>
+        </tr>
+        <tr>
+          <td>readyState</td>
+          <td>Holds the status of the XMLHttpRequest.<br>
+              0: request not initialized<br>
+              1: server connection established<br>
+              2: request received<br>
+              3: processing request<br>
+              4: request finished and response is ready<br>
+          </td>
+        </tr>
+        <tr>
+          <td>responseText</td>
+          <td>Returns the response data as a string</td>
+        </tr>
+        <tr>
+          <td>responseXML</td>
+          <td>Returns the response data as XML data</td>
+        </tr>
+        <tr>
+          <td>status</td>
+          <td>Returns the status-number of a request<br>
+              200: "OK"<br>
+              403: "Forbidden"<br>
+              404: "Not Found"<br>
+              For a complete list go to the Http Messages Reference<br>
+          </td>
+        </tr>
+        <tr>
+          <td>statusText</td>
+          <td>Returns the status-text (e.g. "OK" or "Not Found")</td>
+        </tr>
+      </tbody>
+    </table><br>
+
+    <div>
+      <h4 style="color:darkred">* Multiple Callback Functions</h4>
+      <p>If we have more than one AJAX task in a website, you should create one function for executing the XMLHttpRequest object, and one callback function for each AJAX task.</p>
+      <p>The function call should contain the URL and what function to call when the response is ready.</p>
+    </div>
+
+    <div>
+      <h2>* XML Http Methods Commonly Used </h2>
+      <h4 style="color:darkred">* Send a Request To a Server</h4>
+      <p>To send a request to a server, we use the open() and send() methods of the XMLHttpRequest object</p>
+      <p>xhttp.open("GET", "ajax_info.txt", true);</p>
+      <p>xhttp.send();</p>
+      <p>Server requests should be sent asynchronously.<br>
+         The async parameter of the open() method should be set to true:<br>
+         The default value for the async parameter is async = true.<br>
+      </p>
+
+      <h4 style="color:darkred">* GET or POST?</h4>
+      <p>GET is simpler and faster than POST, and can be used in most cases.</p>
+      <ol>
+        <li> A cached file is not an option (update a file or database on the server).</li>
+        <li> Sending a large amount of data to the server (POST has no size limitations).</li>
+        <li> Sending user input (which can contain unknown characters), POST is more robust and secure than GET.</li>
+      </ol>
+
+      <h4 style="color:darkred">* Send information with the GET method</h4>
+      <p>xhttp.open("GET", "demo_get2.asp?fname=Henry&lname=Ford");</p>
+      <p>xhttp.send();</p>
+
+      <h4 style="color:darkred">* Send information with the POST method</h4>
+      <p>To POST data like an HTML form, add an HTTP header with setRequestHeader(). Specify the data you want to send in the send() method:</p>
+      <p>xhttp.open("POST", "ajax_test.asp");</p>
+      <p>xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");</p>
+      <p>xhttp.send("fname=Henry&lname=Ford");</p>
+
+      <h4 style="color:darkred">* Server Response Properties</h4>
+      <strong>responseText  - get the response data as a string</strong>
+      <p>The responseText property returns the server response as a JavaScript string, and you can use it accordingly:</p>
+      <p>document.getElementById("demo").innerHTML = xhttp.responseText;</p>
+
+      <strong>responseXML get the response data as XML data</strong>
+      <p>The XMLHttpRequest object has an in-built XML parser.</p>
+      <p>The responseXML property returns the server response as an XML DOM object.</p>
+
+
+    </div>
+
+
+   
+
+  <!-- Footer Section -->
+  <footer>HTML Learning</footer>
+</body>
+</html>
