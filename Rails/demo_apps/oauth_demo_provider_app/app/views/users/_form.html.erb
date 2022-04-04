@@ -1,0 +1,55 @@
+<table style>
+  <tr>
+    <th><%= f.label :name %></th>
+    <td><%= f.text_field (:name) %></td>
+  </tr>
+  
+  <tr>
+    <th><%= f.label :password %></th>
+    <td><%= f.text_field (:password) %></td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :password_confirmation %></th>
+    <td><%= f.text_field (:password_confirmation) %></td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :phone_number %></th>
+    <td><%= f.text_field (:phone_number) %></td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :email %></th>
+    <td><%= f.text_field (:email) %></td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :address %></th>
+    <td><%= f.text_area (:address) %></td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :city %></th>
+    <td><%= f.text_field (:city) %></td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :state %></th>
+    <td><%= f.text_field (:state) %></td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :pincode %></th>
+    <td><%= f.text_field (:pincode) %></td>
+  </tr>
+
+  <tr>
+    <th><%= f.label :date_of_birth %></th>
+    <td><%= f.text_field (:date_of_birth) %></td>
+  </tr>
+
+  <%= f.hidden_field :role_id, value: "4" %>
+  
+</table><br>
+

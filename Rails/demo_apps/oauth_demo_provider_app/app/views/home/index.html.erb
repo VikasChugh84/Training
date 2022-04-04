@@ -1,0 +1,11 @@
+<!-- Body section -->
+<div class = "body_sec">
+ <h3>Demo Testing Application</h3> 
+ <% if !current_user.nil? %>
+   <%= @user.name %>
+   <p> User Orders </p>
+   <% @orders.each do |ord| %>
+     <%= ord.order_number %><br>
+   <% end %>
+<% end %>
+</div><br><br>
