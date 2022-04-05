@@ -85,7 +85,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_14_075105) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "cars_and_spare_parts", force: :cascade do |t|
+  create_table "cars_and_spare_parts", id: false, force: :cascade do |t|
     t.bigint "car_id"
     t.bigint "spare_part_id"
     t.datetime "created_at", null: false
@@ -112,6 +112,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_14_075105) do
     t.integer "lock_version"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "employees", force: :cascade do |t|
+    t.string "name"
+    t.float "salary"
+    t.text "address"
+    t.string "gender"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "city"
   end
 
   create_table "employees_subjects", id: false, force: :cascade do |t|
@@ -194,17 +204,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_14_075105) do
     t.index ["customer_id"], name: "index_reviews_on_customer_id"
   end
 
-  create_table "set_employees", force: :cascade do |t|
-    t.string "name"
-    t.float "salary"
-    t.text "address"
-    t.string "gender"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "city"
-    t.string "email"
-  end
-
   create_table "spare_parts", force: :cascade do |t|
     t.string "part_number"
     t.datetime "created_at", null: false
@@ -256,6 +255,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_14_075105) do
 
   add_foreign_key "account_histories", "accounts"
   add_foreign_key "accounts", "suppliers"
+  add_foreign_key "books", "authors"
   add_foreign_key "books", "suppliers"
   add_foreign_key "films", "actors"
   add_foreign_key "films", "actresses"
