@@ -1,0 +1,28 @@
+<div class="navbar">
+  <%= link_to "Home", root_path %>
+  <div class="dropdown">
+    <button class="dropbtn">Projects
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <%= link_to "Projects", projects_path, class: "menu-log" %>
+      <%= link_to "Add new Project", new_project_path %>
+    </div>
+  </div>
+  <%= link_to "Create Page", new_project_page_path %>
+  
+  <div class="menu-log">
+    <%= link_to "Settings", '#', class: "menu-log" %>
+    <div class="dropdown">
+      <button class="dropbtn">Sign In-Options
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-content">
+        <%= link_to "Sign In", '#', class: "menu-log" %>
+        <%= link_to "Sign in GitHub", '#'%>
+      </div>
+    </div>
+  </div>
+  
+</div>
+

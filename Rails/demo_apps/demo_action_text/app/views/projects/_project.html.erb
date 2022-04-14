@@ -1,0 +1,9 @@
+<div id="<%= dom_id project %>">
+  <p>
+    <h2><%= project.title %></h2>
+    <% project.project_pages.each do |page| %>
+      <p><%= link_to page.title, project_page_path(page.id) %></p>
+    <% end %>
+  </p>
+
+</div>
