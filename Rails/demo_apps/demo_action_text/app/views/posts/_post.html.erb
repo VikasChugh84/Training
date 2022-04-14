@@ -9,5 +9,16 @@
     <%= post.description %>
   </p>
 
+  <p>
+    <strong>Avatar:</strong>
+    <% if !post.avatar.blob.nil? %>
+      <%= image_tag post.avatar.variant(resize_to_fit: [200,200]) %>
+    <% end %>
+
+  <p>
+    <strong>Content:</strong>
+    <%= post.content %>
+  </p>
+
 
 </div>
