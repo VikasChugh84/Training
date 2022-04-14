@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
-  root 'posts#index'
+  root 'home#index'
+
   resources :posts
+  resources :projects
+  resources :project_pages
+ 
+  
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
