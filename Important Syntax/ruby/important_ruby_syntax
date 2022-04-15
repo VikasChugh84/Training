@@ -2,19 +2,7 @@ Important ruby syntax/functions
 
 ------------------ comparing and fetching elements in single array and retrieve ----------------
 
-Example : arr = [1, 1, 2, 2, 3, 4, 6, 8, 9]
 
-* With single Loop - Logic
-  i = 0
-  n = 1
-  rep_num = []
-  while (i < arr.size) 
-    if arr[i] == arr[n] 
-      rep_num << arr[i]
-    end
-    n = n+1 
-    i = i+1 
-  end
 
 * Using Two loops - Logic
   (0...arr.size).each do |i|
